@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 public class EtudiantMapper {
     public EtudiantResponseDTO fromEtudiant(Etudiant etudiant){
         EtudiantResponseDTO etudiantResponseDTO = new EtudiantResponseDTO();
-
         BeanUtils.copyProperties(etudiant, etudiantResponseDTO);
-
         return  etudiantResponseDTO;
     }
 }

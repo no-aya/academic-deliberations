@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import ma.enset.delibrations.entities.enums.Sexe;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ import java.util.Date;
 public class Etudiant {
     @Id
     private String id;
-    private String cne;
+    private String apogee;
     private String cin;
     private String nom;
     private String prenom;

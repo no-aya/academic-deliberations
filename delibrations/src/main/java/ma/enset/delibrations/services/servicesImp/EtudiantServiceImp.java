@@ -5,6 +5,8 @@ import ma.enset.delibrations.dtos.mappers.EtudiantMapper;
 import ma.enset.delibrations.dtos.requests.EtudiantRequestDTO;
 import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.entities.Etudiant;
+import ma.enset.delibrations.exceptions.CannotProceedException;
+import ma.enset.delibrations.exceptions.EtudiantNotFoundException;
 import ma.enset.delibrations.repositories.EtudiantRepository;
 import ma.enset.delibrations.services.EtudiantService;
 import org.springframework.beans.BeanUtils;
@@ -25,32 +27,25 @@ public class EtudiantServiceImp implements EtudiantService {
 
     @Override
     public EtudiantResponseDTO createEtudiant(EtudiantRequestDTO etudiantRequestDTO) {
-
         if(etudiantRequestDTO!=null){
            Etudiant etudiant = new Etudiant();
-
-
             BeanUtils.copyProperties(etudiantRequestDTO,etudiant);
             etudiant.setId(UUID.randomUUID().toString());
             etudiant.setCreatedAt(new Date());
-
             etudiantRepository.save(etudiant);
-
             return etudiantMapper.fromEtudiant(etudiant);
         }
-
         return null;
     }
 
     @Override
-    public EtudiantResponseDTO updateEtudiant(String id, EtudiantRequestDTO etudiantRequestDTO) {
-
+    public EtudiantResponseDTO updateEtudiant(String id, EtudiantRequestDTO etudiantRequestDTO) throws EtudiantNotFoundException, CannotProceedException {
         if(id!=null && etudiantRequestDTO!=null) {
-            Etudiant etudiant = etudiantRepository.findById(id).orElse(null);
+            Etudiant etudiant = etudiantRepository.findById(id).orElseThrow(()->new EtudiantNotFoundException(id));
             if(etudiant!=null){
                 etudiant.setUpdatedOn(new Date());
                 if(etudiantRequestDTO.getCin()!=null) etudiant.setCin(etudiantRequestDTO.getCin());
-                if(etudiantRequestDTO.getCne()!=null) etudiant.setCne(etudiantRequestDTO.getCne());
+                if(etudiantRequestDTO.getApogee()!=null) etudiant.setApogee(etudiantRequestDTO.getApogee());
                 if(etudiantRequestDTO.getNom()!=null) etudiant.setNom(etudiantRequestDTO.getNom());
                 if(etudiantRequestDTO.getPrenom()!=null) etudiant.setPrenom(etudiantRequestDTO.getPrenom());
                 if(etudiantRequestDTO.getPhoto()!=null)etudiant.setPhoto(etudiantRequestDTO.getPhoto());
@@ -62,18 +57,22 @@ public class EtudiantServiceImp implements EtudiantService {
                 if(etudiantRequestDTO.getSexe()!=null)  etudiant.setSexe(etudiantRequestDTO.getSexe());
             }
 
+            if (etudiant==null) try {
+                throw new CannotProceedException("Cannot update Etudiant "+id);
+            } catch (CannotProceedException e) {
+                throw new RuntimeException(e);
+            }
             etudiantRepository.save(etudiant);
             return etudiantMapper.fromEtudiant(etudiant);
         }
-
-        return null;
+        throw new CannotProceedException("Cannot update Etudiant "+id);
     }
 
     @Override
-    public EtudiantResponseDTO getEtudiant(String id) {
+    public EtudiantResponseDTO getEtudiant(String id) throws EtudiantNotFoundException {
             if(id==null) return null;
 
-            Etudiant etudiant = etudiantRepository.findById(id).orElse(null);
+            Etudiant etudiant = etudiantRepository.findById(id).orElseThrow(()->new EtudiantNotFoundException(id));
             return etudiantMapper.fromEtudiant(etudiant);
     }
 
@@ -83,7 +82,7 @@ public class EtudiantServiceImp implements EtudiantService {
 
         List<EtudiantResponseDTO> etudiantsResponse = new ArrayList<>();
         for (Etudiant e: etudiants) {
-            EtudiantResponseDTO responseDTO = new EtudiantResponseDTO();
+            EtudiantResponseDTO responseDTO;
             responseDTO = etudiantMapper.fromEtudiant(e);
             etudiantsResponse.add(responseDTO);
         }
@@ -91,9 +90,8 @@ public class EtudiantServiceImp implements EtudiantService {
     }
 
     @Override
-    public void deleteEtudiant(String id) {
-        Etudiant etudiant = etudiantRepository.findById(id).orElse(null);
-
+    public void deleteEtudiant(String id) throws EtudiantNotFoundException {
+        Etudiant etudiant = etudiantRepository.findById(id).orElseThrow(()-> new EtudiantNotFoundException(id));
         if(etudiant!= null) etudiant.setSoftDelete(true);
     }
 }
