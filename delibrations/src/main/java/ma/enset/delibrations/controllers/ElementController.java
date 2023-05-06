@@ -38,6 +38,7 @@ public class ElementController {
     @PutMapping("/{id}")
     public ElementResponseDTO updateElement(@PathVariable String id, @RequestBody ElementRequestDTO elementRequestDTO) throws ElementNotFoundException, ProfesseurNotFoundException {
         if (id!=null) {
+            elementRequestDTO.setCode(id);
             return elementService.updateElement(elementRequestDTO);
         }
         return null;
@@ -45,7 +46,7 @@ public class ElementController {
 
     @DeleteMapping("/{code}")
     public Boolean deleteElement(@PathVariable String code) throws ElementNotFoundException {
-        if( code!=null) {
+        if(code!=null) {
             elementService.deleteElement(code);
             return true;
         }

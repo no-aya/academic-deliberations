@@ -48,11 +48,10 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public ElementResponseDTO updateElement(ElementRequestDTO elementRequestDTO) throws ElementNotFoundException, ProfesseurNotFoundException {
-        if (elementRequestDTO.getId() == null) throw new ElementNotFoundException("Element code is required");
+        if (elementRequestDTO.getCode() == null) throw new ElementNotFoundException("Element code is required");
         else {
-            Element element = elementRepository.findById(elementRequestDTO.getId()).orElseThrow(()->new ElementNotFoundException("Element with code "+elementRequestDTO.getCode()+" not found"));
-
-            if (elementRequestDTO.getCode() != null) element.setCode(elementRequestDTO.getCode());
+            Element element = elementRepository.findByCode(elementRequestDTO.getCode());
+            if (element == null) throw new ElementNotFoundException(elementRequestDTO.getCode());
             if (elementRequestDTO.getTitre() != null) element.setTitre(elementRequestDTO.getTitre());
             if (elementRequestDTO.getPonderation() != null) element.setPonderation(elementRequestDTO.getPonderation());
             if (elementRequestDTO.getProfesseurId() != null) {
@@ -60,7 +59,11 @@ public class ElementServiceImpl implements ElementService {
                 element.setProfesseur(professeur);
             }
             elementRepository.save(element);
-            return elementMapper.fromEntitytoResponseDTO(element);
+            ElementResponseDTO elementResponseDTO=elementMapper.fromEntitytoResponseDTO(element);
+            if (element.getProfesseur() != null){
+                elementResponseDTO.setProfesseur(element.getProfesseur().getId());
+            }
+            return elementResponseDTO;
         }
     }
 
