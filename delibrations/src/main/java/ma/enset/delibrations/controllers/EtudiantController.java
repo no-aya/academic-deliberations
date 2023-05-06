@@ -17,9 +17,8 @@ public class EtudiantController {
     private EtudiantService etudiantService;
 
     @GetMapping("/etudiants")
-    public List<EtudiantResponseDTO>  getAllEtudiants(@RequestBody EtudiantRequestDTO etudiantRequestDTO){
-        if(etudiantRequestDTO!=null) return etudiantService.getEtudiants();
-        return null;
+    public List<EtudiantResponseDTO>  getAllEtudiants(){
+        return etudiantService.getEtudiants();
     }
 
     @GetMapping("/{id}")
