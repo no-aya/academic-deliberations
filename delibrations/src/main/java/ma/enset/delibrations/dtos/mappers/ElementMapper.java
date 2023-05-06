@@ -4,7 +4,9 @@ import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
 import ma.enset.delibrations.entities.Element;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ElementMapper {
     //ElementResponseDTO
     public ElementRequestDTO fromEntitytoRequestDTO(Element element){

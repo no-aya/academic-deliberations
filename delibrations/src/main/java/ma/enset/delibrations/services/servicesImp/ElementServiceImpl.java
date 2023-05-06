@@ -1,5 +1,7 @@
 package ma.enset.delibrations.services.servicesImp;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.ElementMapper;
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
@@ -7,10 +9,17 @@ import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.exceptions.ElementNotFoundException;
 import ma.enset.delibrations.repositories.ElementRepository;
 import ma.enset.delibrations.services.ElementService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Service
+@Transactional
+@AllArgsConstructor
+@Slf4j
 public class ElementServiceImpl implements ElementService {
     ElementRepository elementRepository;
     ElementMapper elementMapper;

@@ -22,14 +22,9 @@ public class Professeur {
         private String telephone;
         private String adresse;
 
-        @OneToMany(mappedBy = "professeur")
+        @OneToMany(mappedBy = "professeur", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
         private List<Element> elementModules;
 
-        public Professeur(String cin, String nom, String prenom) {
-            this.cin = cin;
-            this.nom = nom;
-            this.prenom = prenom;
-        }
     @Temporal(TemporalType.DATE)
     private Date createdAt;
     @Temporal(TemporalType.DATE)

@@ -1,6 +1,7 @@
 package ma.enset.delibrations.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.requests.ProfesseurRequestDTO;
 import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
 import ma.enset.delibrations.exceptions.CannotProceedException;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 @RequestMapping("/api/professeur")
 public class ProfesseurController {
     private ProfesseurService professeurService;
@@ -23,7 +25,7 @@ public class ProfesseurController {
     }
 
     @GetMapping("/{id}")
-    public ProfesseurResponseDTO getProfesseur(@PathVariable Long id){
+    public ProfesseurResponseDTO getProfesseur(@PathVariable Long id) throws ProfesseurNotFoundException {
         if(id!=null) return professeurService.getProfesseur(id);
         return null;
     }

@@ -6,6 +6,7 @@ import ma.enset.delibrations.exceptions.ElementNotFoundException;
 
 import java.util.List;
 
+
 public interface ElementService {
     ElementResponseDTO addElement(ElementRequestDTO elementRequestDTO);
     ElementResponseDTO updateElement(ElementRequestDTO elementRequestDTO) throws ElementNotFoundException;

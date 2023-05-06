@@ -4,7 +4,10 @@ import ma.enset.delibrations.dtos.requests.ProfesseurRequestDTO;
 import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
 import ma.enset.delibrations.entities.Professeur;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class ProfesseurMapper {
 
     //ProfesseurResponseDTO

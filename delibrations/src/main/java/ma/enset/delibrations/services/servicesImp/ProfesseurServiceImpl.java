@@ -1,24 +1,35 @@
 package ma.enset.delibrations.services.servicesImp;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.ElementMapper;
 import ma.enset.delibrations.dtos.mappers.ProfesseurMapper;
 import ma.enset.delibrations.dtos.requests.ProfesseurRequestDTO;
 import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
+import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.Professeur;
 import ma.enset.delibrations.exceptions.CannotProceedException;
 import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
+import ma.enset.delibrations.repositories.ElementRepository;
 import ma.enset.delibrations.repositories.ProfesseurRepository;
 import ma.enset.delibrations.services.ProfesseurService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Service
+@Transactional
+@AllArgsConstructor
+@Slf4j
 public class ProfesseurServiceImpl implements ProfesseurService {
     private ProfesseurRepository professeurRepository;
     private ProfesseurMapper professeurMapper;
     private ElementMapper elementMapper;
-    //Reminder :
+    private ElementRepository elementRepository;
+
     @Override
     public ProfesseurResponseDTO createProfesseur(ProfesseurRequestDTO professeurRequestDTO) throws CannotProceedException {
         if(professeurRequestDTO!=null){
@@ -41,7 +52,10 @@ public class ProfesseurServiceImpl implements ProfesseurService {
             if (professeurRequestDTO.getElementModules() != null){
                 professeur.getElementModules().clear();
                 professeurRequestDTO.getElementModules().forEach(elementModuleRequestDTO -> {
-                    professeur.getElementModules().add(elementMapper.fromRequestDTOtoEntity(elementModuleRequestDTO));
+                    Element element = elementMapper.fromRequestDTOtoEntity(elementModuleRequestDTO);
+                    element.setProfesseur(professeur);
+                    elementRepository.save(element);
+                    professeur.getElementModules().add(element);
                 });
             }
             professeur.setUpdatedOn(new Date());
