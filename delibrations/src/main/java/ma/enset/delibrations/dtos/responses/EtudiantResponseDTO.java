@@ -3,7 +3,7 @@ package ma.enset.delibrations.dtos.responses;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ma.enset.delibrations.entities.Sexe;
+import ma.enset.delibrations.entities.enums.Sexe;
 
 import java.util.Date;
 
@@ -13,7 +13,7 @@ import java.util.Date;
 public class EtudiantResponseDTO {
     private String id;
     private String cin;
-    private String cne;
+    private String apogee;
     private String nom;
     private String prenom;
     private String photo;
