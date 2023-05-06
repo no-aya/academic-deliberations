@@ -27,7 +27,6 @@ public class EtudiantServiceImp implements EtudiantService {
 
     @Override
     public EtudiantResponseDTO createEtudiant(EtudiantRequestDTO etudiantRequestDTO) {
-
         if(etudiantRequestDTO!=null){
            Etudiant etudiant = new Etudiant();
             BeanUtils.copyProperties(etudiantRequestDTO,etudiant);
@@ -40,7 +39,7 @@ public class EtudiantServiceImp implements EtudiantService {
     }
 
     @Override
-    public EtudiantResponseDTO updateEtudiant(String id, EtudiantRequestDTO etudiantRequestDTO) throws EtudiantNotFoundException {
+    public EtudiantResponseDTO updateEtudiant(String id, EtudiantRequestDTO etudiantRequestDTO) throws EtudiantNotFoundException, CannotProceedException {
         if(id!=null && etudiantRequestDTO!=null) {
             Etudiant etudiant = etudiantRepository.findById(id).orElseThrow(()->new EtudiantNotFoundException(id));
             if(etudiant!=null){
@@ -66,14 +65,14 @@ public class EtudiantServiceImp implements EtudiantService {
             etudiantRepository.save(etudiant);
             return etudiantMapper.fromEtudiant(etudiant);
         }
-        return null;
+        throw new CannotProceedException("Cannot update Etudiant "+id);
     }
 
     @Override
-    public EtudiantResponseDTO getEtudiant(String id) {
+    public EtudiantResponseDTO getEtudiant(String id) throws EtudiantNotFoundException {
             if(id==null) return null;
 
-            Etudiant etudiant = etudiantRepository.findById(id).orElse(null);
+            Etudiant etudiant = etudiantRepository.findById(id).orElseThrow(()->new EtudiantNotFoundException(id));
             return etudiantMapper.fromEtudiant(etudiant);
     }
 

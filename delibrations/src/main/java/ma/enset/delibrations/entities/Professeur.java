@@ -1,10 +1,7 @@
 package ma.enset.delibrations.entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,11 +13,16 @@ import java.util.List;
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 public class Professeur {
-        @Id
+        @Id @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+        private Long id;
         private String cin;
         private String nom;
         private String prenom;
-        @OneToMany
+        private String email;
+        private String telephone;
+        private String adresse;
+
+        @OneToMany(mappedBy = "professeur")
         private List<Element> elementModules;
 
         public Professeur(String cin, String nom, String prenom) {
@@ -28,7 +30,9 @@ public class Professeur {
             this.nom = nom;
             this.prenom = prenom;
         }
+    @Temporal(TemporalType.DATE)
     private Date createdAt;
+    @Temporal(TemporalType.DATE)
     private Date updatedOn;
 
     private boolean softDelete = false;
