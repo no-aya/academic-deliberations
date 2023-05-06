@@ -8,5 +8,5 @@ public class ElementResponseDTO {
     private String code;
     private String titre;
     private Float ponderation;
-    private ProfesseurResponseDTO professeur;
+    private Long professeur;
 }

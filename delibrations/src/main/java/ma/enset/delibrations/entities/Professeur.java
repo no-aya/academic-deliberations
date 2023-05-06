@@ -1,6 +1,7 @@
 package ma.enset.delibrations.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,8 @@ public class Professeur {
         private String telephone;
         private String adresse;
 
-        @OneToMany(mappedBy = "professeur", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+        @OneToMany(mappedBy = "professeur", fetch = FetchType.EAGER)
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private List<Element> elementModules;
 
     @Temporal(TemporalType.DATE)

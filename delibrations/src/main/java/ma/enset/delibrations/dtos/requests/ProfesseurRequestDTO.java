@@ -13,7 +13,7 @@ public class ProfesseurRequestDTO {
     private String nom;
     private String prenom;
     private String email;
-    private List<ElementRequestDTO> elementModules;
+    private Long[] elementModules;
 
     //@OneToOne
     //private AppUser user;

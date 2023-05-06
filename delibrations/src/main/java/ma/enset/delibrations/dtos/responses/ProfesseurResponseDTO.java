@@ -14,7 +14,7 @@ public class ProfesseurResponseDTO {
     private String nom;
     private String prenom;
     private String email;
-    private List<Element> elementModules;
+    private Long[] elementModules;
 
     private Date createdAt;
     private Date updatedOn;
