@@ -3,7 +3,6 @@ package ma.enset.delibrations.services.servicesImp;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.ElementMapper;
-import ma.enset.delibrations.dtos.mappers.ProfesseurMapper;
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
 import ma.enset.delibrations.entities.Element;
@@ -13,13 +12,11 @@ import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
 import ma.enset.delibrations.repositories.ElementRepository;
 import ma.enset.delibrations.repositories.ProfesseurRepository;
 import ma.enset.delibrations.services.ElementService;
-import org.springframework.data.jdbc.core.JdbcAggregateOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -51,11 +48,10 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public ElementResponseDTO updateElement(ElementRequestDTO elementRequestDTO) throws ElementNotFoundException, ProfesseurNotFoundException {
-        if (elementRequestDTO.getId() == null) throw new ElementNotFoundException("Element code is required");
+        if (elementRequestDTO.getCode() == null) throw new ElementNotFoundException("Element code is required");
         else {
-            Element element = elementRepository.findById(elementRequestDTO.getId()).orElseThrow(()->new ElementNotFoundException("Element with code "+elementRequestDTO.getCode()+" not found"));
-
-            if (elementRequestDTO.getCode() != null) element.setCode(elementRequestDTO.getCode());
+            Element element = elementRepository.findByCode(elementRequestDTO.getCode());
+            if (element == null) throw new ElementNotFoundException(elementRequestDTO.getCode());
             if (elementRequestDTO.getTitre() != null) element.setTitre(elementRequestDTO.getTitre());
             if (elementRequestDTO.getPonderation() != null) element.setPonderation(elementRequestDTO.getPonderation());
             if (elementRequestDTO.getProfesseurId() != null) {
@@ -63,7 +59,11 @@ public class ElementServiceImpl implements ElementService {
                 element.setProfesseur(professeur);
             }
             elementRepository.save(element);
-            return elementMapper.fromEntitytoResponseDTO(element);
+            ElementResponseDTO elementResponseDTO=elementMapper.fromEntitytoResponseDTO(element);
+            if (element.getProfesseur() != null){
+                elementResponseDTO.setProfesseur(element.getProfesseur().getId());
+            }
+            return elementResponseDTO;
         }
     }
 
@@ -79,7 +79,11 @@ public class ElementServiceImpl implements ElementService {
         List<Element> elements = elementRepository.findAll();
         List<ElementResponseDTO> elementResponseDTOS = new ArrayList<>();
         for (Element element : elements) {
-            elementResponseDTOS.add(elementMapper.fromEntitytoResponseDTO(element));
+            ElementResponseDTO elementResponseDTO = elementMapper.fromEntitytoResponseDTO(element);
+            if (element.getProfesseur() != null){
+                elementResponseDTO.setProfesseur(element.getProfesseur().getId());
+            }
+            elementResponseDTOS.add(elementResponseDTO);
         }
         return elementResponseDTOS;
     }
@@ -88,10 +92,24 @@ public class ElementServiceImpl implements ElementService {
     public ElementResponseDTO getElementByCode(String code) {
         Element element = elementRepository.findByCode(code);
         if (element == null) throw new RuntimeException("Element with code "+code+" not found");
-        return elementMapper.fromEntitytoResponseDTO(element);
+        ElementResponseDTO elementResponseDTO= elementMapper.fromEntitytoResponseDTO(element);
+        Professeur professeur = element.getProfesseur();
+        if (professeur!=null) elementResponseDTO.setProfesseur(professeur.getId());
+        return elementResponseDTO;
     }
 
-    public Element getElement(Long id) {
-        return elementRepository.findById(id).orElseThrow(()->new RuntimeException("Element with id "+id+" not found"));
+    @Override
+    public ElementResponseDTO getElement(String code) throws ElementNotFoundException {
+        Element element = elementRepository.findByCode(code);
+        if (element == null) throw new ElementNotFoundException("Element with code "+code+" not found");
+        ElementResponseDTO elementResponseDTO= elementMapper.fromEntitytoResponseDTO(element);
+        Professeur professeur = element.getProfesseur();
+        if (professeur!=null) elementResponseDTO.setProfesseur(professeur.getId());
+        return elementResponseDTO;
+    }
+
+    @Override
+    public Element getElement(Long id) throws ElementNotFoundException {
+        return elementRepository.findById(id).orElseThrow(()->new ElementNotFoundException("Element with id "+id+" not found"));
     }
 }
