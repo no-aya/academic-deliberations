@@ -28,12 +28,9 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public ModuleResponseDTO createModule(ModuleRequestDTO moduleRequestDTO) {
        if(moduleRequestDTO!=null){
-           Module module = new Module();
-
-           BeanUtils.copyProperties(moduleRequestDTO, module);
-           module.setIdModule(UUID.randomUUID().toString());
+           Module module = moduleMapper.fromRequestDTOtoEntity(moduleRequestDTO);
            moduleRepository.save(module);
-           return  moduleMapper.fromModule(module);
+           return  moduleMapper.fromEntitytoResponseDTO(module);
        }
        return null;
     }
@@ -48,12 +45,12 @@ public class ModuleServiceImpl implements ModuleService {
             }
 
             if (module==null) try {
-                throw new CannotProceedException("Cannot update Etudiant "+id);
+                throw new CannotProceedException("Cannot update Module "+id);
             } catch (CannotProceedException e) {
                 throw new RuntimeException(e);
             }
             moduleRepository.save(module);
-            return moduleMapper.fromModule(module);
+            return moduleMapper.fromEntitytoResponseDTO(module);
         }
         return null;
     }
@@ -62,7 +59,7 @@ public class ModuleServiceImpl implements ModuleService {
     public ModuleResponseDTO getModule(String id) throws ModuleNotFoundException {
         if(id == null) return null;
         Module moduleEtudiant = moduleRepository.findById(id).orElseThrow(()->new ModuleNotFoundException(id));
-        return moduleMapper.fromModule(moduleEtudiant);
+        return moduleMapper.fromEntitytoResponseDTO(moduleEtudiant);
     }
 
     @Override
@@ -71,7 +68,7 @@ public class ModuleServiceImpl implements ModuleService {
         List<ModuleResponseDTO> modulesResponse = new ArrayList<>();
         for(Module m : moduleEtudiants){
             ModuleResponseDTO responseDTO ;
-            responseDTO = moduleMapper.fromModule(m);
+            responseDTO = moduleMapper.fromEntitytoResponseDTO(m);
             modulesResponse.add(responseDTO);
         }
         return modulesResponse;
@@ -79,8 +76,8 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public void deleteModule(String id) throws ModuleNotFoundException{
-        Module moduleEtudiant = moduleRepository.findById(id).orElse(null);
-        if(moduleEtudiant != null)
-            moduleEtudiant.setSoftDelete(true);
+        Module module = moduleRepository.findById(id).orElseThrow(() -> new ModuleNotFoundException(id ));
+        if(module != null)
+            module.setSoftDelete(true);
     }
 }

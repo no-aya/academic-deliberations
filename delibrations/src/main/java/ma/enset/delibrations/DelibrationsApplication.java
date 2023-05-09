@@ -1,8 +1,10 @@
 package ma.enset.delibrations;
 
 import ma.enset.delibrations.entities.Element;
+import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.entities.Professeur;
 import ma.enset.delibrations.repositories.ElementRepository;
+import ma.enset.delibrations.repositories.ModuleRepository;
 import ma.enset.delibrations.repositories.ProfesseurRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +24,8 @@ public class DelibrationsApplication {
 
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository,
-                            ElementRepository elementRepository) {
+                            ElementRepository elementRepository,
+                            ModuleRepository moduleRepository){
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -64,6 +67,15 @@ public class DelibrationsApplication {
             System.out.println("Elements : ");
             prof.getElementModules().forEach(e->{
                 System.out.println(e.getCode() + " " + e.getTitre());
+            });
+
+
+            //Testing Module
+            Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
+                Module module1 = new Module();
+                module1.setIdModule(module+"ID");
+                module1.setIntitule(module);
+                moduleRepository.save(module1);
             });
         };
     }

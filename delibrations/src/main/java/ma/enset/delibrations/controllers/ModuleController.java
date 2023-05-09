@@ -13,11 +13,11 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/module")
-public class ModuleRestController {
+public class ModuleController {
     private ModuleService moduleService;
 
-    @GetMapping("/modules")
-    public List<ModuleResponseDTO> getAllEtudiants(ModuleRequestDTO moduleRequestDTO){
+    @GetMapping("/all")
+    public List<ModuleResponseDTO> getAllModules(ModuleRequestDTO moduleRequestDTO){
         if(moduleRequestDTO != null) return moduleService.getModules();
         return null;
     }
@@ -30,11 +30,11 @@ public class ModuleRestController {
     @PostMapping
     public ModuleResponseDTO createModule(@RequestBody ModuleRequestDTO moduleRequestDTO){
         if(moduleRequestDTO!=null)
-            return  moduleService.createModule(moduleRequestDTO);
+            return moduleService.createModule(moduleRequestDTO);
         return null;
     }
     @PutMapping("/{id}")
-    public ModuleResponseDTO updateModule(@PathVariable  String id,@RequestBody ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException{
+    public ModuleResponseDTO updateModule(@PathVariable String id, @RequestBody ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException{
         if(moduleRequestDTO!=null && id!=null)
             return moduleService.updateModule(id,moduleRequestDTO);
         return null;
