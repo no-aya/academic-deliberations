@@ -8,12 +8,14 @@ import ma.enset.delibrations.dtos.responses.NoteElementResponseDTO;
 import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.NoteElement;
 import ma.enset.delibrations.exceptions.ElementNotFoundException;
+import ma.enset.delibrations.exceptions.NoteElementNotFoundException;
 import ma.enset.delibrations.repositories.ElementRepository;
 import ma.enset.delibrations.repositories.NoteElementRepository;
 import ma.enset.delibrations.services.NoteElementService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,8 +42,22 @@ public class NoteElementServiceImpl implements NoteElementService {
     }
 
     @Override
-    public NoteElementResponseDTO updateNoteElement(NoteElementRequestDTO noteElementRequestDTO) {
-        return null;
+    public NoteElementResponseDTO updateNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws NoteElementNotFoundException, ElementNotFoundException {
+        if (noteElementRequestDTO.getId() != null) {
+            NoteElement noteElement = noteElementRepository.findById(noteElementRequestDTO.getId() ).orElseThrow(()-> new NoteElementNotFoundException("Note Element "+noteElementRequestDTO.getId()+" not found"));
+            if (noteElementRequestDTO.getNoteSession1() != 0.0) noteElement.setNoteSession1(noteElementRequestDTO.getNoteSession1());
+            if (noteElementRequestDTO.getNoteSession2() != 0.0) noteElement.setNoteSession2(noteElementRequestDTO.getNoteSession2());
+            if (noteElementRequestDTO.getIdElement() != null) {
+                Element element = elementRepository.findById(noteElementRequestDTO.getIdElement()).orElseThrow(()-> new ElementNotFoundException(noteElementRequestDTO.getIdElement()+" not found"));
+                noteElement.setElement(element);
+            }
+
+            //TODO: Check InscriptionPédagogique
+            noteElement.setUpdatedOn(new Date());
+            noteElementRepository.save(noteElement);
+            return noteElementMapper.fromEntitytoResponseDTO(noteElement);
+        }
+        throw new NoteElementNotFoundException("Cannot be Null");
     }
 
     @Override
