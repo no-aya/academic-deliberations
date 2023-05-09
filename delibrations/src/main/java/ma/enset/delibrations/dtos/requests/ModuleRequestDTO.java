@@ -10,4 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ModuleRequestDTO {
     private String intitule;
+    /*Request form :
+    {
+        "intitule":"Module 1"
+    }
+     */
 }

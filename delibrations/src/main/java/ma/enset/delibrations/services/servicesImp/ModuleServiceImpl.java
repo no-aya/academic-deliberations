@@ -29,6 +29,8 @@ public class ModuleServiceImpl implements ModuleService {
     public ModuleResponseDTO createModule(ModuleRequestDTO moduleRequestDTO) {
        if(moduleRequestDTO!=null){
            Module module = moduleMapper.fromRequestDTOtoEntity(moduleRequestDTO);
+           //TODO : Generate a unique id
+           module.setIdModule(UUID.randomUUID().toString());
            moduleRepository.save(module);
            return  moduleMapper.fromEntitytoResponseDTO(module);
        }
