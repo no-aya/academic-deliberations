@@ -1,28 +1,36 @@
 package ma.enset.delibrations.entities;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Date;
 
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
-public class Element {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class NoteElement {
     @Id @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
-    private String code;
-    private String titre;
-    private Float ponderation;
-    //Module
+    private double noteSession1;
+    private double noteSession2;
 
+    //Relation
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Professeur professeur;
+    private Element element;
 
-    @OneToMany(mappedBy = "element", fetch = FetchType.EAGER)
-    private List<NoteElement> noteElement;
+    /*@OneToMany*/
+    //TODO: Inscription pédagogique
+
+    @Temporal(TemporalType.DATE)
+    private Date createdAt;
+    @Temporal(TemporalType.DATE)
+    private Date updatedOn;
+
 
 }

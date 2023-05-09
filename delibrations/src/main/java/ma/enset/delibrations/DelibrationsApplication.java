@@ -1,8 +1,10 @@
 package ma.enset.delibrations;
 
 import ma.enset.delibrations.entities.Element;
+import ma.enset.delibrations.entities.NoteElement;
 import ma.enset.delibrations.entities.Professeur;
 import ma.enset.delibrations.repositories.ElementRepository;
+import ma.enset.delibrations.repositories.NoteElementRepository;
 import ma.enset.delibrations.repositories.ProfesseurRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +24,8 @@ public class DelibrationsApplication {
 
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository,
-                            ElementRepository elementRepository) {
+                            ElementRepository elementRepository,
+                            NoteElementRepository noteElementRepository) {
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -64,6 +67,21 @@ public class DelibrationsApplication {
             System.out.println("Elements : ");
             prof.getElementModules().forEach(e->{
                 System.out.println(e.getCode() + " " + e.getTitre());
+            });
+
+            Element element1 = elementRepository.findByCode("CODE1");
+            //Testing NoteElement
+            Stream.of(15.2,15.3,12.4, 14.5, 16.5, 17.5, 18.5, 19.5, 20.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0).forEach(noteElement->{
+                NoteElement note = new NoteElement();
+                note.setNoteSession1(noteElement);
+                note.setNoteSession2(noteElement);
+                note.setElement(element1);
+                note.setCreatedAt(new Date());
+                noteElementRepository.save(note);
+
+                element1.getNoteElement().add(note);
+                elementRepository.save(element1);
+
             });
         };
     }
