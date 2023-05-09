@@ -8,14 +8,22 @@ import ma.enset.delibrations.exceptions.NoteElementNotFoundException;
 import ma.enset.delibrations.services.NoteElementService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/note-element")
 public class NoteElementController {
     NoteElementService noteElementService;
-    @PostMapping("/add")
-    public NoteElementResponseDTO createNoteElement(@RequestBody NoteElementRequestDTO noteElementRequestDTO) throws ElementNotFoundException {
-        return noteElementService.createNoteElement(noteElementRequestDTO);
+
+    @GetMapping("/all")
+    public List<NoteElementResponseDTO> getNoteElements(){
+        return noteElementService.getNoteElements();
+    }
+
+    @GetMapping("/{id}")
+    public NoteElementResponseDTO getNoteElement(@PathVariable Long id) throws NoteElementNotFoundException {
+        return noteElementService.getNoteElement(id);
     }
 
     @PutMapping("/{id}")
@@ -24,4 +32,16 @@ public class NoteElementController {
         return noteElementService.updateNoteElement(noteElementRequestDTO);
     }
 
+    @PostMapping("/add")
+    public NoteElementResponseDTO createNoteElement(@RequestBody NoteElementRequestDTO noteElementRequestDTO) throws ElementNotFoundException {
+        return noteElementService.createNoteElement(noteElementRequestDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public Boolean deleteNoteElement(@PathVariable Long id) throws NoteElementNotFoundException {
+        noteElementService.deleteNoteElement(id);
+        return true;
+    }
 }
+
+

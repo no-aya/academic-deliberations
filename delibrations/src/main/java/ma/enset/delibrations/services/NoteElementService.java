@@ -10,7 +10,7 @@ import java.util.List;
 public interface NoteElementService {
     NoteElementResponseDTO createNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws ElementNotFoundException;
     NoteElementResponseDTO updateNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws ElementNotFoundException, NoteElementNotFoundException;
-    NoteElementResponseDTO getNoteElement(Long id);
-    void deleteNoteElement(Long id);
+    NoteElementResponseDTO getNoteElement(Long id) throws NoteElementNotFoundException;
+    void deleteNoteElement(Long id) throws NoteElementNotFoundException;
     List<NoteElementResponseDTO> getNoteElements();
 }

@@ -45,6 +45,7 @@ public class NoteElementServiceImpl implements NoteElementService {
     public NoteElementResponseDTO updateNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws NoteElementNotFoundException, ElementNotFoundException {
         if (noteElementRequestDTO.getId() != null) {
             NoteElement noteElement = noteElementRepository.findById(noteElementRequestDTO.getId() ).orElseThrow(()-> new NoteElementNotFoundException("Note Element "+noteElementRequestDTO.getId()+" not found"));
+
             if (noteElementRequestDTO.getNoteSession1() != 0.0) noteElement.setNoteSession1(noteElementRequestDTO.getNoteSession1());
             if (noteElementRequestDTO.getNoteSession2() != 0.0) noteElement.setNoteSession2(noteElementRequestDTO.getNoteSession2());
             if (noteElementRequestDTO.getIdElement() != null) {
@@ -61,17 +62,26 @@ public class NoteElementServiceImpl implements NoteElementService {
     }
 
     @Override
-    public NoteElementResponseDTO getNoteElement(Long id) {
-        return null;
+    public NoteElementResponseDTO getNoteElement(Long id) throws NoteElementNotFoundException {
+        NoteElement noteElement = noteElementRepository.findById(id).orElseThrow(()-> new NoteElementNotFoundException("Note Element "+id+" not found"));
+        return noteElementMapper.fromEntitytoResponseDTO(noteElement);
     }
 
     @Override
-    public void deleteNoteElement(Long id) {
-
+    public void deleteNoteElement(Long id) throws NoteElementNotFoundException {
+        NoteElement noteElement = noteElementRepository.findById(id).orElseThrow(()-> new NoteElementNotFoundException("Note Element "+id+" not found"));
+        noteElementRepository.delete(noteElement);
     }
 
     @Override
     public List<NoteElementResponseDTO> getNoteElements() {
-        return null;
+        List<NoteElement> noteElements = noteElementRepository.findAll();
+        List<NoteElementResponseDTO> noteElementResponseDTOS = new ArrayList<>();
+        for (NoteElement noteElement: noteElements) {
+            NoteElementResponseDTO noteElementResponseDTO = noteElementMapper.fromEntitytoResponseDTO(noteElement);
+            noteElementResponseDTO.setIdElement(noteElement.getElement().getId());
+            noteElementResponseDTOS.add(noteElementResponseDTO);
+        }
+        return noteElementResponseDTOS;
     }
 }
