@@ -10,6 +10,15 @@ public class NoteSemestreRequestDTO {
     private Float noteSession2;
     private Long semestreId;
 
+    /*Request form :
+    {
+        "id": 1,
+        "noteSession1": 12,
+        "noteSession2": 12,
+        "semestreId": 1
+    }
+     */
+
 
 
 }

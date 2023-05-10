@@ -31,8 +31,8 @@ public class NoteSemestreController {
         return null;
     }
 
-    @PostMapping
-    public NoteSemestreResponseDTO createNoteSemestre(@RequestBody NoteSemestreRequestDTO noteSemestreRequestDTO){
+    @PostMapping("/add")
+    public NoteSemestreResponseDTO createNoteSemestre(@RequestBody NoteSemestreRequestDTO noteSemestreRequestDTO) throws SemestreNotFoundException {
         return noteSemestreService.addNoteSemestre(noteSemestreRequestDTO);
     }
 

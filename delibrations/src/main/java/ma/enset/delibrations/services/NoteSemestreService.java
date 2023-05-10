@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface NoteSemestreService {
 
-    NoteSemestreResponseDTO addNoteSemestre(NoteSemestreRequestDTO noteSemestreRequestDTO);
+    NoteSemestreResponseDTO addNoteSemestre(NoteSemestreRequestDTO noteSemestreRequestDTO) throws SemestreNotFoundException;
     NoteSemestreResponseDTO updateNoteSemestre(NoteSemestreRequestDTO noteSemestreRequestDTO) throws ElementNotFoundException, ProfesseurNotFoundException, NoteSemestreNotFoundException, CannotProceedException, SemestreNotFoundException;
     void deleteNoteSemestre(Long id) throws  NoteSemestreNotFoundException;
     List<NoteSemestreResponseDTO> getAllNotesSemestre();

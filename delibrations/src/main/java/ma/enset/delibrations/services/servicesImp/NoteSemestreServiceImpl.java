@@ -32,11 +32,15 @@ public class NoteSemestreServiceImpl implements NoteSemestreService {
 
 
     @Override
-    public NoteSemestreResponseDTO addNoteSemestre(NoteSemestreRequestDTO noteSemestreRequestDTO) {
+    public NoteSemestreResponseDTO addNoteSemestre(NoteSemestreRequestDTO noteSemestreRequestDTO) throws SemestreNotFoundException {
      if (noteSemestreRequestDTO!=null) {
          NoteSemestre noteSemestre = new NoteSemestre();
          BeanUtils.copyProperties(noteSemestreRequestDTO, noteSemestre);
          //noteSemestre.setId(Long.valueOf(UUID.randomUUID().toString()));
+         if (noteSemestreRequestDTO.getSemestreId()!= null){
+             Semestre semestre = semestreRepository.findById(noteSemestreRequestDTO.getSemestreId()).orElseThrow(() -> new SemestreNotFoundException(noteSemestreRequestDTO.getSemestreId()));
+             noteSemestre.setSemestre(semestre);
+         }
          noteSemestreRepository.save(noteSemestre);
             return noteSemestreMapper.fromEntitytoResponseDTO(noteSemestre);
 
