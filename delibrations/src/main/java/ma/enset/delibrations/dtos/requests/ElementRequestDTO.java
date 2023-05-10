@@ -12,4 +12,5 @@ public class ElementRequestDTO {
     private Long professeurId;
 
     //TODO: Add the other attributes "Filieres" and "Modules"
+
 }

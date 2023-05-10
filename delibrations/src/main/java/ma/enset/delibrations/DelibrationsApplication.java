@@ -2,10 +2,16 @@ package ma.enset.delibrations;
 
 import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.Module;
+import ma.enset.delibrations.entities.NoteSemestre;
+import ma.enset.delibrations.entities.NoteElement;
 import ma.enset.delibrations.entities.Professeur;
+import ma.enset.delibrations.entities.Semestre;
 import ma.enset.delibrations.repositories.ElementRepository;
 import ma.enset.delibrations.repositories.ModuleRepository;
+import ma.enset.delibrations.repositories.NoteSemestreRepository;
+import ma.enset.delibrations.repositories.NoteElementRepository;
 import ma.enset.delibrations.repositories.ProfesseurRepository;
+import ma.enset.delibrations.repositories.SemestreRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,9 +29,8 @@ public class DelibrationsApplication {
     }
 
     @Bean
-    CommandLineRunner start(ProfesseurRepository professeurRepository,
-                            ElementRepository elementRepository,
-                            ModuleRepository moduleRepository){
+    CommandLineRunner start(ProfesseurRepository professeurRepository,ModuleRepository moduleRepository,
+                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository) {
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -68,14 +73,41 @@ public class DelibrationsApplication {
             prof.getElementModules().forEach(e->{
                 System.out.println(e.getCode() + " " + e.getTitre());
             });
-
-
             //Testing Module
             Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
                 Module module1 = new Module();
                 module1.setIdModule(module+"ID");
                 module1.setIntitule(module);
                 moduleRepository.save(module1);
+            //Testing Semestre
+            Stream.of("Semestre1","Semestre2","Semestre3","Semestre4","Semestre5","Semestre6","Semestre7","Semestre8","Semestre9","Semestre10").forEach(semestre->{
+                Semestre sem = new Semestre();
+                sem.setCode("CODE"+(i.getAndIncrement()));
+                sem.setLibelle(semestre);
+                semestreRepository.save(sem);
+            });
+            //Testing NoteSemestre
+            Stream.of("NoteSemestre1","NoteSemestre2","NoteSemestre3","NoteSemestre4","NoteSemestre5","NoteSemestre6","NoteSemestre7","NoteSemestre8","NoteSemestre9","NoteSemestre10").forEach(noteSemestre->{
+                NoteSemestre note = new NoteSemestre();
+                note.setSemestre(semestreRepository.findByCode("CODE10"));
+                note.setNoteSession2(10.0F);
+                note.setNoteSession1(10.0F);
+                noteSemestreRepository.save(note);
+            });
+          
+            Element element1 = elementRepository.findByCode("CODE1");
+            //Testing NoteElement
+            Stream.of(15.2,15.3,12.4, 14.5, 16.5, 17.5, 18.5, 19.5, 20.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0).forEach(noteElement->{
+                NoteElement note = new NoteElement();
+                note.setNoteSession1(noteElement);
+                note.setNoteSession2(noteElement);
+                note.setElement(element1);
+                note.setCreatedAt(new Date());
+                noteElementRepository.save(note);
+
+                element1.getNoteElement().add(note);
+                elementRepository.save(element1);
+
             });
         };
     }
