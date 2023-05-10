@@ -79,6 +79,7 @@ public class DelibrationsApplication {
                 module1.setIdModule(module+"ID");
                 module1.setIntitule(module);
                 moduleRepository.save(module1);
+            });
             //Testing Semestre
             Stream.of("Semestre1","Semestre2","Semestre3","Semestre4","Semestre5","Semestre6","Semestre7","Semestre8","Semestre9","Semestre10").forEach(semestre->{
                 Semestre sem = new Semestre();
@@ -107,6 +108,7 @@ public class DelibrationsApplication {
 
                 element1.getNoteElement().add(note);
                 elementRepository.save(element1);
+
 
             });
         };
