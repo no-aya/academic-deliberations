@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@RequestMapping("/api/noteSemestre")
+@RequestMapping("/api/note-semestre")
 public class NoteSemestreController {
 
     private NoteSemestreService noteSemestreService;

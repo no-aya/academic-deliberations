@@ -80,7 +80,7 @@ public class DelibrationsApplication {
             //Testing NoteSemestre
             Stream.of("NoteSemestre1","NoteSemestre2","NoteSemestre3","NoteSemestre4","NoteSemestre5","NoteSemestre6","NoteSemestre7","NoteSemestre8","NoteSemestre9","NoteSemestre10").forEach(noteSemestre->{
                 NoteSemestre note = new NoteSemestre();
-                note.setSemestre(semestreRepository.findByCode("Semestre1"));
+                note.setSemestre(semestreRepository.findByCode("CODE10"));
                 note.setNoteSession2(10.0F);
                 note.setNoteSession1(10.0F);
                 noteSemestreRepository.save(note);

@@ -13,6 +13,10 @@ public class NoteSemestreMapper {
     public NoteSemestreRequestDTO fromEntitytoRequestDTO (NoteSemestre noteSemestre){
         NoteSemestreRequestDTO noteSemestreRequestDTO = new NoteSemestreRequestDTO();
         BeanUtils.copyProperties(noteSemestre, noteSemestreRequestDTO);
+        //Change semestre to semestreId
+        if (noteSemestre.getSemestre()!= null){
+            noteSemestreRequestDTO.setSemestreId(noteSemestre.getSemestre().getId());
+        }
         return noteSemestreRequestDTO;
     }
 
@@ -25,6 +29,10 @@ public class NoteSemestreMapper {
     public NoteSemestreResponseDTO fromEntitytoResponseDTO (NoteSemestre noteSemestre){
         NoteSemestreResponseDTO noteSemestreResponseDTO = new NoteSemestreResponseDTO();
         BeanUtils.copyProperties(noteSemestre, noteSemestreResponseDTO);
+        //Change Semestre to its id
+        if (noteSemestre.getSemestre()!= null){
+            noteSemestreResponseDTO.setSemestre(noteSemestre.getSemestre().getId());
+        }
         return noteSemestreResponseDTO;
     }
 
