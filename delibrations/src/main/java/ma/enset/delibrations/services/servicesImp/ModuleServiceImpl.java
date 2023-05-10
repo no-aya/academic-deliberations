@@ -40,17 +40,10 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public ModuleResponseDTO updateModule(String id,ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException {
         if(id != null && moduleRequestDTO != null) {
-            Module module = moduleRepository.findById(id).orElseThrow(()->new ModuleNotFoundException(id));
-            if(module!=null){
-                if (moduleRequestDTO.getIntitule() != null)
+            Module module = moduleRepository.findByIdModuleAndSoftDeleteIsFalse(id);
+            if (module == null) throw new ModuleNotFoundException(id);
+            if (moduleRequestDTO.getIntitule() != null)
                     module.setIntitule(moduleRequestDTO.getIntitule());
-            }
-
-            if (module==null) try {
-                throw new CannotProceedException("Cannot update Module "+id);
-            } catch (CannotProceedException e) {
-                throw new RuntimeException(e);
-            }
             moduleRepository.save(module);
             return moduleMapper.fromEntitytoResponseDTO(module);
         }
@@ -60,7 +53,8 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public ModuleResponseDTO getModule(String id) throws ModuleNotFoundException {
         if(id == null) return null;
-        Module moduleEtudiant = moduleRepository.findById(id).orElseThrow(()->new ModuleNotFoundException(id));
+        Module moduleEtudiant = moduleRepository.findByIdModuleAndSoftDeleteIsFalse(id);
+        if(moduleEtudiant == null) throw new ModuleNotFoundException(id);
         return moduleMapper.fromEntitytoResponseDTO(moduleEtudiant);
     }
 
@@ -78,8 +72,9 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public void deleteModule(String id) throws ModuleNotFoundException{
-        Module module = moduleRepository.findById(id).orElseThrow(() -> new ModuleNotFoundException(id ));
-        if(module != null)
+        Module module = moduleRepository.findByIdModuleAndSoftDeleteIsFalse(id);
+        if(module == null) throw new ModuleNotFoundException(id);
+        else
             module.setSoftDelete(true);
     }
 }
