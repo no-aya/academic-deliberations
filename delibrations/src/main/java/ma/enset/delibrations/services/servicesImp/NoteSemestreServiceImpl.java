@@ -36,7 +36,7 @@ public class NoteSemestreServiceImpl implements NoteSemestreService {
      if (noteSemestreRequestDTO!=null) {
          NoteSemestre noteSemestre = new NoteSemestre();
          BeanUtils.copyProperties(noteSemestreRequestDTO, noteSemestre);
-         noteSemestre.setId(Long.valueOf(UUID.randomUUID().toString()));
+         //noteSemestre.setId(Long.valueOf(UUID.randomUUID().toString()));
          noteSemestreRepository.save(noteSemestre);
             return noteSemestreMapper.fromEntitytoResponseDTO(noteSemestre);
 

@@ -34,10 +34,11 @@ public class SemestreServiceImp implements SemestreService {
     public SemestreResponseDTO createSemestre(SemestreRequestDTO semestreRequestDTO) throws CannotProceedException {
         if (semestreRequestDTO != null) {
             Semestre semestre = semestreMapper.fromRequestDTOtoEntity(semestreRequestDTO);
-
-            for (NoteSemestre noteSemestre : semestre.getNoteSemestres()) {
-                noteSemestre.setSemestre(semestre);
-                noteSemestreService.addNoteSemestre(noteSemestreMapper.fromEntitytoRequestDTO(noteSemestre));
+            if (semestreRequestDTO.getNoteSemestres()!=null){
+                for (NoteSemestre noteSemestre : semestre.getNoteSemestres()) {
+                    noteSemestre.setSemestre(semestre);
+                    noteSemestreService.addNoteSemestre(noteSemestreMapper.fromEntitytoRequestDTO(noteSemestre));
+                }
             }
             semestreRepository.save(semestre);
             return semestreMapper.fromEntityToResponseDTO(semestre);

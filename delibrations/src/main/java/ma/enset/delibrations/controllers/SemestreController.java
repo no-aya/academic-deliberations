@@ -4,8 +4,7 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.SemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
-import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
-import ma.enset.delibrations.exceptions.SemestreNotFoundException;
+import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.services.SemestreService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +33,9 @@ public class SemestreController {
         return null;
     }
     @PutMapping("/{id}")
-    public SemestreResponseDTO updateSemestre(@PathVariable Long id, @RequestBody SemestreRequestDTO semestreRequestDTO) throws ma.enset.delibrations.exceptions.CannotProceedException, SemestreNotFoundException, NoteSemestreNotFoundException {
-        if(semestreRequestDTO!=null && id!=null) return semestreService.updateSemestre(id,semestreRequestDTO);
+    public SemestreResponseDTO updateSemestre(@PathVariable Long id, @RequestBody SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException {
+        if(semestreRequestDTO!=null && id!=null)
+            return semestreService.updateSemestre(id,semestreRequestDTO);
         return null;
     }
     @DeleteMapping("/{id}")

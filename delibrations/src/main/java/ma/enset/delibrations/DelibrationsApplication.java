@@ -2,8 +2,10 @@ package ma.enset.delibrations;
 
 import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.Professeur;
+import ma.enset.delibrations.entities.Semestre;
 import ma.enset.delibrations.repositories.ElementRepository;
 import ma.enset.delibrations.repositories.ProfesseurRepository;
+import ma.enset.delibrations.repositories.SemestreRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +24,7 @@ public class DelibrationsApplication {
 
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository,
-                            ElementRepository elementRepository) {
+                            ElementRepository elementRepository, SemestreRepository semestreRepository) {
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -64,6 +66,14 @@ public class DelibrationsApplication {
             System.out.println("Elements : ");
             prof.getElementModules().forEach(e->{
                 System.out.println(e.getCode() + " " + e.getTitre());
+            });
+
+            //Testing Semestre
+            Stream.of("Semestre1","Semestre2","Semestre3","Semestre4","Semestre5","Semestre6","Semestre7","Semestre8","Semestre9","Semestre10").forEach(semestre->{
+                Semestre sem = new Semestre();
+                sem.setCode("CODE"+(i.getAndIncrement()));
+                sem.setLibelle(semestre);
+                semestreRepository.save(sem);
             });
         };
     }
