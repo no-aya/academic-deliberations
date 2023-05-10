@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SemestreService {
 
-    SemestreResponseDTO createSemestre(SemestreRequestDTO semestreResponseDTO) throws CannotProceedException;
+    SemestreResponseDTO createSemestre(SemestreRequestDTO semestreResponseDTO) throws CannotProceedException, NoteSemestreNotFoundException;
     SemestreResponseDTO updateSemestre(Long id, SemestreRequestDTO semestreResponseDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException;
     SemestreResponseDTO getSemestre(Long id) throws SemestreNotFoundException;
     void deleteSemestre(Long id) throws SemestreNotFoundException;

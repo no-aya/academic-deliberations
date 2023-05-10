@@ -28,7 +28,7 @@ public class SemestreController {
         return null;
     }
     @PostMapping("/add")
-    public SemestreResponseDTO createSemestre(@RequestBody SemestreRequestDTO semestreRequestDTO) throws CannotProceedException {
+    public SemestreResponseDTO createSemestre(@RequestBody SemestreRequestDTO semestreRequestDTO) throws CannotProceedException, NoteSemestreNotFoundException {
         if(semestreRequestDTO!=null) return semestreService.createSemestre(semestreRequestDTO);
         return null;
     }

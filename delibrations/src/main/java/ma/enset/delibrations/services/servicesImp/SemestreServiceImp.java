@@ -12,7 +12,6 @@ import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
 import ma.enset.delibrations.exceptions.SemestreNotFoundException;
 import ma.enset.delibrations.repositories.SemestreRepository;
 import ma.enset.delibrations.services.SemestreService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.naming.CannotProceedException;
@@ -31,14 +30,18 @@ public class SemestreServiceImp implements SemestreService {
     private NoteSemestreServiceImpl noteSemestreService;
 
     @Override
-    public SemestreResponseDTO createSemestre(SemestreRequestDTO semestreRequestDTO) throws CannotProceedException {
+    public SemestreResponseDTO createSemestre(SemestreRequestDTO semestreRequestDTO) throws CannotProceedException, NoteSemestreNotFoundException {
         if (semestreRequestDTO != null) {
             Semestre semestre = semestreMapper.fromRequestDTOtoEntity(semestreRequestDTO);
+            //Get notesSemestresIds
             if (semestreRequestDTO.getNoteSemestres()!=null){
-                for (NoteSemestre noteSemestre : semestre.getNoteSemestres()) {
-                    noteSemestre.setSemestre(semestre);
-                    noteSemestreService.addNoteSemestre(noteSemestreMapper.fromEntitytoRequestDTO(noteSemestre));
+                Long[] notesSemestres = semestreRequestDTO.getNoteSemestres();
+                List<NoteSemestre> noteSemestres = new ArrayList<>();
+                for (Long noteSemestreId : notesSemestres) {
+                    NoteSemestre noteSemestre = noteSemestreService.getNoteSemestreById(noteSemestreId);
+                    noteSemestres.add(noteSemestre);
                 }
+                semestre.setNoteSemestres(noteSemestres);
             }
             semestreRepository.save(semestre);
             return semestreMapper.fromEntityToResponseDTO(semestre);
@@ -52,10 +55,9 @@ public class SemestreServiceImp implements SemestreService {
         if(id!=null && semestreResponseDTO!=null) {
             Semestre semestre = semestreRepository.findById(id).orElse(null);
             if(semestre==null) throw  new SemestreNotFoundException(id);
-
-                if(semestreResponseDTO.getCode()!=null) semestre.setCode(semestreResponseDTO.getCode());
-                if (semestreResponseDTO.getLibelle()!=null) semestre.setLibelle(semestreResponseDTO.getLibelle());
-                if (semestreResponseDTO.getNoteSemestres()!=null) {
+            if(semestreResponseDTO.getCode()!=null) semestre.setCode(semestreResponseDTO.getCode());
+            if (semestreResponseDTO.getLibelle()!=null) semestre.setLibelle(semestreResponseDTO.getLibelle());
+            if (semestreResponseDTO.getNoteSemestres()!=null) {
                     Long[] notesSemestres = semestreResponseDTO.getNoteSemestres();
                     List<NoteSemestre> noteSemestres = new ArrayList<>();
                     for (Long noteSemestreId : notesSemestres) {
