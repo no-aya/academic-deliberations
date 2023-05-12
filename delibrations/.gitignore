@@ -34,3 +34,4 @@ build/
 
 ## ignore application properties
 !**/src/main/**/application*.properties
+

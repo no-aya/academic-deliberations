@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SemestreRequestDTO {
-    private Long id;
     private String code;
     private String libelle;
     private Long[] noteSemestres;

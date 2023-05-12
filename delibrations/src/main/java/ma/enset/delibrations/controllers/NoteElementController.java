@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/note-element")
+@RequestMapping("/api/note-Element")
 public class NoteElementController {
     NoteElementService noteElementService;
 
