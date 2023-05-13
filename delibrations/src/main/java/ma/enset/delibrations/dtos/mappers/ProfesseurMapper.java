@@ -21,12 +21,12 @@ public class ProfesseurMapper {
         ProfesseurResponseDTO professeurResponseDTO = new ProfesseurResponseDTO();
         /*convert elemnets to ids*/
         BeanUtils.copyProperties(professeur, professeurResponseDTO);
-        professeurResponseDTO.setElementModules(
-                professeur.getElementModules()
-                        .stream()
-                        .map(Element::getId
-                        ).toArray(Long[]::new)
-        );
+        if (professeur.getElementModules() == null) return professeurResponseDTO;
+        List<Long> elementIds = new ArrayList<>();
+        for (Element element : professeur.getElementModules()) {
+            elementIds.add(element.getId());
+        }
+        professeurResponseDTO.setElementModules(elementIds.toArray(new Long[0]));
         return  professeurResponseDTO;
     }
 
