@@ -22,4 +22,8 @@ public class Semestre {
     @OneToMany(mappedBy = "semestre", fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<NoteSemestre> noteSemestres;
+
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private AnneeUniv anneeUniv;
 }
