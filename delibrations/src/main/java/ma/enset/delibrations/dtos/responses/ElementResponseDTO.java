@@ -9,4 +9,5 @@ public class ElementResponseDTO {
     private String titre;
     private Float ponderation;
     private Long professeur;
+    private Long moduleid;
 }

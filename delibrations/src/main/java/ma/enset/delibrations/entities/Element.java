@@ -16,7 +16,6 @@ public class Element {
     private String code;
     private String titre;
     private Float ponderation;
-    //Module
 
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -24,5 +23,9 @@ public class Element {
 
     @OneToMany(mappedBy = "element", fetch = FetchType.EAGER)
     private List<NoteElement> noteElement;
+
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Module module;
 
 }
