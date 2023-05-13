@@ -14,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor @AllArgsConstructor @Data
 public class Module {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String idModule;
     private String intitule;
 
