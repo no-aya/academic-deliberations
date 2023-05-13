@@ -7,24 +7,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+import java.util.Date;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor @Data
-public class Module {
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class NoteModule {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idModule;
-    private String code;
-    private String intitule;
+    private Long id;
+    private Float noteSession1;
+    private Float noteSession2;
 
-    @OneToMany(mappedBy = "module")
-    private List<NoteModule> noteModules;
-
-    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Semestre semestre;
+    @ManyToOne
+    private Module module;
+
+    @Temporal(TemporalType.DATE)
+    private Date createdAt;
+    @Temporal(TemporalType.DATE)
+    private Date updatedOn;
 
 
-    private boolean softDelete = false;
+
 }
