@@ -9,10 +9,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModuleRequestDTO {
+    private Long id;
+    private String code;
     private String intitule;
+    private Long semestreId;
+    private Long[] noteModules;
+
     /*Request form :
     {
-        "intitule":"Module 1"
-    }
+      "id" : 1,
+      "code":"Java",
+      "intitule" : "Module 1",
+      "semestreId":2,
+      "noteModules":[
+              1,
+              2
+          ]
+
+     }
      */
+
+
 }

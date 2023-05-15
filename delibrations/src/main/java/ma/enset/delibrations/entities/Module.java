@@ -16,14 +16,19 @@ public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String idModule;
+    private String code;
+
     private String intitule;
 
-    private boolean softDelete = false;
+    @OneToMany(mappedBy = "module")
+    private List<NoteModule> noteModules;
 
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Semestre semestre;
+
+
+    private boolean softDelete = false;
 
     @OneToMany(mappedBy = "module",fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

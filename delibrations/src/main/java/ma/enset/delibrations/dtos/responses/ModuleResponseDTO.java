@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModuleResponseDTO {
-    private String idModule;
+    private String code;
     private String intitule;
+    private Long semestre;
 }

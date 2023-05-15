@@ -41,7 +41,7 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
                else throw new EtudiantNotFoundException(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
            }
             if(inscriptionPedagogiqueRequestDTO.getIdModule()!=null){
-                Module module = moduleRepository.findByIdModuleAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdModule());
+                Module module = moduleRepository.findByCodeAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdModule());
                 if(module!=null) inscription.setModule(module);
                 else throw new ModuleNotFoundException(inscriptionPedagogiqueRequestDTO.getIdModule());
             }
@@ -84,7 +84,7 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
                }
 
                if(inscriptionPedagogiqueRequestDTO.getIdModule()!=null) {
-                   Module module = moduleRepository.findByIdModuleAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdModule());
+                   Module module = moduleRepository.findByCodeAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdModule());
                    if(module!=null) inscription.setModule(module);
                    else throw new ModuleNotFoundException(inscriptionPedagogiqueRequestDTO.getIdModule());
                }
