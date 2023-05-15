@@ -5,11 +5,13 @@ import ma.enset.delibrations.dtos.responses.AnneeUnivResponseDTO;
 import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.entities.Semestre;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+@Component
 public class AnneeUnivMapper {
 
     public AnneeUnivResponseDTO fromEntityToResponseDTO(AnneeUniv anneeUniv){
