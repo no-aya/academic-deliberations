@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/inscriptionPedagogique")
+@RequestMapping("/api/inscription-pedagogique")
 public class InscriptionPedagogiqueController {
     private InscriptionpedagogiqueService inscriptionpedagogiqueService;
 
