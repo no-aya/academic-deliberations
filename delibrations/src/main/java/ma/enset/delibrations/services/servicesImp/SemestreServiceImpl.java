@@ -33,6 +33,11 @@ public class SemestreServiceImpl implements SemestreService {
 
     private AnneeUnivRepository anneeUnivRepository;
 
+    private String generateCode() {
+        //TODO: Generate code based on the "Module", "Filiere" and "Semestre" attributes
+        return "CODE"+System.currentTimeMillis();
+    }
+
     @Override
     public SemestreResponseDTO createSemestre(SemestreRequestDTO semestreRequestDTO) throws CannotProceedException, NoteSemestreNotFoundException {
         if (semestreRequestDTO != null) {
@@ -45,6 +50,7 @@ public class SemestreServiceImpl implements SemestreService {
                     NoteSemestre noteSemestre = noteSemestreService.getNoteSemestreById(noteSemestreId);
                     noteSemestres.add(noteSemestre);
                 }
+                semestre.setCode(generateCode());
                 semestre.setNoteSemestres(noteSemestres);
             }
             semestreRepository.save(semestre);

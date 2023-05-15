@@ -37,6 +37,7 @@ public class ElementServiceImpl implements ElementService {
     public ElementResponseDTO addElement(ElementRequestDTO elementRequestDTO) {
         Element element = elementRepository.findByCode(elementRequestDTO.getCode());
         if (element != null) throw new RuntimeException("Element with code "+elementRequestDTO.getCode()+" already exists");
+        if (elementRequestDTO.getCode() == null) elementRequestDTO.setCode(generateCode());
         Element savedElement = elementRepository.save(elementMapper.fromRequestDTOtoEntity(elementRequestDTO));
         return elementMapper.fromEntitytoResponseDTO(savedElement);
     }

@@ -34,6 +34,11 @@ public class ModuleServiceImpl implements ModuleService {
     private NoteModuleServiceImpl noteModuleService;
     private SemestreRepository semestreRepository;
 
+    private String generateCode() {
+        //TODO: Generate code based on the "Module", "Filiere" and "Semestre" attributes
+        return "CODE"+System.currentTimeMillis();
+    }
+
     @Override
     public ModuleResponseDTO createModule(ModuleRequestDTO moduleRequestDTO) throws NoteModuleNotFoundException, CannotProceedException {
        if(moduleRequestDTO!=null) {
@@ -45,6 +50,7 @@ public class ModuleServiceImpl implements ModuleService {
                    NoteModule noteModule =  noteModuleService.getNoteModuleById(idNoteModule);
                    noteModules.add(noteModule);
                }
+               module.setCode(generateCode());
                module.setNoteModules(noteModules);
            }
            moduleRepository.save(module);
