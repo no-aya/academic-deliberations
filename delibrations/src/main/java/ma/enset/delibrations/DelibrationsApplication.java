@@ -1,17 +1,8 @@
 package ma.enset.delibrations;
 
-import ma.enset.delibrations.entities.Element;
+import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
-import ma.enset.delibrations.entities.NoteSemestre;
-import ma.enset.delibrations.entities.NoteElement;
-import ma.enset.delibrations.entities.Professeur;
-import ma.enset.delibrations.entities.Semestre;
-import ma.enset.delibrations.repositories.ElementRepository;
-import ma.enset.delibrations.repositories.ModuleRepository;
-import ma.enset.delibrations.repositories.NoteSemestreRepository;
-import ma.enset.delibrations.repositories.NoteElementRepository;
-import ma.enset.delibrations.repositories.ProfesseurRepository;
-import ma.enset.delibrations.repositories.SemestreRepository;
+import ma.enset.delibrations.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,8 +20,8 @@ public class DelibrationsApplication {
     }
 
     @Bean
-    CommandLineRunner start(ProfesseurRepository professeurRepository,ModuleRepository moduleRepository,
-                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository) {
+    CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
+                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository) {
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -105,12 +96,35 @@ public class DelibrationsApplication {
                 note.setElement(element1);
                 note.setCreatedAt(new Date());
                 noteElementRepository.save(note);
-
                 element1.getNoteElement().add(note);
                 elementRepository.save(element1);
 
 
             });
+
+            //testing Departement
+            Stream.of("Departement1","Departement2","Departement3","Departement4","Departement5","Departement6","Departement7").forEach(departement->{
+                Departement depart = new Departement();
+                depart.setIntitule(departement);
+                depart.setCode(departement);
+                depart.setCreatedAt(new Date());
+                depart.setFilieres(filiereRepository.findAll());
+                departementRepository.save(depart);
+            });
+
+
+            Departement departement1 = departementRepository.findByCode("Departement1");
+            //testing Filiere
+            Stream.of("Filiere1","Filiere2","Filiere3").forEach(filiere->{
+                Filiere fil = new Filiere();
+                fil.setIntitule(filiere);
+                fil.setCode(filiere);
+                fil.setCreatedAt(new Date());
+                fil.setDepartement(departement1);
+                filiereRepository.save(fil);
+            });
+
+
         };
     }
 
