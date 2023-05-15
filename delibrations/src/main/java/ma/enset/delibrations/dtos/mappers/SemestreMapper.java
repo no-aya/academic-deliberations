@@ -48,8 +48,8 @@ public class SemestreMapper {
     //ResponseDTO Entity
     public SemestreResponseDTO fromEntityToResponseDTO(Semestre semestre){
         SemestreResponseDTO semestreResponseDTO = new SemestreResponseDTO();
-
         BeanUtils.copyProperties(semestre, semestreResponseDTO);
+        if (semestre.getNoteSemestres() == null) return semestreResponseDTO;
         semestreResponseDTO.setNoteSemestres(
                 semestre.getNoteSemestres()
                         .stream()

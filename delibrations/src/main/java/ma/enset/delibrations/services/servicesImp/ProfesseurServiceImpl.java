@@ -30,6 +30,7 @@ public class ProfesseurServiceImpl implements ProfesseurService {
     private ProfesseurMapper professeurMapper;
     private ElementMapper elementMapper;
     private ElementServiceImpl elementService;
+    private ElementRepository elementRepository;
 
     @Override
     public ProfesseurResponseDTO createProfesseur(ProfesseurRequestDTO professeurRequestDTO) throws CannotProceedException, ProfesseurNotFoundException, ElementNotFoundException {
@@ -37,9 +38,13 @@ public class ProfesseurServiceImpl implements ProfesseurService {
             Professeur professeur = professeurMapper.fromRequestDTOtoEntity(professeurRequestDTO);
             professeur.setCreatedAt(new Date());
             /*Element*/
-            for (Element element : professeur.getElementModules()) {
-                element.setProfesseur(professeur);
-                elementService.addElement(elementMapper.fromEntitytoRequestDTO(element));
+           if (professeurRequestDTO.getElementModules() != null) {
+               for (Long elementId : professeurRequestDTO.getElementModules()) {
+                   Element element = elementService.getElement(elementId);
+                   professeur.getElementModules().add(element);
+                   element.setProfesseur(professeur);
+                   elementRepository.save(element);
+               }
             }
             professeurRepository.save(professeur);
             return professeurMapper.fromEntityToResponseDTO(professeur);
