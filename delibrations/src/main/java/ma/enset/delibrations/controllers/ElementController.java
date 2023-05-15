@@ -30,7 +30,7 @@ public class ElementController {
        return null;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ElementResponseDTO createElement(@RequestBody ElementRequestDTO elementRequestDTO) throws ProfesseurNotFoundException {
         return elementService.addElement(elementRequestDTO);
     }

@@ -27,7 +27,7 @@ public class ModuleController {
             return  moduleService.getModule(id);
         return null;
     }
-    @PostMapping
+    @PostMapping("/add")
     public ModuleResponseDTO createModule(@RequestBody ModuleRequestDTO moduleRequestDTO){
         if(moduleRequestDTO!=null)
             return moduleService.createModule(moduleRequestDTO);

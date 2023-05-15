@@ -46,6 +46,7 @@ public class EtudiantServiceImp implements EtudiantService {
                 etudiant.setUpdatedOn(new Date());
                 if(etudiantRequestDTO.getCin()!=null) etudiant.setCin(etudiantRequestDTO.getCin());
                 if(etudiantRequestDTO.getApogee()!=null) etudiant.setApogee(etudiantRequestDTO.getApogee());
+                if(etudiantRequestDTO.getCne()!=null) etudiant.setCne(etudiantRequestDTO.getCne());
                 if(etudiantRequestDTO.getNom()!=null) etudiant.setNom(etudiantRequestDTO.getNom());
                 if(etudiantRequestDTO.getPrenom()!=null) etudiant.setPrenom(etudiantRequestDTO.getPrenom());
                 if(etudiantRequestDTO.getPhoto()!=null)etudiant.setPhoto(etudiantRequestDTO.getPhoto());
@@ -55,15 +56,15 @@ public class EtudiantServiceImp implements EtudiantService {
                 if(etudiantRequestDTO.getAdresse()!=null) etudiant.setAdresse(etudiantRequestDTO.getAdresse());
                 if(etudiantRequestDTO.getDateNaissance()!=null)  etudiant.setDateNaissance(etudiantRequestDTO.getDateNaissance());
                 if(etudiantRequestDTO.getSexe()!=null)  etudiant.setSexe(etudiantRequestDTO.getSexe());
-            }
 
-            if (etudiant==null) try {
+                etudiantRepository.save(etudiant);
+                return etudiantMapper.fromEtudiant(etudiant);
+            }
+            else try {
                 throw new CannotProceedException("Cannot update Etudiant "+id);
             } catch (CannotProceedException e) {
                 throw new RuntimeException(e);
             }
-            etudiantRepository.save(etudiant);
-            return etudiantMapper.fromEtudiant(etudiant);
         }
         throw new CannotProceedException("Cannot update Etudiant "+id);
     }
@@ -92,6 +93,7 @@ public class EtudiantServiceImp implements EtudiantService {
     @Override
     public void deleteEtudiant(String id) throws EtudiantNotFoundException {
         Etudiant etudiant = etudiantRepository.findById(id).orElseThrow(()-> new EtudiantNotFoundException(id));
+        etudiant.setUpdatedOn(new Date());
         if(etudiant!= null) etudiant.setSoftDelete(true);
     }
 }
