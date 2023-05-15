@@ -13,9 +13,11 @@ import java.util.List;
 @Entity
 @NoArgsConstructor @AllArgsConstructor @Data
 public class Module {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idModule;
-    private String code;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String idModule;
+
     private String intitule;
 
     @OneToMany(mappedBy = "module")
@@ -27,4 +29,12 @@ public class Module {
 
 
     private boolean softDelete = false;
+
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Semestre semestre;
+
+    @OneToMany(mappedBy = "module",fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Element> elements;
 }

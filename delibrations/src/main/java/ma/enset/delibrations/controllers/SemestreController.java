@@ -23,7 +23,7 @@ public class SemestreController {
 
     }
     @GetMapping("/{id}")
-    public SemestreResponseDTO getSemestre(@PathVariable Long id) throws SemestreNotFoundException {
+    public SemestreResponseDTO getSemestre(@PathVariable String id) throws SemestreNotFoundException {
         if(id!=null) return semestreService.getSemestre(id);
         return null;
     }
@@ -33,7 +33,7 @@ public class SemestreController {
         return null;
     }
     @PutMapping("/{id}")
-    public SemestreResponseDTO updateSemestre(@PathVariable Long id, @RequestBody SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException {
+    public SemestreResponseDTO updateSemestre(@PathVariable Long id, @RequestBody SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException {
         if(semestreRequestDTO!=null && id!=null)
             return semestreService.updateSemestre(id,semestreRequestDTO);
         return null;

@@ -16,10 +16,17 @@ public class Semestre {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
-
     private String libelle;
 
     @OneToMany(mappedBy = "semestre", fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<NoteSemestre> noteSemestres;
+
+    @OneToMany(mappedBy = "semestre", fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Module> modules;
+
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private AnneeUniv anneeUniv;
 }

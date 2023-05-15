@@ -13,4 +13,6 @@ public class SemestreResponseDTO {
     private String libelle;
 
     private Long[] noteSemestres;
+
+    private Long anneeUnivId;
 }

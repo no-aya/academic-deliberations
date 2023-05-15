@@ -16,6 +16,7 @@ public class Etudiant {
     @Id
     private String id;
     private String apogee;
+    private String cne;
     private String cin;
     private String nom;
     private String prenom;

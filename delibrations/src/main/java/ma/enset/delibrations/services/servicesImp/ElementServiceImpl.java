@@ -35,16 +35,11 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public ElementResponseDTO addElement(ElementRequestDTO elementRequestDTO) {
-        if (elementRequestDTO.getCode() == null) elementRequestDTO.setCode(generateCode());
-        else {
-            Element element = elementRepository.findByCode(elementRequestDTO.getCode());
-            if (element != null) throw new RuntimeException("Element with code "+elementRequestDTO.getCode()+" already exists");
-        }
+        Element element = elementRepository.findByCode(elementRequestDTO.getCode());
+        if (element != null) throw new RuntimeException("Element with code "+elementRequestDTO.getCode()+" already exists");
         Element savedElement = elementRepository.save(elementMapper.fromRequestDTOtoEntity(elementRequestDTO));
         return elementMapper.fromEntitytoResponseDTO(savedElement);
     }
-
-
 
     @Override
     public ElementResponseDTO updateElement(ElementRequestDTO elementRequestDTO) throws ElementNotFoundException, ProfesseurNotFoundException {
@@ -59,10 +54,12 @@ public class ElementServiceImpl implements ElementService {
                 element.setProfesseur(professeur);
             }
             elementRepository.save(element);
+
             ElementResponseDTO elementResponseDTO=elementMapper.fromEntitytoResponseDTO(element);
             if (element.getProfesseur() != null){
                 elementResponseDTO.setProfesseur(element.getProfesseur().getId());
             }
+
             return elementResponseDTO;
         }
     }
