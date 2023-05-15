@@ -3,6 +3,7 @@ package ma.enset.delibrations.dtos.requests;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.enset.delibrations.entities.AnneeUniv;
 
 @Data
 @AllArgsConstructor
@@ -11,6 +12,8 @@ public class SemestreRequestDTO {
     private String code;
     private String libelle;
     private Long[] noteSemestres;
+
+    private Long anneeUnivId;
 
     /*Request syntax:
     {

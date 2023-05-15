@@ -4,15 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SemestreResponseDTO {
+public class FiliereResponseDTO {
     private Long id;
     private String code;
-    private String libelle;
+    private String intitule;
+    private Long departementId;
 
-    private Long[] noteSemestres;
+    /*
+        TODO add modules
+     */
 
-    private Long anneeUnivId;
+    private Date createdAt;
+    private Date updatedAt;
 }

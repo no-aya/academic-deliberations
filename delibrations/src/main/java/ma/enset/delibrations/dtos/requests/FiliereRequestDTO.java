@@ -1,18 +1,19 @@
-package ma.enset.delibrations.dtos.responses;
+package ma.enset.delibrations.dtos.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SemestreResponseDTO {
+public class FiliereRequestDTO {
     private Long id;
     private String code;
-    private String libelle;
+    private String intitule;
+    private Long departementId;
 
-    private Long[] noteSemestres;
-
-    private Long anneeUnivId;
 }
