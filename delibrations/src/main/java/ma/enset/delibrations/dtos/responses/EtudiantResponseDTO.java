@@ -14,6 +14,7 @@ public class EtudiantResponseDTO {
     private String id;
     private String cin;
     private String apogee;
+    private String cne;
     private String nom;
     private String prenom;
     private String photo;

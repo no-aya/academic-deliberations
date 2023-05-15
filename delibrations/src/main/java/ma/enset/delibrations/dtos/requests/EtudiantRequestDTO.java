@@ -13,6 +13,7 @@ import java.util.Date;
 public class EtudiantRequestDTO {
     private String cin;
     private String apogee;
+    private String cne;
     private String nom;
     private String prenom;
     private String photo;

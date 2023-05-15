@@ -4,4 +4,5 @@ import ma.enset.delibrations.entities.Etudiant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EtudiantRepository extends JpaRepository<Etudiant,String> {
+    Etudiant findByIdAndSoftDeleteIsFalse(String id);
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class EtudiantController {
     private EtudiantService etudiantService;
 
-    @GetMapping("/etudiants")
+    @GetMapping("/all")
     public List<EtudiantResponseDTO>  getAllEtudiants(){
         return etudiantService.getEtudiants();
     }
@@ -27,7 +27,7 @@ public class EtudiantController {
         return null;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public EtudiantResponseDTO createEtudiant(@RequestBody EtudiantRequestDTO etudiantRequestDTO){
         if(etudiantRequestDTO!=null) return etudiantService.createEtudiant(etudiantRequestDTO);
         return null;

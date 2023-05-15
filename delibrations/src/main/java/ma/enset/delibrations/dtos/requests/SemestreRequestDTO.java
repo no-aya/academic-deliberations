@@ -9,7 +9,6 @@ import ma.enset.delibrations.entities.AnneeUniv;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SemestreRequestDTO {
-
     private String code;
     private String libelle;
     private Long[] noteSemestres;
