@@ -18,7 +18,7 @@ public class DelibrationsApplication {
     public static void main(String[] args) {
         SpringApplication.run(DelibrationsApplication.class, args);
     }
-/*
+
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
                             ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository) {
@@ -126,6 +126,6 @@ public class DelibrationsApplication {
 
 
         };
-    }*/
+    }
 
 }

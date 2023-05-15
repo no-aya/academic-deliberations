@@ -13,7 +13,7 @@ public class NoteModuleMapper {
     public NoteModuleResponseDTO fromEntitytoResponseDTO(NoteModule noteModule){
         NoteModuleResponseDTO noteModuleResponseDTO = new NoteModuleResponseDTO();
         BeanUtils.copyProperties(noteModule, noteModuleResponseDTO);
-        noteModuleResponseDTO.setIdModule(noteModule.getModule().getIdModule());
+        noteModuleResponseDTO.setIdModule(noteModule.getModule().getId());
         return  noteModuleResponseDTO;
     }
 
@@ -21,7 +21,7 @@ public class NoteModuleMapper {
         NoteModule noteModule = new NoteModule();
         BeanUtils.copyProperties(noteModuleResponseDTO, noteModule);
         Module module = new Module();
-        module.setIdModule(noteModuleResponseDTO.getIdModule());
+        module.setId(noteModuleResponseDTO.getId());
         noteModule.setModule(module);
         return noteModule;
     }
@@ -30,7 +30,7 @@ public class NoteModuleMapper {
     public NoteModuleRequestDTO fromEntitytoRequestDTO(NoteModule noteModule){
         NoteModuleRequestDTO noteModuleRequestDTO = new NoteModuleRequestDTO();
         BeanUtils.copyProperties(noteModule, noteModuleRequestDTO);
-        noteModuleRequestDTO.setIdModule(noteModule.getModule().getIdModule());
+        noteModuleRequestDTO.setIdModule(noteModule.getModule().getId());
         return noteModuleRequestDTO;
     }
 
@@ -38,7 +38,7 @@ public class NoteModuleMapper {
         NoteModule noteModule = new NoteModule();
         BeanUtils.copyProperties(noteModuleRequestDTO, noteModule);
         Module module = new Module();
-        module.setIdModule(noteModuleRequestDTO.getIdModule());
+        module.setId(noteModuleRequestDTO.getId());
         noteModule.setModule(module);
         return noteModule;
     }

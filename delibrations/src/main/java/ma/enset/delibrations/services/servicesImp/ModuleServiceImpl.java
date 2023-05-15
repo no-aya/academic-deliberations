@@ -56,7 +56,7 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public ModuleResponseDTO updateModule(Long id,ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException, NoteModuleNotFoundException, SemestreNotFoundException {
         if(id != null && moduleRequestDTO != null) {
-            Module module = moduleRepository.findByIdModuleAndSoftDeleteIsFalse(id);
+            Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(id);
             if (module == null) throw new ModuleNotFoundException(id);
             if(moduleRequestDTO.getCode()!=null)module.setCode(moduleRequestDTO.getCode());
             if (moduleRequestDTO.getIntitule() != null) module.setIntitule(moduleRequestDTO.getIntitule());
@@ -102,7 +102,7 @@ public class ModuleServiceImpl implements ModuleService {
 
     public ModuleResponseDTO getModule(Long id) throws ModuleNotFoundException{
         if(id == null) return null;
-        Module module = moduleRepository.findByIdModuleAndSoftDeleteIsFalse(id);
+        Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(id);
         if(module == null) throw  new ModuleNotFoundException(id);
         return moduleMapper.fromEntitytoResponseDTO(module);
     }
@@ -126,7 +126,7 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public void deleteModule(Long id) throws ModuleNotFoundException{
-        Module module = moduleRepository.findByIdModuleAndSoftDeleteIsFalse(id);
+        Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(id);
         if(module == null) throw new ModuleNotFoundException(id);
         else
             module.setSoftDelete(true);

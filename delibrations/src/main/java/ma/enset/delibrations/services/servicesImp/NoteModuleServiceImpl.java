@@ -91,7 +91,7 @@ public class NoteModuleServiceImpl implements NoteModuleService {
         for(NoteModule noteModule : noteModules){
             NoteModuleResponseDTO noteModuleResponseDTO ;
             noteModuleResponseDTO = noteModuleMapper.fromEntitytoResponseDTO(noteModule);
-            if(noteModule.getModule() !=null) noteModuleResponseDTO.setIdModule(noteModule.getModule().getIdModule());
+            if(noteModule.getModule() !=null) noteModuleResponseDTO.setIdModule(noteModule.getModule().getId());
             noteModulesResponses.add(noteModuleResponseDTO);
         }
         return noteModulesResponses;
