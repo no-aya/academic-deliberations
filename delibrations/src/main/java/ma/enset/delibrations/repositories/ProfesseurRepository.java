@@ -8,5 +8,6 @@ import java.util.List;
 public interface ProfesseurRepository extends JpaRepository<Professeur,Long> {
     Professeur findByNom(String nom);
     Professeur findByIdAndSoftDeleteIsFalse(Long id);
+    Professeur findByCinAndSoftDeleteIsFalse(String id);
     List<Professeur> findBySoftDeleteIsFalse();
 }

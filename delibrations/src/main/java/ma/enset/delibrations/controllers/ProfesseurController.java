@@ -25,7 +25,7 @@ public class ProfesseurController {
     }
 
     @GetMapping("/{id}")
-    public ProfesseurResponseDTO getProfesseur(@PathVariable Long id) throws ProfesseurNotFoundException {
+    public ProfesseurResponseDTO getProfesseur(@PathVariable String id) throws ProfesseurNotFoundException {
         if(id!=null) return professeurService.getProfesseur(id);
         return null;
     }
@@ -37,14 +37,14 @@ public class ProfesseurController {
     }
 
     @PutMapping("/{id}")
-    public ProfesseurResponseDTO updateProfesseur(@PathVariable Long id, @RequestBody ProfesseurRequestDTO professeurRequestDTO) throws ProfesseurNotFoundException, ElementNotFoundException {
+    public ProfesseurResponseDTO updateProfesseur(@PathVariable String id, @RequestBody ProfesseurRequestDTO professeurRequestDTO) throws ProfesseurNotFoundException, ElementNotFoundException {
         if(professeurRequestDTO!=null && id!=null)
             return professeurService.updateProfesseur(id, professeurRequestDTO);
         return null;
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteProfesseur(@PathVariable Long id) throws ProfesseurNotFoundException {
+    public Boolean deleteProfesseur(@PathVariable String id) throws ProfesseurNotFoundException {
         if(id!=null) {
             professeurService.deleteProfesseur(id);
             return true;

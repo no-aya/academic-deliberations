@@ -21,10 +21,10 @@ public class Module {
     private String intitule;
 
     @OneToMany(mappedBy = "module")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<NoteModule> noteModules;
 
-    @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne @JoinColumn(name = "idSemestre")
     private Semestre semestre;
 
 
@@ -33,4 +33,12 @@ public class Module {
     @OneToMany(mappedBy = "module",fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Element> elements;
+
+
+    @OneToMany(mappedBy = "module",fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    List<InscriptionPedagogique> inscriptionPedagogiques;
+
+    @ManyToOne @JoinColumn(name = "idFiliere")
+    Filiere filiere;
 }

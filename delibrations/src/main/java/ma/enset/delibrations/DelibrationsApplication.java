@@ -33,18 +33,20 @@ public class DelibrationsApplication {
                 elementRepository.save(element);
             });
 
+            AtomicInteger c = new AtomicInteger();
             //Testing Professeur
             Stream.of("Professeur1","Professeur2","Professeur3","Professeur4","Professeur5","Professeur6","Professeur7","Professeur8","Professeur9","Professeur10").forEach(professeur->{
                 Professeur prof = new Professeur();
                 prof.setNom(professeur);
                 prof.setPrenom(professeur);
-                prof.setCin("EE929292");
+                prof.setCin("EE929292"+c.getAndIncrement());
                 prof.setEmail(professeur+"@gmail.com");
                 prof.setTelephone("0606060606");
                 prof.setAdresse("Adresse "+professeur);
                 prof.setCreatedAt(new Date());
                 prof.setElementModules(elementRepository.findAll());
                 professeurRepository.save(prof);
+
             });
 
             Element element = elementRepository.findByCode("CODE1");

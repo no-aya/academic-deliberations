@@ -9,6 +9,7 @@ import ma.enset.delibrations.dtos.responses.AnneeUnivResponseDTO;
 import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.entities.Semestre;
 import ma.enset.delibrations.exceptions.AnneeUnivNotFoundException;
+import ma.enset.delibrations.exceptions.EtudiantNotFoundException;
 import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
 import ma.enset.delibrations.exceptions.SemestreNotFoundException;
 import ma.enset.delibrations.repositories.AnneeUnivRepository;
@@ -34,11 +35,12 @@ public class AnneeUnivServiceImpl implements AnneeUnivService {
     public AnneeUnivResponseDTO createAnneeUniv(AnneeUnivRequestDTO anneeUnivRequestDTO) throws CannotProceedException, NoteSemestreNotFoundException {
         if (anneeUnivRequestDTO != null){
             AnneeUniv anneeUniv = anneeUnivMapper.fromRequestDTOtoEntity(anneeUnivRequestDTO);
-
-            for(Semestre semestre : anneeUniv.getSemestres()) {
-                semestre.setAnneeUniv(anneeUniv);
-                semestreService.createSemestre(semestreMapper.fromEntitytoRequestDTO(semestre));
-            }
+             if (anneeUnivRequestDTO.getSemestres()!=null){
+                 for(Semestre semestre : anneeUniv.getSemestres()) {
+                     semestre.setAnneeUniv(anneeUniv);
+                     semestreService.createSemestre(semestreMapper.fromEntitytoRequestDTO(semestre));
+                 }
+             }
             anneeUnivRepository.save(anneeUniv);
             return anneeUnivMapper.fromEntityToResponseDTO(anneeUniv);
         }
@@ -48,7 +50,7 @@ public class AnneeUnivServiceImpl implements AnneeUnivService {
     @Override
     public AnneeUnivResponseDTO updateAnneeUniv(Long id, AnneeUnivRequestDTO anneeUnivRequestDTO) throws AnneeUnivNotFoundException, SemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, NoteSemestreNotFoundException {
         if (id != null && anneeUnivRequestDTO != null){
-            AnneeUniv anneeUniv = anneeUnivRepository.findById(id).orElse(null);
+            AnneeUniv anneeUniv = anneeUnivRepository.findById(id).orElseThrow(()->new AnneeUnivNotFoundException(id));
             if (anneeUniv == null) throw new AnneeUnivNotFoundException(id);
             if (anneeUnivRequestDTO.getCodeAnnee() != null) anneeUniv.setCodeAnnee(anneeUnivRequestDTO.getCodeAnnee());
             if (anneeUnivRequestDTO.getDateDebut() != null) anneeUniv.setDateDebut(anneeUnivRequestDTO.getDateDebut());
@@ -58,13 +60,13 @@ public class AnneeUnivServiceImpl implements AnneeUnivService {
                 List<Semestre> semestres = new ArrayList<>();
                 for (Long semestreId : semestresIds){
                     Semestre semestre = semestreService.getSemestre(semestreId);
-                    if (semestre == null) throw new SemestreNotFoundException(semestreId);
+                    if (semestre == null) throw new SemestreNotFoundException(semestre.getCode());
                     semestres.add(semestre);
                 }
                 anneeUniv.setSemestres(semestres);
                 for (Semestre semestre : semestres){
                     semestre.setAnneeUniv(anneeUniv);
-                    semestreService.updateSemestre(semestre.getId(),semestreMapper.fromEntitytoRequestDTO(semestre));
+                    semestreService.updateSemestre(semestre.getCode(),semestreMapper.fromEntitytoRequestDTO(semestre));
                 }
             }
             anneeUnivRepository.save(anneeUniv);
@@ -86,7 +88,7 @@ public class AnneeUnivServiceImpl implements AnneeUnivService {
     @Override
     public void deleteAnneeUniv(Long id) throws AnneeUnivNotFoundException {
         if (id != null){
-            AnneeUniv anneeUniv = anneeUnivRepository.findById(id).orElse(null);
+            AnneeUniv anneeUniv = anneeUnivRepository.findById(id).orElseThrow(()->new AnneeUnivNotFoundException(id));
             if (anneeUniv == null) throw new AnneeUnivNotFoundException(id);
             anneeUnivRepository.delete(anneeUniv);
         }

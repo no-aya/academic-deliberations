@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EtudiantResponseDTO {
-    private String id;
+    private Long id;
     private String cin;
     private String apogee;
     private String cne;

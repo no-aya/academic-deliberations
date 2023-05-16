@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -21,12 +22,18 @@ public class NoteModule {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
+    @JoinColumn(name = "idModule")
     private Module module;
 
     @Temporal(TemporalType.DATE)
     private Date createdAt;
     @Temporal(TemporalType.DATE)
     private Date updatedOn;
+
+    @OneToMany(mappedBy = "noteModule")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    List<InscriptionPedagogique> inscriptionPedagogiques;
+
 
 
 

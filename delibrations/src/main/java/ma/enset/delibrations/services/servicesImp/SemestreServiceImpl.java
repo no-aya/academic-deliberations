@@ -60,10 +60,10 @@ public class SemestreServiceImpl implements SemestreService {
     }
 
     @Override
-    public SemestreResponseDTO updateSemestre(Long id, SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException {
+    public SemestreResponseDTO updateSemestre(String id, SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException {
 
         if(id!=null && semestreRequestDTO!=null) {
-            Semestre semestre = semestreRepository.findById(id).orElse(null);
+            Semestre semestre = semestreRepository.findByCode(id);
             if(semestre==null) throw  new SemestreNotFoundException(id);
             if(semestreRequestDTO.getCode()!=null) semestre.setCode(semestreRequestDTO.getCode());
             if (semestreRequestDTO.getLibelle()!=null) semestre.setLibelle(semestreRequestDTO.getLibelle());
@@ -114,11 +114,14 @@ public class SemestreServiceImpl implements SemestreService {
     }
 
     @Override
-    public void deleteSemestre(Long id) throws SemestreNotFoundException {
+    public void deleteSemestre(String id) throws SemestreNotFoundException {
         if (id != null) {
-            semestreRepository.deleteById(id);
-        }else {
-            throw new SemestreNotFoundException(id);
+            Semestre semestre = semestreRepository.findByCode(id);
+            if (semestre != null) {
+                semestreRepository.delete(semestre);
+            } else {
+                throw new SemestreNotFoundException(id);
+            }
         }
     }
 

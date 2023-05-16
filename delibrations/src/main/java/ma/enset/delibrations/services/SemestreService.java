@@ -13,9 +13,9 @@ import java.util.List;
 public interface SemestreService {
 
     SemestreResponseDTO createSemestre(SemestreRequestDTO semestreResponseDTO) throws CannotProceedException, NoteSemestreNotFoundException;
-    SemestreResponseDTO updateSemestre(Long id, SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException;
+    SemestreResponseDTO updateSemestre(String id, SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException;
     SemestreResponseDTO getSemestre(String code) throws SemestreNotFoundException;
-    void deleteSemestre(Long id) throws SemestreNotFoundException;
+    void deleteSemestre(String id) throws SemestreNotFoundException;
     List<SemestreResponseDTO> getSemestres();
     SemestreResponseDTO getSemestreByCode(String code);
 

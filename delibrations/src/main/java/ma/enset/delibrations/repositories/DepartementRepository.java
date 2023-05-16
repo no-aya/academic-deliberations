@@ -12,6 +12,7 @@ public interface DepartementRepository extends JpaRepository<Departement,Long> {
     Departement findById(String Id);
 
     Departement findByIdAndSoftDeleteIsFalse(Long id);
+    Departement findByCodeAndSoftDeleteIsFalse(String code);
     List<Departement> findBySoftDeleteIsFalse();
 
 }

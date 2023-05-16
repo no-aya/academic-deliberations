@@ -1,19 +1,19 @@
 package ma.enset.delibrations.controllers;
 
+import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.AnneeUnivRequestDTO;
 import ma.enset.delibrations.dtos.responses.AnneeUnivResponseDTO;
 import ma.enset.delibrations.exceptions.AnneeUnivNotFoundException;
 import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
 import ma.enset.delibrations.exceptions.SemestreNotFoundException;
 import ma.enset.delibrations.services.AnneeUnivService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.CannotProceedException;
 import java.util.List;
-
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/annee-univ")
 public class AnneeUnivController {
 
     private AnneeUnivService anneeUnivService;

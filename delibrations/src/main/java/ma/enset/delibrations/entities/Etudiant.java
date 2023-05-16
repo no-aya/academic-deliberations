@@ -1,5 +1,6 @@
 package ma.enset.delibrations.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,13 +9,14 @@ import lombok.NoArgsConstructor;
 import ma.enset.delibrations.entities.enums.Sexe;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor  @NoArgsConstructor @Builder
 public class Etudiant {
-    @Id
-    private String id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String apogee;
     private String cne;
     private String cin;
@@ -38,4 +40,14 @@ public class Etudiant {
     private boolean softDelete = false; //Dans le cas de suppression d'un etudiant on va pas le supprimer definitivement dans la BD. On va le garder au niveau de la BD mais on va pas l'afficher au niveau front end
 
 
+    //Inscription pedagogique de l'etudiant Max 2
+    @OneToMany(mappedBy = "etudiant", fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<InscriptionPedagogique> inscriptionPedagogique;
+
+    //Filiere
+    @ManyToOne
+    @JoinColumn(name = "idFiliere")
+    private Filiere filiere;
 }
+

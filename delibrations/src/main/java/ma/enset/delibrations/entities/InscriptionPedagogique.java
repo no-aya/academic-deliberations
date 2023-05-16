@@ -29,9 +29,9 @@ public class InscriptionPedagogique {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Module module;
 
-   /* @ManyToOne
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private NoteModule noteModule;*/
+    private NoteModule noteModule;
 
     @ManyToOne @JoinColumn(name = "idNoteModule")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
