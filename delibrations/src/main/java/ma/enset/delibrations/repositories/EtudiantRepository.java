@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface EtudiantRepository extends JpaRepository<Etudiant,Long> {
-    Etudiant findByIdAndSoftDeleteIsFalse(String id);
+    Etudiant findByIdAndSoftDeleteIsFalse(Long id);
     Etudiant findByApogeeAndSoftDeleteIsFalse(String code);
     List<Etudiant> findBySoftDeleteIsFalse();
 }

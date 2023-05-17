@@ -13,7 +13,7 @@ public class NoteModuleMapper {
     public NoteModuleResponseDTO fromEntitytoResponseDTO(NoteModule noteModule){
         NoteModuleResponseDTO noteModuleResponseDTO = new NoteModuleResponseDTO();
         BeanUtils.copyProperties(noteModule, noteModuleResponseDTO);
-        noteModuleResponseDTO.setIdModule(noteModule.getModule().getId());
+        //noteModuleResponseDTO.setIdModule(noteModule.getModule().getId());
         return  noteModuleResponseDTO;
     }
 

@@ -7,7 +7,9 @@ import ma.enset.delibrations.dtos.requests.NoteModuleRequestDTO;
 import ma.enset.delibrations.dtos.responses.NoteModuleResponseDTO;
 import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.entities.NoteModule;
+import ma.enset.delibrations.exceptions.ModuleNotFoundException;
 import ma.enset.delibrations.exceptions.NoteModuleNotFoundException;
+import ma.enset.delibrations.exceptions.SemestreNotFoundException;
 import ma.enset.delibrations.repositories.ModuleRepository;
 import ma.enset.delibrations.repositories.NoteModuleRepository;
 import ma.enset.delibrations.services.NoteModuleService;
@@ -29,11 +31,12 @@ public class NoteModuleServiceImpl implements NoteModuleService {
     private ModuleRepository moduleRepository;
 
     @Override
-    public NoteModuleResponseDTO createNoteModule(NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException {
+    public NoteModuleResponseDTO createNoteModule(NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException, ModuleNotFoundException {
         if (noteModuleRequestDTO != null) {
             NoteModule noteModule = new NoteModule();
             BeanUtils.copyProperties(noteModuleRequestDTO, noteModule);
             noteModule.setCreatedAt(new Date());
+            if (noteModuleRequestDTO.getIdModule()==null) throw new ModuleNotFoundException("required");
             if (noteModuleRequestDTO.getIdModule() != null) {
                 Module module = moduleRepository.findById(noteModuleRequestDTO.getIdModule()).orElseThrow(() -> new NoteModuleNotFoundException(noteModuleRequestDTO.getId()));
                 noteModule.setModule(module);
@@ -47,23 +50,23 @@ public class NoteModuleServiceImpl implements NoteModuleService {
 
 
     @Override
-    public NoteModuleResponseDTO updateNoteModule(NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException {
-        if (noteModuleRequestDTO.getIdModule() !=null) {
-            NoteModule noteModule = noteModuleRepository.findById(noteModuleRequestDTO.getIdModule()).orElseThrow(() -> new NoteModuleNotFoundException(noteModuleRequestDTO.getId()));
-
+    public NoteModuleResponseDTO updateNoteModule(NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException, ModuleNotFoundException {
+        if (noteModuleRequestDTO.getId() !=null) {
+            NoteModule noteModule = noteModuleRepository.findById(noteModuleRequestDTO.getId()).orElseThrow(() -> new NoteModuleNotFoundException(noteModuleRequestDTO.getId()));
+            if (noteModuleRequestDTO.getIdModule()==null) throw new ModuleNotFoundException("required");
                 if (noteModuleRequestDTO.getNoteSession1() != 0.0)
                     noteModule.setNoteSession1(noteModuleRequestDTO.getNoteSession1());
                 if (noteModuleRequestDTO.getNoteSession2() != 0.0)
                     noteModule.setNoteSession2(noteModuleRequestDTO.getNoteSession2());
                 if (noteModuleRequestDTO.getIdModule() != null) {
-                    Module module = moduleRepository.findById(noteModuleRequestDTO.getIdModule()).orElseThrow(() -> new NoteModuleNotFoundException(noteModuleRequestDTO.getId()));
+                    Module module = moduleRepository.findById(noteModuleRequestDTO.getIdModule()).orElseThrow(() -> new ModuleNotFoundException(noteModuleRequestDTO.getId()));
                     noteModule.setModule(module);
                 }
                 noteModule.setUpdatedOn(new Date());
                 noteModuleRepository.save(noteModule);
                 return noteModuleMapper.fromEntitytoResponseDTO(noteModule);
 
-            } else throw new NoteModuleNotFoundException(noteModuleRequestDTO.getIdModule());
+            } else throw new NoteModuleNotFoundException(noteModuleRequestDTO.getId());
 
     }
 

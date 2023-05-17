@@ -29,11 +29,11 @@ public class InscriptionPedagogique {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Module module;
 
-    @ManyToOne
+    @ManyToOne @JoinColumn(name = "idNoteModule")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private NoteModule noteModule;
 
-    @ManyToOne @JoinColumn(name = "idNoteModule")
+    @ManyToOne @JoinColumn(name = "idNoteElement")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private NoteElement noteElement;
 

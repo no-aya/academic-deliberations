@@ -33,6 +33,7 @@ public class NoteElementServiceImpl implements NoteElementService {
     public NoteElementResponseDTO createNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws ElementNotFoundException {
         NoteElement noteElement = noteElementMapper.fromRequestDTOtoEntity(noteElementRequestDTO);
         //Check if the element exists
+
         Element element = elementRepository.findById(noteElementRequestDTO.getIdElement()).orElseThrow(()-> new ElementNotFoundException(noteElementRequestDTO.getIdElement()+" not found"));
         //TODO: Check InscriptionPédagogique
         noteElement.setElement(element);

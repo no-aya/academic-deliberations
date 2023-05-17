@@ -9,7 +9,7 @@ import ma.enset.delibrations.exceptions.NoteModuleNotFoundException;
 import java.util.List;
 
 public interface NoteModuleService {
-    NoteModuleResponseDTO createNoteModule(NoteModuleRequestDTO noteModuleDTO ) throws NoteModuleNotFoundException;
+    NoteModuleResponseDTO createNoteModule(NoteModuleRequestDTO noteModuleDTO ) throws NoteModuleNotFoundException, ModuleNotFoundException;
 
     NoteModuleResponseDTO updateNoteModule(NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException,ModuleNotFoundException;
 

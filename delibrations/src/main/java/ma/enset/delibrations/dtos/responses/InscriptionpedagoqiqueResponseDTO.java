@@ -11,7 +11,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class InscriptionpedagoqiqueResponseDTO {
     private Long id;
-
     private Date createdAt; //date creation de l'etudiant dans la base de donnée
     private Date updatedOn; //date modification de l'un des attributs de l'étudiant dans la BD
+
+    private Long idEtudiant;
+    private Long idNoteElement;
+    private Long idNoteModule;
+    private Long idNoteSemestre;
+    private Long idModule;
+
 }
