@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InscriptionPedagogiqueRequestDTO {
     private String idEtudiant;
-    private Long idNoteElement;
-    private String idNoteModule;
-    private Long idNoteSemestre;
     private String idModule;
+    private Long idNoteElement;
+    private Long idNoteModule;
+    private Long idNoteSemestre;
 }
