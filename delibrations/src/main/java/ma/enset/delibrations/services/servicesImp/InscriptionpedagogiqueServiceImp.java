@@ -26,17 +26,18 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
     private EtudiantRepository etudiantRepository;
     private NoteElementRepository noteElementRepository;
     private NoteSemestreRepository noteSemestreRepository;
+    private  NoteModuleRepository noteModuleRepository;
 
 
     @Override
-    public InscriptionpedagoqiqueResponseDTO createInscriptionpedagogique(InscriptionPedagogiqueRequestDTO inscriptionPedagogiqueRequestDTO) throws  EtudiantNotFoundException, ModuleNotFoundException, NoteElementNotFoundException {
+    public InscriptionpedagoqiqueResponseDTO createInscriptionpedagogique(InscriptionPedagogiqueRequestDTO inscriptionPedagogiqueRequestDTO) throws EtudiantNotFoundException, ModuleNotFoundException, NoteElementNotFoundException, NoteModuleNotFoundException {
 
         if(inscriptionPedagogiqueRequestDTO!=null){
             InscriptionPedagogique inscription = new InscriptionPedagogique();
             inscription.setCreatedAt(new Date());
 
            if(inscriptionPedagogiqueRequestDTO.getIdEtudiant()!=null){
-               Etudiant etudiant = etudiantRepository.findByIdAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
+               Etudiant etudiant = etudiantRepository.findByApogeeAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
                if(etudiant!=null) inscription.setEtudiant(etudiant);
                else throw new EtudiantNotFoundException(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
            }
@@ -58,7 +59,13 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
 
             }
 
-            //Note Module à faire (pas encore creer)
+            if(inscriptionPedagogiqueRequestDTO.getIdNoteModule()!=null){
+                NoteModule noteModule = noteModuleRepository.findById(inscriptionPedagogiqueRequestDTO.getIdNoteModule()).orElse(null);
+
+                if(noteModule!=null) inscription.setNoteModule(noteModule);
+                else throw new NoteModuleNotFoundException(inscriptionPedagogiqueRequestDTO.getIdNoteModule());
+
+            }
 
             inscriptionPedagogiqueRepository.save(inscription);
 
@@ -70,7 +77,7 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
     }
 
     @Override
-    public InscriptionpedagoqiqueResponseDTO updateInscriptionpedagogique(Long id, InscriptionPedagogiqueRequestDTO inscriptionPedagogiqueRequestDTO) throws InscriptionPedagogiqueNotFoundException, EtudiantNotFoundException, ModuleNotFoundException, NoteElementNotFoundException, NoteSemestreNotFoundException {
+    public InscriptionpedagoqiqueResponseDTO updateInscriptionpedagogique(Long id, InscriptionPedagogiqueRequestDTO inscriptionPedagogiqueRequestDTO) throws InscriptionPedagogiqueNotFoundException, EtudiantNotFoundException, ModuleNotFoundException, NoteElementNotFoundException, NoteSemestreNotFoundException, NoteModuleNotFoundException {
        if(id!=null && inscriptionPedagogiqueRequestDTO!=null){
            InscriptionPedagogique inscription = inscriptionPedagogiqueRepository.findById(id).orElseThrow(()->new InscriptionPedagogiqueNotFoundException(id) );
 
@@ -78,7 +85,7 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
                inscription.setUpdatedOn(new Date());
 
                if(inscriptionPedagogiqueRequestDTO.getIdEtudiant()!=null) {
-                    Etudiant etudiant = etudiantRepository.findByIdAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
+                    Etudiant etudiant = etudiantRepository.findByApogeeAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
                     if(etudiant!=null) inscription.setEtudiant(etudiant);
                     else throw new EtudiantNotFoundException(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
                }
@@ -103,14 +110,12 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
                    else throw new  NoteSemestreNotFoundException(inscriptionPedagogiqueRequestDTO.getIdNoteSemestre());
                }
 
-               /*
-               class note module pas encore creer - la meme procedure
-               if(inscriptionPedagogiqueRequestDTO.getIdNoteSemestre()!=null) {
-                   NoteSemestre noteSemestre = noteSemestreRepository.findById(inscriptionPedagogiqueRequestDTO.getIdNoteSemestre()).orElse(null);
+               if(inscriptionPedagogiqueRequestDTO.getIdNoteModule()!=null) {
+                   NoteModule noteModule = noteModuleRepository.findById(inscriptionPedagogiqueRequestDTO.getIdNoteModule()).orElse(null);
 
-                   if(noteSemestre!=null) inscription.setNoteSemestre(noteSemestre);
-                   else throw new  NoteSemestreNotFoundException(inscriptionPedagogiqueRequestDTO.getIdNoteSemestre());
-               }*/
+                   if(noteModule!=null) inscription.setNoteModule(noteModule);
+                   else throw new  NoteModuleNotFoundException(inscriptionPedagogiqueRequestDTO.getIdNoteModule());
+               }
 
                inscriptionPedagogiqueRepository.save(inscription);
                return inscriptionPedagogiqueMapper.fromInscriptionPedagogique(inscription);

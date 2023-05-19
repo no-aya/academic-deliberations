@@ -22,7 +22,9 @@ public class DelibrationsApplication {
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
                             ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
-                            AnneeUnivRepository anneeUnivRepository) {
+                            AnneeUnivRepository anneeUnivRepository,
+                            InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
+                            EtudiantRepository etudiantRepository) {
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -68,12 +70,12 @@ public class DelibrationsApplication {
                 System.out.println(e.getCode() + " " + e.getTitre());
             });
             //Testing Module
-            /*Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
+            Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
                 Module module1 = new Module();
-                module1.setIdModule(module+"ID");
+                module1.setCode(module+"ID");
                 module1.setIntitule(module);
                 moduleRepository.save(module1);
-            });*/
+            });
             //Testing Semestre
             Stream.of("Semestre1","Semestre2","Semestre3","Semestre4","Semestre5","Semestre6","Semestre7","Semestre8","Semestre9","Semestre10").forEach(semestre->{
                 Semestre sem = new Semestre();
@@ -89,7 +91,7 @@ public class DelibrationsApplication {
                 note.setNoteSession1(10.0F);
                 noteSemestreRepository.save(note);
             });
-          
+
             Element element1 = elementRepository.findByCode("CODE1");
             //Testing NoteElement
             Stream.of(15.2,15.3,12.4, 14.5, 16.5, 17.5, 18.5, 19.5, 20.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0).forEach(noteElement->{
@@ -103,6 +105,19 @@ public class DelibrationsApplication {
                 elementRepository.save(element1);
 
 
+            });
+
+            //Testing Etudiant
+            Stream.of("Etudiant1","Etudiant2","Etudiant3","Etudiant4","Etudiant5","Etudiant6","Etudiant7","Etudiant8","Etudiant9","Etudiant10").forEach(etudiant->{
+                Etudiant etud = new Etudiant();
+                etud.setNom(etudiant);
+                etud.setPrenom(etudiant);
+                etud.setCne("EE929292"+c.getAndIncrement());
+                etud.setEmail(etudiant+"@gmail.com");
+                etud.setTelephone("0606060606");
+                etud.setAdresse("Adresse "+etudiant);
+                etud.setCreatedAt(new Date());
+                etudiantRepository.save(etud);
             });
 
             //testing Departement
@@ -137,6 +152,17 @@ public class DelibrationsApplication {
                 anne.setDateFin(new Date());
                 anneeUnivRepository.save(anne);
             });
+
+
+            //Testing InscriptionPedagogique
+            Stream.of("InscriptionPedagogique1","InscriptionPedagogique2","InscriptionPedagogique3","InscriptionPedagogique4","InscriptionPedagogique5","InscriptionPedagogique6","InscriptionPedagogique7","InscriptionPedagogique8","InscriptionPedagogique9","InscriptionPedagogique10").forEach(inscriptionPedagogique->{
+                InscriptionPedagogique ins = new InscriptionPedagogique();
+                ins.setModule(moduleRepository.findByCode("Module1ID"));
+                ins.setCreatedAt(new Date());
+                ins.setEtudiant(etudiantRepository.findByApogeeAndSoftDeleteIsFalse("EE9292920"));
+                inscriptionPedagogiqueRepository.save(ins);
+            });
+
 
         };
     }

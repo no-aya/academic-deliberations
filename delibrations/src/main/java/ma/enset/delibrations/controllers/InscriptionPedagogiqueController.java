@@ -27,13 +27,13 @@ public class InscriptionPedagogiqueController {
     }
 
     @PostMapping("/add")
-    public InscriptionpedagoqiqueResponseDTO createInscriptionPedagogique(@RequestBody InscriptionPedagogiqueRequestDTO inscriptionPedagogiqueRequestDTO) throws ModuleNotFoundException, NoteElementNotFoundException, EtudiantNotFoundException {
+    public InscriptionpedagoqiqueResponseDTO createInscriptionPedagogique(@RequestBody InscriptionPedagogiqueRequestDTO inscriptionPedagogiqueRequestDTO) throws ModuleNotFoundException, NoteElementNotFoundException, EtudiantNotFoundException, NoteModuleNotFoundException {
         if(inscriptionPedagogiqueRequestDTO!=null) return inscriptionpedagogiqueService.createInscriptionpedagogique(inscriptionPedagogiqueRequestDTO);
         return null;
     }
 
     @PutMapping("/{id}")
-    public InscriptionpedagoqiqueResponseDTO updateInscriptionPedagogique(@PathVariable Long id, @RequestBody InscriptionPedagogiqueRequestDTO inscriptionPedagogiqueRequestDTO) throws ModuleNotFoundException, InscriptionPedagogiqueNotFoundException, NoteElementNotFoundException, NoteSemestreNotFoundException, EtudiantNotFoundException {
+    public InscriptionpedagoqiqueResponseDTO updateInscriptionPedagogique(@PathVariable Long id, @RequestBody InscriptionPedagogiqueRequestDTO inscriptionPedagogiqueRequestDTO) throws ModuleNotFoundException, InscriptionPedagogiqueNotFoundException, NoteElementNotFoundException, NoteSemestreNotFoundException, EtudiantNotFoundException, NoteModuleNotFoundException {
         if(inscriptionPedagogiqueRequestDTO!=null && id!=null) return inscriptionpedagogiqueService.updateInscriptionpedagogique(id,inscriptionPedagogiqueRequestDTO);
         return null;
     }
