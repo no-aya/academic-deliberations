@@ -3,6 +3,7 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.AnneeUnivRequestDTO;
 import ma.enset.delibrations.dtos.responses.AnneeUnivResponseDTO;
+import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.exceptions.AnneeUnivNotFoundException;
 import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
 import ma.enset.delibrations.exceptions.SemestreNotFoundException;
@@ -24,19 +25,21 @@ public class AnneeUnivController {
     }
 
     @GetMapping("/{id}")
-    public AnneeUnivResponseDTO getAnneeUniv(Long id) throws AnneeUnivNotFoundException {
-        if (id!=null)return anneeUnivService.getAnneeUniv(id);
+    public AnneeUnivResponseDTO getAnneeUniv(@PathVariable Long id) throws AnneeUnivNotFoundException {
+        AnneeUnivResponseDTO anneeUnivResponseDTO = anneeUnivService.getAnneeUniv(id);
+        System.out.println(anneeUnivResponseDTO);
+        if (id!=null) return anneeUnivResponseDTO;
         return null;
     }
 
     @PostMapping("/add")
-    public AnneeUnivResponseDTO createAnneeUniv(AnneeUnivRequestDTO anneeUnivRequestDTO) throws CannotProceedException, NoteSemestreNotFoundException {
+    public AnneeUnivResponseDTO createAnneeUniv(@RequestBody AnneeUnivRequestDTO anneeUnivRequestDTO) throws CannotProceedException, NoteSemestreNotFoundException {
         if (anneeUnivRequestDTO!=null)return anneeUnivService.createAnneeUniv(anneeUnivRequestDTO);
         return null;
     }
 
     @PutMapping("/{id}")
-    public AnneeUnivResponseDTO updateAnneeUniv(Long id, AnneeUnivRequestDTO anneeUnivRequestDTO) throws AnneeUnivNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, SemestreNotFoundException, NoteSemestreNotFoundException {
+    public AnneeUnivResponseDTO updateAnneeUniv(@PathVariable Long id, @RequestBody AnneeUnivRequestDTO anneeUnivRequestDTO) throws AnneeUnivNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, SemestreNotFoundException, NoteSemestreNotFoundException {
         if (id!=null && anneeUnivRequestDTO!=null)return anneeUnivService.updateAnneeUniv(id, anneeUnivRequestDTO);
         return null;
     }
