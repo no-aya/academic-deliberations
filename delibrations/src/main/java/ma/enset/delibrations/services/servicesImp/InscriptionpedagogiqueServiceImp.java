@@ -37,7 +37,7 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
             inscription.setCreatedAt(new Date());
 
            if(inscriptionPedagogiqueRequestDTO.getIdEtudiant()!=null){
-               Etudiant etudiant = etudiantRepository.findByIdAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
+               Etudiant etudiant = etudiantRepository.findByApogeeAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
                if(etudiant!=null) inscription.setEtudiant(etudiant);
                else throw new EtudiantNotFoundException(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
            }
@@ -85,7 +85,7 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
                inscription.setUpdatedOn(new Date());
 
                if(inscriptionPedagogiqueRequestDTO.getIdEtudiant()!=null) {
-                    Etudiant etudiant = etudiantRepository.findByIdAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
+                    Etudiant etudiant = etudiantRepository.findByApogeeAndSoftDeleteIsFalse(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
                     if(etudiant!=null) inscription.setEtudiant(etudiant);
                     else throw new EtudiantNotFoundException(inscriptionPedagogiqueRequestDTO.getIdEtudiant());
                }
