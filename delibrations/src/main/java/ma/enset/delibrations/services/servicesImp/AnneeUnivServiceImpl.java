@@ -78,11 +78,9 @@ public class AnneeUnivServiceImpl implements AnneeUnivService {
     @Override
     public AnneeUnivResponseDTO getAnneeUniv(Long id) throws AnneeUnivNotFoundException {
         if (id != null) {
-            AnneeUniv anneeUniv = anneeUnivRepository.findById(id).orElse(null);
-            if (anneeUniv == null) throw new AnneeUnivNotFoundException(id);
+            AnneeUniv anneeUniv = anneeUnivRepository.findById(id).orElseThrow(()->new AnneeUnivNotFoundException(id));
             return anneeUnivMapper.fromEntityToResponseDTO(anneeUniv);
-        }
-        throw new AnneeUnivNotFoundException(id);
+        }else throw new AnneeUnivNotFoundException(id);
     }
 
     @Override
@@ -91,8 +89,7 @@ public class AnneeUnivServiceImpl implements AnneeUnivService {
             AnneeUniv anneeUniv = anneeUnivRepository.findById(id).orElseThrow(()->new AnneeUnivNotFoundException(id));
             if (anneeUniv == null) throw new AnneeUnivNotFoundException(id);
             anneeUnivRepository.delete(anneeUniv);
-        }
-        throw new AnneeUnivNotFoundException(id);
+        }else throw new AnneeUnivNotFoundException(id);
     }
 
     @Override

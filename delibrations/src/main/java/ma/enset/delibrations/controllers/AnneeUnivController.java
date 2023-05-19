@@ -45,9 +45,11 @@ public class AnneeUnivController {
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteAnneeUniv(Long id) throws AnneeUnivNotFoundException {
+    public Boolean deleteAnneeUniv(@PathVariable Long id) throws AnneeUnivNotFoundException {
         if (id!=null){
-            anneeUnivService.deleteAnneeUniv(id);
+            AnneeUnivResponseDTO anneeUnivResponseDTO = anneeUnivService.getAnneeUniv(id);
+            if (anneeUnivResponseDTO==null) throw new AnneeUnivNotFoundException(id);
+            else anneeUnivService.deleteAnneeUniv(id);
             return true;
         }else return false;
     }
