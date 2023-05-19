@@ -21,7 +21,8 @@ public class DelibrationsApplication {
 
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
-                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository) {
+                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
+                            AnneeUnivRepository anneeUnivRepository) {
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -126,6 +127,16 @@ public class DelibrationsApplication {
                 filiereRepository.save(fil);
             });
 
+
+            //Testing anneUniv
+            Stream.of("20-21","21-22","22-23","23-24","24-25","25-26","26-27","27-28","28-29","29-30").forEach(anneUniv->{
+                AnneeUniv anne = new AnneeUniv();
+                //Code, date-debut, date-fin
+                anne.setCodeAnnee(anneUniv);
+                anne.setDateDebut(new Date());
+                anne.setDateFin(new Date());
+                anneeUnivRepository.save(anne);
+            });
 
         };
     }
