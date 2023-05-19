@@ -33,13 +33,13 @@ public class SemestreController {
         return null;
     }
     @PutMapping("/{id}")
-    public SemestreResponseDTO updateSemestre(@PathVariable Long id, @RequestBody SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException {
+    public SemestreResponseDTO updateSemestre(@PathVariable String id, @RequestBody SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException {
         if(semestreRequestDTO!=null && id!=null)
             return semestreService.updateSemestre(id,semestreRequestDTO);
         return null;
     }
     @DeleteMapping("/{id}")
-    public Boolean deleteSemestre(@PathVariable Long id) throws SemestreNotFoundException {
+    public Boolean deleteSemestre(@PathVariable String id) throws SemestreNotFoundException {
         if( id!=null)  {
             semestreService.deleteSemestre(id);
             return true;

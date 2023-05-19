@@ -47,9 +47,9 @@ public class DepartementServiceImpl implements DepartementService
     }
 
     @Override
-    public DepartementResponseDTO updateDepartement(Long id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException {
+    public DepartementResponseDTO updateDepartement(String id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException {
         if (id != null && departementRequestDTO != null) {
-            Departement departement = departementRepository.findByIdAndSoftDeleteIsFalse(id);
+            Departement departement = departementRepository.findByCodeAndSoftDeleteIsFalse(id);
             if (departement == null) throw new DepartementNotFoundException(id);
             if (departementRequestDTO.getCode() != null) departement.setCode(departementRequestDTO.getCode());
             if (departementRequestDTO.getIntitule() != null) departement.setIntitule(departementRequestDTO.getIntitule());
@@ -75,9 +75,9 @@ public class DepartementServiceImpl implements DepartementService
     }
 
     @Override
-    public DepartementResponseDTO getDepartement(Long id) throws DepartementNotFoundException {
+    public DepartementResponseDTO getDepartement(String  id) throws DepartementNotFoundException {
         if (id == null) return null;
-        Departement departement = departementRepository.findByIdAndSoftDeleteIsFalse(id);
+        Departement departement = departementRepository.findByCodeAndSoftDeleteIsFalse(id);
         if (departement == null) throw new DepartementNotFoundException(id);
         return departementMapper.fromEntityToResponseDTO(departement);
       
@@ -94,9 +94,9 @@ public class DepartementServiceImpl implements DepartementService
     }
 
     @Override
-    public void deleteDepartement(Long id) throws DepartementNotFoundException {
+    public void deleteDepartement(String  id) throws DepartementNotFoundException {
         if (id == null) return;
-        Departement departement = departementRepository.findByIdAndSoftDeleteIsFalse(id);
+        Departement departement = departementRepository.findByCodeAndSoftDeleteIsFalse(id);
         if (departement == null) throw new DepartementNotFoundException(id);
         departement.setSoftDelete(true);
         departementRepository.save(departement);

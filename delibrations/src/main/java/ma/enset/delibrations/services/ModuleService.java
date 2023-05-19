@@ -18,12 +18,12 @@ import java.util.List;
 public interface ModuleService {
     ModuleResponseDTO createModule(ModuleRequestDTO moduleDTO ) throws CannotProceedException, NoteModuleNotFoundException, javax.naming.CannotProceedException;
 
-    ModuleResponseDTO updateModule(Long id, ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException,NoteModuleNotFoundException, SemestreNotFoundException;
+    ModuleResponseDTO updateModule(String id, ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException,NoteModuleNotFoundException, SemestreNotFoundException;
 
     ModuleResponseDTO getModuleByCode(String code);
 
-    ModuleResponseDTO getModule (Long id) throws ModuleNotFoundException;
+    ModuleResponseDTO getModule (String id) throws ModuleNotFoundException;
     List<ModuleResponseDTO> getModules();
-    void deleteModule(Long id) throws ModuleNotFoundException;
+    void deleteModule(String id) throws ModuleNotFoundException;
 }
 

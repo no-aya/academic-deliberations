@@ -21,27 +21,29 @@ public class EtudiantController {
         return etudiantService.getEtudiants();
     }
 
-    @GetMapping("/{id}")
-    public EtudiantResponseDTO getEtudiant(@PathVariable String id) throws EtudiantNotFoundException {
-        if(id!=null) return etudiantService.getEtudiant(id);
+    @GetMapping("/{code}")
+    public EtudiantResponseDTO getEtudiant(@PathVariable String code) throws EtudiantNotFoundException {
+        if(code!=null) return etudiantService.getEtudiant(code);
         return null;
     }
 
     @PostMapping("/add")
-    public EtudiantResponseDTO createEtudiant(@RequestBody EtudiantRequestDTO etudiantRequestDTO){
+    public EtudiantResponseDTO createEtudiant(@RequestBody EtudiantRequestDTO etudiantRequestDTO) throws CannotProceedException {
         if(etudiantRequestDTO!=null) return etudiantService.createEtudiant(etudiantRequestDTO);
         return null;
     }
 
-    @PutMapping("/{id}")
-    public EtudiantResponseDTO updateEtudiant(@PathVariable String id, @RequestBody EtudiantRequestDTO etudiantRequestDTO) throws EtudiantNotFoundException, CannotProceedException {
-        if(etudiantRequestDTO!=null && id!=null) return etudiantService.updateEtudiant(id,etudiantRequestDTO);
+    @PutMapping("/{code}")
+    public EtudiantResponseDTO updateEtudiant(@PathVariable String code, @RequestBody EtudiantRequestDTO etudiantRequestDTO) throws EtudiantNotFoundException, CannotProceedException {
+        if(etudiantRequestDTO!=null && code!=null) return etudiantService.updateEtudiant(code,etudiantRequestDTO);
         return null;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteEtudiant(@PathVariable String id) throws EtudiantNotFoundException {
-        if( id!=null)  etudiantService.deleteEtudiant(id);
+    @DeleteMapping("/{code}")
+    public void deleteEtudiant(@PathVariable String code) throws EtudiantNotFoundException {
+        if( code!=null)
+            etudiantService.deleteEtudiant(code);
+
     }
 
 }

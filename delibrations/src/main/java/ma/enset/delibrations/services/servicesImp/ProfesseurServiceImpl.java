@@ -53,9 +53,9 @@ public class ProfesseurServiceImpl implements ProfesseurService {
     }
 
     @Override
-    public ProfesseurResponseDTO updateProfesseur(Long id, ProfesseurRequestDTO professeurRequestDTO) throws ProfesseurNotFoundException, ElementNotFoundException {
+    public ProfesseurResponseDTO updateProfesseur(String id, ProfesseurRequestDTO professeurRequestDTO) throws ProfesseurNotFoundException, ElementNotFoundException {
         if (id != null && professeurRequestDTO != null) {
-            Professeur professeur = professeurRepository.findByIdAndSoftDeleteIsFalse(id);
+            Professeur professeur = professeurRepository.findByCinAndSoftDeleteIsFalse(id);
             if (professeur == null) throw new ProfesseurNotFoundException(id);
             if (professeurRequestDTO.getCin() != null) professeur.setCin(professeurRequestDTO.getCin());
             if (professeurRequestDTO.getNom() != null) professeur.setNom(professeurRequestDTO.getNom());
@@ -83,9 +83,9 @@ public class ProfesseurServiceImpl implements ProfesseurService {
     }
 
     @Override
-    public ProfesseurResponseDTO getProfesseur(Long id) throws ProfesseurNotFoundException {
+    public ProfesseurResponseDTO getProfesseur(String id) throws ProfesseurNotFoundException {
         if (id == null) return null;
-        Professeur professeur = professeurRepository.findByIdAndSoftDeleteIsFalse(id);
+        Professeur professeur = professeurRepository.findByCinAndSoftDeleteIsFalse(id);
         if (professeur == null) throw new ProfesseurNotFoundException(id);
         return professeurMapper.fromEntityToResponseDTO(professeur);
     }
@@ -101,9 +101,9 @@ public class ProfesseurServiceImpl implements ProfesseurService {
     }
 
     @Override
-    public void deleteProfesseur(Long id) throws ProfesseurNotFoundException {
+    public void deleteProfesseur(String id) throws ProfesseurNotFoundException {
         if (id == null) return;
-        Professeur professeur = professeurRepository.findByIdAndSoftDeleteIsFalse(id);
+        Professeur professeur = professeurRepository.findByCinAndSoftDeleteIsFalse(id);
         if (professeur == null) throw new ProfesseurNotFoundException(id);
         /*Hardcode del
         professeurRepository.delete(professeur);

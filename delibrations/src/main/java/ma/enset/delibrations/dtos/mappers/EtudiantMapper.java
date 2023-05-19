@@ -1,5 +1,6 @@
 package ma.enset.delibrations.dtos.mappers;
 
+import ma.enset.delibrations.dtos.requests.EtudiantRequestDTO;
 import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.entities.Etudiant;
 import org.springframework.beans.BeanUtils;
@@ -11,5 +12,12 @@ public class EtudiantMapper {
         EtudiantResponseDTO etudiantResponseDTO = new EtudiantResponseDTO();
         BeanUtils.copyProperties(etudiant, etudiantResponseDTO);
         return  etudiantResponseDTO;
+    }
+
+
+    public Etudiant fromRequestDTOtoEntity(EtudiantRequestDTO etudiantRequestDTO){
+        Etudiant etudiant = new Etudiant();
+        BeanUtils.copyProperties(etudiantRequestDTO, etudiant);
+        return etudiant;
     }
 }

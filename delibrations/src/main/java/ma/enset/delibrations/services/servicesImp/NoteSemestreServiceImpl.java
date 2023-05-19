@@ -36,7 +36,8 @@ public class NoteSemestreServiceImpl implements NoteSemestreService {
      if (noteSemestreRequestDTO!=null) {
          NoteSemestre noteSemestre = new NoteSemestre();
          BeanUtils.copyProperties(noteSemestreRequestDTO, noteSemestre);
-         //noteSemestre.setId(Long.valueOf(UUID.randomUUID().toString()));
+
+         if (noteSemestreRequestDTO.getSemestreId()==null) throw new SemestreNotFoundException("required");
          if (noteSemestreRequestDTO.getSemestreId()!= null){
              Semestre semestre = semestreRepository.findById(noteSemestreRequestDTO.getSemestreId()).orElseThrow(() -> new SemestreNotFoundException(noteSemestreRequestDTO.getSemestreId()));
              noteSemestre.setSemestre(semestre);
@@ -54,6 +55,7 @@ public class NoteSemestreServiceImpl implements NoteSemestreService {
         if (id!=null && noteSemestreRequestDTO!=null) {
             NoteSemestre noteSemestre = noteSemestreRepository.findById(id).orElseThrow(() -> new NoteSemestreNotFoundException(id));
             if (noteSemestre != null) {
+                if (noteSemestreRequestDTO.getSemestreId()==null) throw new SemestreNotFoundException("required");
                 if (noteSemestreRequestDTO.getNoteSession1() != null)
                     noteSemestre.setNoteSession1(noteSemestreRequestDTO.getNoteSession1());
                 if (noteSemestreRequestDTO.getNoteSession2() != null)

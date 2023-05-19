@@ -27,6 +27,7 @@ import java.util.List;
 @Service @Transactional @AllArgsConstructor
 public class ModuleServiceImpl implements ModuleService {
 
+    //id est le code du module
     private ModuleRepository moduleRepository;
     private ModuleMapper moduleMapper;
 
@@ -60,9 +61,9 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public ModuleResponseDTO updateModule(Long id,ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException, NoteModuleNotFoundException, SemestreNotFoundException {
+    public ModuleResponseDTO updateModule(String id,ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException, NoteModuleNotFoundException, SemestreNotFoundException {
         if(id != null && moduleRequestDTO != null) {
-            Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(id);
+            Module module = moduleRepository.findByCodeAndSoftDeleteIsFalse(id);
             if (module == null) throw new ModuleNotFoundException(id);
             if(moduleRequestDTO.getCode()!=null)module.setCode(moduleRequestDTO.getCode());
             if (moduleRequestDTO.getIntitule() != null) module.setIntitule(moduleRequestDTO.getIntitule());
@@ -94,7 +95,7 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public ModuleResponseDTO getModuleByCode(String code){
         if(code !=null) {
-            Module module = moduleRepository.findByCode(code);
+            Module module = moduleRepository.findByCodeAndSoftDeleteIsFalse(code);
             if (module != null) {
                 ModuleResponseDTO moduleResponseDTO = moduleMapper.fromEntitytoResponseDTO(module);
                 Semestre semestre = module.getSemestre();
@@ -106,9 +107,9 @@ public class ModuleServiceImpl implements ModuleService {
 
     }
 
-    public ModuleResponseDTO getModule(Long id) throws ModuleNotFoundException{
+    public ModuleResponseDTO getModule(String id) throws ModuleNotFoundException{
         if(id == null) return null;
-        Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(id);
+        Module module = moduleRepository.findByCodeAndSoftDeleteIsFalse(id);
         if(module == null) throw  new ModuleNotFoundException(id);
         return moduleMapper.fromEntitytoResponseDTO(module);
     }
@@ -116,7 +117,7 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public List<ModuleResponseDTO> getModules() {
-        List<Module> moduleEtudiants = moduleRepository.findAll();
+        List<Module> moduleEtudiants = moduleRepository.findBySoftDeleteIsFalse();
         List<ModuleResponseDTO> modulesResponse = new ArrayList<>();
         for(Module m : moduleEtudiants){
             ModuleResponseDTO responseDTO = moduleMapper.fromEntitytoResponseDTO(m);
@@ -131,10 +132,12 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public void deleteModule(Long id) throws ModuleNotFoundException{
-        Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(id);
+    public void deleteModule(String id) throws ModuleNotFoundException{
+        Module module = moduleRepository.findByCodeAndSoftDeleteIsFalse(id);
         if(module == null) throw new ModuleNotFoundException(id);
-        else
+        else {
             module.setSoftDelete(true);
+            moduleRepository.save(module);
+        }
     }
 }

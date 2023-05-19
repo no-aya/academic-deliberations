@@ -9,7 +9,8 @@ import ma.enset.delibrations.exceptions.EtudiantNotFoundException;
 import java.util.List;
 
 public interface EtudiantService {
-    EtudiantResponseDTO createEtudiant(EtudiantRequestDTO etudiantRequestDTO);
+    //id est le Code appogé
+    EtudiantResponseDTO createEtudiant(EtudiantRequestDTO etudiantRequestDTO) throws CannotProceedException;
     EtudiantResponseDTO updateEtudiant(String id, EtudiantRequestDTO etudiantRequestDTO) throws EtudiantNotFoundException, CannotProceedException;
     EtudiantResponseDTO getEtudiant(String id) throws EtudiantNotFoundException;
     List<EtudiantResponseDTO> getEtudiants();

@@ -1,13 +1,12 @@
 package ma.enset.delibrations.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data @AllArgsConstructor
@@ -24,5 +23,9 @@ public class NoteSemestre {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Semestre semestre;
+
+    @OneToMany(mappedBy = "noteSemestre")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    List<InscriptionPedagogique> inscriptionPedagogiques;
 
 }

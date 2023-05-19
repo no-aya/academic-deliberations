@@ -21,23 +21,24 @@ public class InscriptionPedagogique {
     private Date createdAt;
     private Date updatedOn;
 
-    @ManyToOne @JoinColumn(name = "idEtudiant")
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Etudiant etudiant;
 
-    @ManyToOne @JoinColumn(name = "idModule")
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Module module;
 
-   @ManyToOne @JoinColumn(name = "idNoteModule")
+
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private NoteModule noteModule;
 
-    @ManyToOne @JoinColumn(name = "idNoteModule")
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private NoteElement noteElement;
 
-    @ManyToOne @JoinColumn(name = "idNoteSemestre")
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private NoteSemestre noteSemestre;
 

@@ -21,7 +21,8 @@ public class DelibrationsApplication {
 
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
-                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository) {
+                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
+                            AnneeUnivRepository anneeUnivRepository) {
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -33,18 +34,20 @@ public class DelibrationsApplication {
                 elementRepository.save(element);
             });
 
+            AtomicInteger c = new AtomicInteger();
             //Testing Professeur
             Stream.of("Professeur1","Professeur2","Professeur3","Professeur4","Professeur5","Professeur6","Professeur7","Professeur8","Professeur9","Professeur10").forEach(professeur->{
                 Professeur prof = new Professeur();
                 prof.setNom(professeur);
                 prof.setPrenom(professeur);
-                prof.setCin("EE929292");
+                prof.setCin("EE929292"+c.getAndIncrement());
                 prof.setEmail(professeur+"@gmail.com");
                 prof.setTelephone("0606060606");
                 prof.setAdresse("Adresse "+professeur);
                 prof.setCreatedAt(new Date());
                 prof.setElementModules(elementRepository.findAll());
                 professeurRepository.save(prof);
+
             });
 
             Element element = elementRepository.findByCode("CODE1");
@@ -124,6 +127,16 @@ public class DelibrationsApplication {
                 filiereRepository.save(fil);
             });
 
+
+            //Testing anneUniv
+            Stream.of("20-21","21-22","22-23","23-24","24-25","25-26","26-27","27-28","28-29","29-30").forEach(anneUniv->{
+                AnneeUniv anne = new AnneeUniv();
+                //Code, date-debut, date-fin
+                anne.setCodeAnnee(anneUniv);
+                anne.setDateDebut(new Date());
+                anne.setDateFin(new Date());
+                anneeUnivRepository.save(anne);
+            });
 
         };
     }

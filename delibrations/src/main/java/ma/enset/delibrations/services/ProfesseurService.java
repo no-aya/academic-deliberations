@@ -9,9 +9,11 @@ import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
 import java.util.List;
 
 public interface ProfesseurService {
+
+    //id est le cin
     ProfesseurResponseDTO createProfesseur(ProfesseurRequestDTO professeurRequestDTO) throws CannotProceedException, ProfesseurNotFoundException, ElementNotFoundException;
-    ProfesseurResponseDTO updateProfesseur(Long id, ProfesseurRequestDTO professeurRequestDTO) throws ProfesseurNotFoundException, ElementNotFoundException;
-    ProfesseurResponseDTO getProfesseur(Long id) throws ProfesseurNotFoundException;
+    ProfesseurResponseDTO updateProfesseur(String id, ProfesseurRequestDTO professeurRequestDTO) throws ProfesseurNotFoundException, ElementNotFoundException;
+    ProfesseurResponseDTO getProfesseur(String id) throws ProfesseurNotFoundException;
     List<ProfesseurResponseDTO> getProfesseurs();
-    void deleteProfesseur(Long id) throws ProfesseurNotFoundException;
+    void deleteProfesseur(String id) throws ProfesseurNotFoundException;
 }

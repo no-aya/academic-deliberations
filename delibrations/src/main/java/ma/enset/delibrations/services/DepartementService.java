@@ -12,8 +12,8 @@ import java.util.List;
 
 public interface DepartementService {
     DepartementResponseDTO createDepartement(DepartementRequestDTO departementRequestDTO) throws CannotProceedException, DepartementNotFoundException, FiliereNotFoundException;
-    DepartementResponseDTO updateDepartement(Long id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException;
-   DepartementResponseDTO getDepartement(Long id) throws  DepartementNotFoundException;
+    DepartementResponseDTO updateDepartement(String id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException;
+   DepartementResponseDTO getDepartement(String id) throws  DepartementNotFoundException;
     List<DepartementResponseDTO> getDepartements();
-    void deleteDepartement(Long id) throws  DepartementNotFoundException;
+    void deleteDepartement(String id) throws  DepartementNotFoundException;
 }
