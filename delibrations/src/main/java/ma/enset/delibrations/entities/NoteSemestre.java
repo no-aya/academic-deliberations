@@ -20,7 +20,7 @@ public class NoteSemestre {
     private Float noteSession2;
 
     //semestre peut avoir plusieurs noteSemestre
-    @ManyToOne @JoinColumn(name = "idSemestre")
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Semestre semestre;
 

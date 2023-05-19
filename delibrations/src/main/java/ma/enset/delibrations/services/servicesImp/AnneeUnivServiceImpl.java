@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.AnneeUnivMapper;
 import ma.enset.delibrations.dtos.mappers.SemestreMapper;
 import ma.enset.delibrations.dtos.requests.AnneeUnivRequestDTO;
+import ma.enset.delibrations.dtos.requests.SemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.AnneeUnivResponseDTO;
 import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.entities.Semestre;
@@ -60,13 +61,18 @@ public class AnneeUnivServiceImpl implements AnneeUnivService {
                 List<Semestre> semestres = new ArrayList<>();
                 for (Long semestreId : semestresIds){
                     Semestre semestre = semestreService.getSemestre(semestreId);
-                    if (semestre == null) throw new SemestreNotFoundException(semestre.getCode());
+                    if (semestre == null) throw new SemestreNotFoundException(semestreId);
                     semestres.add(semestre);
                 }
                 anneeUniv.setSemestres(semestres);
                 for (Semestre semestre : semestres){
                     semestre.setAnneeUniv(anneeUniv);
-                    semestreService.updateSemestre(semestre.getCode(),semestreMapper.fromEntitytoRequestDTO(semestre));
+                    //Sending only the code and the anneeUnivId
+                    SemestreRequestDTO semestreRequestDTO = new SemestreRequestDTO();
+                    semestreRequestDTO.setCode(semestre.getCode());
+                    semestreRequestDTO.setAnneeUnivId(anneeUniv.getId());
+                    semestreService.updateSemestre(semestre.getCode(),semestreRequestDTO);
+
                 }
             }
             anneeUnivRepository.save(anneeUniv);

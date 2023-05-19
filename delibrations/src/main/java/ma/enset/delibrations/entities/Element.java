@@ -19,13 +19,12 @@ public class Element {
 
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @JoinColumn(name = "idProfesseur")
     private Professeur professeur;
 
     @OneToMany(mappedBy = "element", fetch = FetchType.EAGER)
     private List<NoteElement> noteElement;
 
-    @ManyToOne @JoinColumn(name = "idModule")
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Module module;
 

@@ -47,7 +47,6 @@ public class Etudiant {
 
     //Filiere
     @ManyToOne
-    @JoinColumn(name = "idFiliere")
     private Filiere filiere;
 }
 

@@ -22,7 +22,6 @@ public class NoteModule {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
-    @JoinColumn(name = "idModule")
     private Module module;
 
     @Temporal(TemporalType.DATE)

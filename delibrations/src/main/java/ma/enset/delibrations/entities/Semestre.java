@@ -26,7 +26,7 @@ public class Semestre {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Module> modules;
 
-    @ManyToOne @JoinColumn(name = "idAnneeUniv")
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AnneeUniv anneeUniv;
 }
