@@ -18,6 +18,7 @@ public class AnneeUnivMapper {
         AnneeUnivResponseDTO anneeUnivResponseDTO = new AnneeUnivResponseDTO();
         /*convert elemnets to ids*/
         BeanUtils.copyProperties(anneeUniv, anneeUnivResponseDTO);
+        if (anneeUniv.getSemestres() == null) return anneeUnivResponseDTO;
         anneeUnivResponseDTO.setSemestres(
                 anneeUniv.getSemestres()
                         .stream()

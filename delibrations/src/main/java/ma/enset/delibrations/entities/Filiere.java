@@ -1,5 +1,6 @@
 package ma.enset.delibrations.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class Filiere {
         @ManyToOne
         private Departement departement;
         @OneToMany
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private List<Module> modules;
         /*
         TODO :  add Accreditation Date property
@@ -31,5 +33,8 @@ public class Filiere {
         private Date updatedAt;
         private Boolean softDelete=false;
 
+        @OneToMany(mappedBy = "filiere")
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        private List<Etudiant> etudiants;
 
 }

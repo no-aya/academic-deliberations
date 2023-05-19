@@ -20,7 +20,7 @@ public class Departement {
     /*
         TODO add Professeur chefDepartement;
     */
-    @OneToMany(mappedBy = "departement")
+    @OneToMany(mappedBy = "departement", fetch = FetchType.EAGER)
     private List<Filiere> filieres;
     
     @Temporal(TemporalType.DATE)
@@ -28,7 +28,6 @@ public class Departement {
     @Temporal(TemporalType.DATE)
     private Date updatedAt;
     private boolean softDelete = false;
-
 
 
 }

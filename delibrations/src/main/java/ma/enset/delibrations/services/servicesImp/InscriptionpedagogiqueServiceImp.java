@@ -128,9 +128,10 @@ public class InscriptionpedagogiqueServiceImp implements InscriptionpedagogiqueS
     @Override
     public InscriptionpedagoqiqueResponseDTO getInscriptionpedagogique(Long id) throws InscriptionPedagogiqueNotFoundException {
         if(id==null)  return null;
-
             InscriptionPedagogique inscription = inscriptionPedagogiqueRepository.findByIdAndSoftDeleteIsFalse(id);
-            return inscriptionPedagogiqueMapper.fromInscriptionPedagogique(inscription);
+            if(inscription!=null) return inscriptionPedagogiqueMapper.fromInscriptionPedagogique(inscription);
+            else throw new InscriptionPedagogiqueNotFoundException(id);
+
     }
 
     @Override

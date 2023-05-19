@@ -30,14 +30,14 @@ public class NoteModuleRestController {
 
 
     @PostMapping("/add")
-    public NoteModuleResponseDTO createNoteModule(@RequestBody NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException {
+    public NoteModuleResponseDTO createNoteModule(@RequestBody NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException, ModuleNotFoundException {
             return  noteModuleService.createNoteModule(noteModuleRequestDTO);
     }
 
 
     @PutMapping("/{id}")
     public NoteModuleResponseDTO updateNoteModule(@PathVariable  Long id,@RequestBody NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException, ModuleNotFoundException {
-            noteModuleRequestDTO.setIdModule(id);
+            noteModuleRequestDTO.setId(id);
             return noteModuleService.updateNoteModule(noteModuleRequestDTO);
     }
 

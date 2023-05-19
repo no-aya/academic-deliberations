@@ -24,10 +24,10 @@ public class ModuleController {
         if(moduleRequestDTO != null) return moduleService.getModules();
         return null;
     }
-    @GetMapping("/{id}")
-    public  ModuleResponseDTO getModule(@PathVariable Long id) throws ModuleNotFoundException {
-        if(id!=null)
-            return  moduleService.getModule(id);
+    @GetMapping("/{code}")
+    public  ModuleResponseDTO getModule(@PathVariable String code) throws ModuleNotFoundException {
+        if(code!=null)
+            return  moduleService.getModule(code);
         return null;
     }
     @PostMapping("/add")
@@ -36,15 +36,15 @@ public class ModuleController {
             return moduleService.createModule(moduleRequestDTO);
         return null;
     }
-    @PutMapping("/{id}")
-    public ModuleResponseDTO updateModule(@PathVariable Long id, @RequestBody ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException, NoteModuleNotFoundException, SemestreNotFoundException {
-        if(moduleRequestDTO!=null && id!=null)
-            return moduleService.updateModule(id,moduleRequestDTO);
+    @PutMapping("/{code}")
+    public ModuleResponseDTO updateModule(@PathVariable String code, @RequestBody ModuleRequestDTO moduleRequestDTO) throws ModuleNotFoundException, NoteModuleNotFoundException, SemestreNotFoundException {
+        if(moduleRequestDTO!=null && code!=null)
+            return moduleService.updateModule(code,moduleRequestDTO);
         return null;
     }
-    @DeleteMapping("/{id}")
-    public void deleteModule(@PathVariable Long id)throws ModuleNotFoundException {
-        if(id!=null)
-            moduleService.deleteModule(id);
+    @DeleteMapping("/{code}")
+    public void deleteModule(@PathVariable String  code)throws ModuleNotFoundException {
+        if(code!=null)
+            moduleService.deleteModule(code);
     }
 }
