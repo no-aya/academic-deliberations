@@ -6,6 +6,7 @@ import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.exceptions.CannotProceedException;
 import ma.enset.delibrations.exceptions.DepartementNotFoundException;
 import ma.enset.delibrations.exceptions.FiliereNotFoundException;
+import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
 import ma.enset.delibrations.services.FiliereService;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +31,12 @@ public class FiliereController {
     }
 
     @PostMapping("/add")
-    public FiliereResponseDTO createFiliere(@RequestBody FiliereRequestDTO filiereRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, CannotProceedException {
+    public FiliereResponseDTO createFiliere(@RequestBody FiliereRequestDTO filiereRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, CannotProceedException, RegleCalculNotFoundException {
         return filiereService.createFiliere(filiereRequestDTO);
     }
 
     @PutMapping("/{code}")
-    public FiliereResponseDTO updateFiliere(@PathVariable String code, @RequestBody FiliereRequestDTO filiereRequestDTO) throws FiliereNotFoundException, DepartementNotFoundException {
+    public FiliereResponseDTO updateFiliere(@PathVariable String code, @RequestBody FiliereRequestDTO filiereRequestDTO) throws FiliereNotFoundException, DepartementNotFoundException, RegleCalculNotFoundException {
         if (code!=null) {
             filiereRequestDTO.setCode(code);
             return filiereService.updateFiliere(filiereRequestDTO);

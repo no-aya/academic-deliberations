@@ -9,18 +9,12 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FiliereResponseDTO {
+public class RegleAnneeResponseDTO {
     private Long id;
-    private String code;
-    private String intitule;
-    private Long departementId;
-    private Long regleCalculId;
-
-
-    /*
-        TODO add modules
-     */
-
+    private Float noteValidation;
+    private Integer nombreModuleDerogation;
+    private Float noteEliminatoire;
+    private Long idRegleCalcul;
     private Date createdAt;
-    private Date updatedAt;
+    private Date updatedOn;
 }
