@@ -33,6 +33,11 @@ public class Filiere {
         private Date updatedAt;
         private Boolean softDelete=false;
 
+        @ManyToOne
+        @JoinColumn(name = "idRegleCalcul")
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        private RegleCalcul regleCalcul;
+
         @OneToMany(mappedBy = "filiere")
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private List<Etudiant> etudiants;

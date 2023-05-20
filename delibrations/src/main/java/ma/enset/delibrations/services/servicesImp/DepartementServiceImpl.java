@@ -31,7 +31,7 @@ public class DepartementServiceImpl implements DepartementService
     private FiliereService filiereService;
 
     @Override
-    public DepartementResponseDTO createDepartement(DepartementRequestDTO departementRequestDTO) throws CannotProceedException, DepartementNotFoundException, FiliereNotFoundException {
+    public DepartementResponseDTO createDepartement(DepartementRequestDTO departementRequestDTO) throws CannotProceedException, DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
         if(departementRequestDTO!=null){
             Departement departement = departementMapper.fromRequestDTOtoEntity(departementRequestDTO);
             departement.setCreatedAt(new Date());
@@ -47,7 +47,7 @@ public class DepartementServiceImpl implements DepartementService
     }
 
     @Override
-    public DepartementResponseDTO updateDepartement(String id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException {
+    public DepartementResponseDTO updateDepartement(String id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
         if (id != null && departementRequestDTO != null) {
             Departement departement = departementRepository.findByCodeAndSoftDeleteIsFalse(id);
             if (departement == null) throw new DepartementNotFoundException(id);
