@@ -15,5 +15,6 @@ public class FiliereRequestDTO {
     private String code;
     private String intitule;
     private Long departementId;
+    private Long regleCalculId;
 
 }

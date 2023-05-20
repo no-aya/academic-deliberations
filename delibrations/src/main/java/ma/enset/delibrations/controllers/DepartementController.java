@@ -6,6 +6,7 @@ import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
 import ma.enset.delibrations.exceptions.CannotProceedException;
 import ma.enset.delibrations.exceptions.FiliereNotFoundException;
 import ma.enset.delibrations.exceptions.DepartementNotFoundException;
+import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
 import ma.enset.delibrations.services.DepartementService;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +30,13 @@ public class DepartementController {
     }
 
     @PostMapping("/add")
-    public DepartementResponseDTO createDepartement(@RequestBody DepartementRequestDTO departementRequestDTO) throws CannotProceedException, DepartementNotFoundException, FiliereNotFoundException {
+    public DepartementResponseDTO createDepartement(@RequestBody DepartementRequestDTO departementRequestDTO) throws CannotProceedException, DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
         if(departementRequestDTO!=null) return departementService.createDepartement(departementRequestDTO);
         return null;
     }
 
     @PutMapping("/{code}")
-    public DepartementResponseDTO updateDepartement(@PathVariable String code, @RequestBody DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException {
+    public DepartementResponseDTO updateDepartement(@PathVariable String code, @RequestBody DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
         if(departementRequestDTO!=null && code!=null)
             return departementService.updateDepartement(code, departementRequestDTO);
         return null;

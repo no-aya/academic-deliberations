@@ -11,6 +11,7 @@ import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.exceptions.FiliereNotFoundException;
 import ma.enset.delibrations.repositories.DepartementRepository;
 import ma.enset.delibrations.repositories.FiliereRepository;
+import ma.enset.delibrations.repositories.RegleCalculRepository;
 import ma.enset.delibrations.services.FiliereService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,8 @@ public class FiliereServiceImpl implements FiliereService {
     private FiliereMapper filiereMapper;
     private DepartementRepository departementRepository;
 
+    private RegleCalculRepository regleCalculRepository;
+
     private String generateCode() {
         //TODO: Generate Filiere code based on the format TI00006
         return "CODE"+System.currentTimeMillis();
@@ -40,20 +43,33 @@ public class FiliereServiceImpl implements FiliereService {
     
     
     @Override
-    public FiliereResponseDTO createFiliere(FiliereRequestDTO filiereRequestDTO) {
+    public FiliereResponseDTO createFiliere(FiliereRequestDTO filiereRequestDTO) throws RegleCalculNotFoundException {
         if (filiereRequestDTO.getCode() == null) filiereRequestDTO.setCode(generateCode());
         else {
             Filiere filiere = filiereRepository.findByCode(filiereRequestDTO.getCode());
             if (filiere != null) throw new RuntimeException("Filiere with code "+filiereRequestDTO.getCode()+" already exists");
         }
         filiereRequestDTO.setCode(generateCode());
+
         Filiere savedFiliere = filiereRepository.save(filiereMapper.fromRequestDTOtoEntity(filiereRequestDTO));
-        return filiereMapper.fromEntityToResponseDTO(savedFiliere);
+
+        if (filiereRequestDTO.getRegleCalculId()!=null){
+            RegleCalcul regleCalcul = regleCalculRepository.findByIdAndSoftDeleteIsFalse(filiereRequestDTO.getRegleCalculId());
+            if(regleCalcul!=null) savedFiliere.setRegleCalcul(regleCalcul);
+            else throw new RegleCalculNotFoundException(filiereRequestDTO.getRegleCalculId());
+        }
+
+        filiereRepository.save(savedFiliere);
+
+        FiliereResponseDTO filiereResponseDTO = filiereMapper.fromEntityToResponseDTO(savedFiliere);
+        if (savedFiliere.getRegleCalcul()!=null)
+        filiereResponseDTO.setRegleCalculId(savedFiliere.getRegleCalcul().getId());
+        return filiereResponseDTO;
         
     }
 
     @Override
-    public FiliereResponseDTO updateFiliere(FiliereRequestDTO filiereRequestDTO) throws FiliereNotFoundException, DepartementNotFoundException {
+    public FiliereResponseDTO updateFiliere(FiliereRequestDTO filiereRequestDTO) throws FiliereNotFoundException, DepartementNotFoundException, RegleCalculNotFoundException {
         if (filiereRequestDTO.getCode() == null) throw new FiliereNotFoundException("Filiere code is required");
         else {
             Filiere filiere = filiereRepository.findByCode(filiereRequestDTO.getCode());
@@ -63,11 +79,18 @@ public class FiliereServiceImpl implements FiliereService {
                 Departement departement = departementRepository.findById(filiereRequestDTO.getDepartementId()).orElseThrow(()->new DepartementNotFoundException(filiereRequestDTO.getDepartementId()));
                 filiere.setDepartement(departement);
             }
+            if (filiereRequestDTO.getRegleCalculId() != null) {
+                RegleCalcul regleCalcul = regleCalculRepository.findByIdAndSoftDeleteIsFalse(filiereRequestDTO.getRegleCalculId());
+                if(regleCalcul!=null)filiere.setRegleCalcul(regleCalcul);
+                else throw new RegleCalculNotFoundException(filiereRequestDTO.getRegleCalculId());
+            }
             filiereRepository.save(filiere);
             FiliereResponseDTO filiereResponseDTO=filiereMapper.fromEntityToResponseDTO(filiere);
             if (filiere.getDepartement() != null){
                 filiereResponseDTO.setDepartementId(filiere.getDepartement().getId());
             }
+            if(filiere.getRegleCalcul()!=null)
+            filiereResponseDTO.setRegleCalculId(filiere.getRegleCalcul().getId());
             return filiereResponseDTO;
         }
     }
@@ -85,6 +108,8 @@ public class FiliereServiceImpl implements FiliereService {
         FiliereResponseDTO filiereResponseDTO= filiereMapper.fromEntityToResponseDTO(filiere);
         Departement departement = filiere.getDepartement();
         if (departement!=null) filiereResponseDTO.setDepartementId(departement.getId());
+        RegleCalcul regleCalcul = filiere.getRegleCalcul();
+        if(regleCalcul!=null) filiereResponseDTO.setRegleCalculId(regleCalcul.getId());
         return filiereResponseDTO;
     }
 
@@ -97,6 +122,9 @@ public class FiliereServiceImpl implements FiliereService {
             if (filiere.getDepartement() != null){
                 filiereResponseDTO.setDepartementId(filiere.getDepartement().getId());
             }
+            if (filiere.getRegleCalcul() != null){
+                filiereResponseDTO.setRegleCalculId(filiere.getRegleCalcul().getId());
+            }
             filiereResponseDTOS.add(filiereResponseDTO);
         }
         return filiereResponseDTOS;
@@ -106,7 +134,10 @@ public class FiliereServiceImpl implements FiliereService {
     public void deleteFiliere(String code) throws FiliereNotFoundException {
         Filiere filiere = filiereRepository.findByCode(code);
         if (filiere == null) throw new FiliereNotFoundException("Filiere with code "+code+" not found");
-        filiereRepository.delete(filiere);
+        //filiereRepository.delete(filiere);
+
+        filiere.setSoftDelete(true);
+        filiereRepository.save(filiere);
     }
     
 }
