@@ -29,4 +29,11 @@ public class Semestre {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AnneeUniv anneeUniv;
+
+
+
+    public String generateCode(){
+        String filiereCode = modules.get(0).getFiliere().generateCode();
+        return filiereCode + code;
+    }
 }

@@ -32,6 +32,7 @@ public class DelibrationsApplication {
             Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
                 Element element = new Element();
                 element.setCode("CODE"+(i.getAndIncrement()));
+                //element.setCode(generateCode());
                 element.setTitre(module);
                 element.setPonderation(0.5F);
                 elementRepository.save(element);
@@ -74,6 +75,8 @@ public class DelibrationsApplication {
             Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
                 Module module1 = new Module();
                 module1.setCode(module+"ID");
+                //module1.setCode("0");
+                //module1.setCode(module1.generateCode());
                 module1.setIntitule(module);
                 moduleRepository.save(module1);
             });
@@ -81,6 +84,8 @@ public class DelibrationsApplication {
             Stream.of("Semestre1","Semestre2","Semestre3","Semestre4","Semestre5","Semestre6","Semestre7","Semestre8","Semestre9","Semestre10").forEach(semestre->{
                 Semestre sem = new Semestre();
                 sem.setCode("CODE"+(i.getAndIncrement()));
+                //sem.setCode("11");
+                //sem.setCode(sem.generateCode());
                 sem.setLibelle(semestre);
                 semestreRepository.save(sem);
             });
@@ -138,6 +143,8 @@ public class DelibrationsApplication {
                 Filiere fil = new Filiere();
                 fil.setIntitule(filiere);
                 fil.setCode(filiere);
+                //fil.setCode("II");
+                //fil.setCode(fil.generateCode());
                 fil.setCreatedAt(new Date());
                 fil.setDepartement(departement1);
                 filiereRepository.save(fil);

@@ -41,4 +41,11 @@ public class Module {
 
     @ManyToOne @JoinColumn(name = "idFiliere")
     Filiere filiere;
+
+
+    public String generateCode(){
+
+        return semestre.generateCode()+code;
+    }
+
 }
