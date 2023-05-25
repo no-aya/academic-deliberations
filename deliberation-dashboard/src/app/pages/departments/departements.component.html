@@ -1,0 +1,36 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <ng-container *ngIf="departments as listdepartements">
+          <!--For each departement, show a card with the number of elements-->
+          <div class="col-xl-3 col-lg-6" *ngFor="let dep of departments">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <a href="#!">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">{{dep[0]}}</h5>
+                      <span class="h2 font-weight-bold mb-0">{{dep[1]}}</span>
+                    </div>
+                  </div>
+                </div>
+                </a>
+              </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow border-0">
+        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" style="height: 600px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
