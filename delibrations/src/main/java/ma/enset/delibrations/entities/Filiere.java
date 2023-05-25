@@ -42,4 +42,10 @@ public class Filiere {
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private List<Etudiant> etudiants;
 
+
+        public String generateCode(){
+
+                return "T"+code;
+        }
+
 }

@@ -28,4 +28,11 @@ public class Element {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Module module;
 
+
+
+    public String generateCode(){
+
+        return module.generateCode()+code+"6";
+    }
+
 }
