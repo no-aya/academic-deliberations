@@ -65,8 +65,10 @@ public class SemestreServiceImpl implements SemestreService {
         if(id!=null && semestreRequestDTO!=null) {
             Semestre semestre = semestreRepository.findByCode(id);
             if(semestre==null) throw  new SemestreNotFoundException(id);
+            semestre.setSessionStatus(semestreRequestDTO.isSessionStatus());
             if(semestreRequestDTO.getCode()!=null) semestre.setCode(semestreRequestDTO.getCode());
             if (semestreRequestDTO.getLibelle()!=null) semestre.setLibelle(semestreRequestDTO.getLibelle());
+
             if (semestreRequestDTO.getNoteSemestres()!=null) {
                     Long[] notesSemestres = semestreRequestDTO.getNoteSemestres();
                     List<NoteSemestre> noteSemestres = new ArrayList<>();

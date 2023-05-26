@@ -29,4 +29,8 @@ public class Semestre {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AnneeUniv anneeUniv;
+
+
+    //Session Status
+    private boolean sessionStatus = false;
 }
