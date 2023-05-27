@@ -12,7 +12,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
     { path: '/departements', title: 'Mes Départements',  icon:'ni-pin-3 text-orange', class: '' },
     { path: '/user-profile', title: 'Profile',  icon:'ni-single-02 text-yellow', class: '' },
-    { path: '/tables', title: 'Mes Notes',  icon:'ni-bullet-list-67 text-red', class: '' }
+    { path: '/tables', title: 'Mes Notes',  icon:'ni-bullet-list-67 text-red', class: '' },
+  { path: '/comptes', title: 'Comptes',  icon:'ni-key-25 text-info', class: '' }
 ];
 export const ROUTESAUTH: RouteInfo[] = [
   { path: '/login', title: 'Se connecter',  icon:'ni-key-25 text-info', class: '' },
