@@ -5,8 +5,10 @@
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10">
-        <h1 class="display-2 text-white">Bonjour Aya</h1>
-        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
+        <h1 class="display-2 text-white">Bonjour {{username}}</h1>
+        <p class="text-white mt-0 mb-5">
+          Cette plateforme est dédiée à la gestion des notes de vos élements de modules. Si vous trouvez des élements qui ne sont pas à jour, veuillez contactez l'administration.
+        </p>
         <a href="#!" class="btn btn-info">Modifier le profile</a>
       </div>
     </div>
@@ -26,33 +28,33 @@
           </div>
         </div>
         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-          <div class="d-flex justify-content-between">
+          <!--<div class="d-flex justify-content-between">
             <a href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Connect</a>
             <a href="javascript:void(0)" class="btn btn-sm btn-default float-right">Message</a>
-          </div>
+          </div>-->
         </div>
         <div class="card-body pt-0 pt-md-4">
           <div class="row">
             <div class="col">
               <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                 <div>
-                  <span class="heading">22</span>
-                  <span class="description">Friends</span>
+                  <span class="heading">{{nbElements}}</span>
+                  <span class="description">Elements</span>
                 </div>
                 <div>
-                  <span class="heading">10</span>
-                  <span class="description">Photos</span>
+                  <span class="heading">{{nbFilieres}}</span>
+                  <span class="description">Filières</span>
                 </div>
                 <div>
-                  <span class="heading">89</span>
-                  <span class="description">Comments</span>
+                  <span class="heading">{{nbDepartements}}</span>
+                  <span class="description">Départements</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="text-center">
             <h3>
-              Jessica Jones<span class="font-weight-light">, 27</span>
+              {{username}}
             </h3>
             <div class="h5 font-weight-300">
               <i class="ni location_pin mr-2"></i>Bucharest, Romania
