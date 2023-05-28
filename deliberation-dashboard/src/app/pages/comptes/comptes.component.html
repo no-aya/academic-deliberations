@@ -43,10 +43,16 @@
           <td>{{u.username}}</td>
           <td>{{u.lastname}}</td>
           <td>{{u.email}}</td>
-          <td> <mat-slide-toggle [checked]="u.suspend"
-                                 (toggleChange)="handleSuspendCompte(u)" > Sus</mat-slide-toggle> </td>
+          <td> <!--<mat-slide-toggle [checked]="u.suspend"
+                                 (toggleChange)="handleSuspendCompte(u)" > Sus</mat-slide-toggle> -->
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch1"
+                     (click)="handleSuspendCompte(u)"
+                      [checked]="u.suspend">
+              <label class="custom-control-label" for="customSwitch1"></label>
+            </div>
+          </td>
           <td>
-
             <button class="btn btn-sm btn-danger" (click)="handleDeleteCompte(u)">Supprimer <i class="fa fa-trash"></i></button>
           </td>
       </table>
