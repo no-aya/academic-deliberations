@@ -16,6 +16,7 @@ export class ComptesComponent implements OnInit {
   users!: Observable<Array<User>>;
   errorMessage!: string;
   searchFormGroup : FormGroup | undefined;
+  suspend: boolean;
 
   constructor(private compteService: ComptesService,private fb: FormBuilder) { }
 
@@ -60,5 +61,24 @@ export class ComptesComponent implements OnInit {
       }
     })
 
+  }
+
+  handleSuspendCompte(u: User) {
+    let conf = confirm("Are you sure?");
+    if(!conf) return;
+    u.suspend=!u.suspend;
+    this.compteService.saveCompte(u).subscribe({
+      next : (resp) => {
+        this.users=this.users.pipe(
+          catchError(err => {
+            this.errorMessage=err.message;
+            return throwError(err);
+          })
+        );
+      },
+      error : err => {
+        console.log(err);
+      }
+    })
   }
 }

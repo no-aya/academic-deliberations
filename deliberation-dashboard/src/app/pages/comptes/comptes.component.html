@@ -31,7 +31,8 @@
           <td>{{u.username}}</td>
           <td>{{u.lastname}}</td>
           <td>{{u.email}}</td>
-          <td>{{u.suspend}}</td>
+          <td> <mat-slide-toggle [checked]="u.suspend"
+                                 (click)="handleSuspendCompte(u)" > Sus</mat-slide-toggle> </td>
           <td>
             <button class="btn btn-sm btn-primary">Editer </button>
             <button class="btn btn-sm btn-danger" (click)="handleDeleteCompte(u)">Supprimer <i class="fa fa-trash"></i></button>

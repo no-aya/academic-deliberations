@@ -24,4 +24,8 @@ export class ComptesService {
     return this.http.delete(environment.backendHost+"/users/"+id);
 
   }
+
+  saveCompte(user: User) {
+    return this.http.post(environment.backendHost+"/users",user);
+  }
 }

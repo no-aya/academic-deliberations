@@ -13,18 +13,20 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ComptesComponent} from "../../pages/comptes/comptes.component";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(AdminLayoutRoutes),
-        FormsModule,
-        HttpClientModule,
-        NgbModule,
-        ClipboardModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(AdminLayoutRoutes),
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    ClipboardModule,
+    ReactiveFormsModule,
+    MatSlideToggleModule
+  ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,

@@ -44,4 +44,6 @@ public class AppUserController {
         return appUserService.update(appUser);
     }
 
+
+
 }
