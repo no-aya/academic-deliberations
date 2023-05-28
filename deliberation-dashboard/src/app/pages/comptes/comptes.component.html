@@ -33,8 +33,8 @@
           <td>{{u.email}}</td>
           <td>{{u.suspend}}</td>
           <td>
-            <button class="btn btn-sm btn-primary">Editer</button>
-            <button class="btn btn-sm btn-danger">Supprimer</button>
+            <button class="btn btn-sm btn-primary">Editer </button>
+            <button class="btn btn-sm btn-danger" (click)="handleDeleteCompte(u)">Supprimer <i class="fa fa-trash"></i></button>
           </td>
       </table>
 

@@ -43,4 +43,22 @@ export class ComptesComponent implements OnInit {
   }
 
 
+  handleDeleteCompte(u: User) {
+    let conf = confirm("Are you sure?");
+    if(!conf) return;
+    this.compteService.deleteCompte(u.id).subscribe({
+      next : (resp) => {
+        this.users=this.users.pipe(
+          catchError(err => {
+            this.errorMessage=err.message;
+            return throwError(err);
+          })
+        );
+      },
+      error : err => {
+        console.log(err);
+      }
+    })
+
+  }
 }

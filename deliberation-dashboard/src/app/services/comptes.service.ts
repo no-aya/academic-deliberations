@@ -20,4 +20,8 @@ export class ComptesService {
   }
 
 
+  deleteCompte(id: number) {
+    return this.http.delete(environment.backendHost+"/users/"+id);
+
+  }
 }
