@@ -1,30 +1,52 @@
-<div class="card" *ngIf="users">
-  <div class="card-header"> Comptes</div>
-  <div class="card-body">
+<div class="container mt-2">
+<ng-container *ngIf="users | async as listUsers ; else failure">
+  <div class="card">
+    <div class="card-header"> Comptes</div>
+    <div class="card-body">
+      <!-- Form de recherche-->
+      <div *ngIf="searchFormGroup">
+        <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchComptes()">
+          <div class="input-group">
+            <label class="input-group-text">Username :</label>
+            <input type="text" formControlName="keyword" class="form-control">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Lastname</th>
+          <th>Email</th>
+          <th>Suspended</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let u of users | async">
+          <td>{{u.id}}</td>
+          <td>{{u.username}}</td>
+          <td>{{u.lastname}}</td>
+          <td>{{u.email}}</td>
+          <td>{{u.suspend}}</td>
+          <td>
+            <button class="btn btn-sm btn-primary">Editer</button>
+            <button class="btn btn-sm btn-danger">Supprimer</button>
+          </td>
+      </table>
 
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Id</th>
-        <th>Libelle</th>
-        <th>Numero</th>
-        <th>Solde</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let u of users ">
-        <td>{{u.id}}</td>
-        <td>{{u.username}}</td>
-        <td>{{u.email}}</td>
-        <td>{{u.email}}</td>
-        <td>
-          <button class="btn btn-sm btn-primary">Editer</button>
-          <button class="btn btn-sm btn-danger">Supprimer</button>
-        </td>
-
-    </table>
-
-
+    </div>
   </div>
+
+</ng-container>
+<ng-template #failure>
+  <div class="alert alert-danger">
+    <strong>Erreur !</strong> Une erreur est survenue lors du chargement des utilisateurs.
+    <br> {{errorMessage}}
+  </div>
+</ng-template>
+
 </div>

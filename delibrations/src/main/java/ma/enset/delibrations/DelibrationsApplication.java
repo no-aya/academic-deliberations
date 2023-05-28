@@ -3,6 +3,8 @@ package ma.enset.delibrations;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.repositories.*;
+import ma.enset.delibrations.security.AppUser;
+import ma.enset.delibrations.security.repository.AppUserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,7 +27,8 @@ public class DelibrationsApplication {
                             ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
                             AnneeUnivRepository anneeUnivRepository,
                             InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
-                            EtudiantRepository etudiantRepository) {
+                            EtudiantRepository etudiantRepository,
+                            AppUserRepository appUserRepository) {
         return args -> {
             AtomicInteger i = new AtomicInteger();
             //Testing Element
@@ -162,6 +165,17 @@ public class DelibrationsApplication {
                 ins.setCreatedAt(new Date());
                 ins.setEtudiant(etudiantRepository.findByApogeeAndSoftDeleteIsFalse("EE9292920"));
                 inscriptionPedagogiqueRepository.save(ins);
+            });
+
+            //Testin AppUser
+            Stream.of("user1","user2","user3","user4","user5","user6","user7","user8","user9","user10").forEach(user->{
+                AppUser appUser = new AppUser();
+                appUser.setUsername(user);
+                appUser.setEmail(user+"@gmail.com");
+                appUser.setLastname("lastname"+user);
+                appUser.setPassword("1234");
+                appUser.setSuspend(false);
+                appUserRepository.save(appUser);
             });
 
 

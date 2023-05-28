@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {User} from "../model/user.model";
-import {FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {ComptesService} from "../../services/comptes.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
@@ -13,19 +13,34 @@ import {HttpClient} from "@angular/common/http";
 })
 export class ComptesComponent implements OnInit {
 
-  users!: any;
+  users!: Observable<Array<User>>;
   errorMessage!: string;
   searchFormGroup : FormGroup | undefined;
 
-  constructor(private http:HttpClient) { }
+  constructor(private compteService: ComptesService,private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.http.get("http://localhost:8089/users").subscribe(data=>{
-      this.users=data;
-      },error=>{
-        console.log(error);
-      })
+    this.searchFormGroup=this.fb.group({
+      keyword : this.fb.control("")
 
+    });
+    this.users=this.compteService.getComptes().pipe(
+      catchError(err => {
+        this.errorMessage=err.message;
+        return throwError(err);
+      }
+    ));
   }
+
+  handleSearchComptes() {
+    let kw=this.searchFormGroup?.value.keyword;
+    this.users=this.compteService.searchComptes(kw).pipe(
+      catchError(err => {
+        this.errorMessage=err.message;
+        return throwError(err);
+      })
+    );
+  }
+
 
 }

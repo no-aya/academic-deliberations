@@ -14,4 +14,10 @@ export class ComptesService {
   public getComptes():Observable<Array<User>>{
     return this.http.get<Array<User>>(environment.backendHost+"/users");
   }
+
+  public searchComptes(keyword: string):Observable<Array<User>>{
+    return this.http.get<Array<User>>(environment.backendHost+"/users/search?keyword="+keyword);
+  }
+
+
 }
