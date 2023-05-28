@@ -16,7 +16,7 @@
       <div *ngIf="searchFormGroup" class="mb-5">
         <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchComptes()">
           <div class="input-group">
-            <label class="input-group-text ">Username :</label>
+            <label class="input-group-text text-primary">Username :</label>
             <input type="text" formControlName="keyword" class="form-control">
             <button class="btn btn-primary" type="submit">
               <i class="fa fa-search"></i>
@@ -46,10 +46,10 @@
           <td> <!--<mat-slide-toggle [checked]="u.suspend"
                                  (toggleChange)="handleSuspendCompte(u)" > Sus</mat-slide-toggle> -->
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch1"
+              <input type="checkbox" class="custom-control-input" id={{u.id}}
                      (click)="handleSuspendCompte(u)"
                       [checked]="u.suspend">
-              <label class="custom-control-label" for="customSwitch1"></label>
+              <label class="custom-control-label" for={{u.id}}></label>
             </div>
           </td>
           <td>

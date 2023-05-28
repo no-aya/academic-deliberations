@@ -64,6 +64,7 @@ export class ComptesComponent implements OnInit {
   }
 
   handleSuspendCompte(u: User) {
+    console.log(u.id)
     let conf = confirm("Are you sure?");
     if(!conf) return;
     u.suspend=!u.suspend;
