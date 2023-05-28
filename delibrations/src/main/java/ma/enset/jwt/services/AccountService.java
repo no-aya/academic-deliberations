@@ -26,11 +26,11 @@ public class AccountService {
         return appRoleRepository.save(appRole);
     }
     public void addRoleToUser(String userName,String roleName){
-        AppUser appUser=appUserRepository.findByUsername(userName);
+        AppUser appUser=appUserRepository.findByEmail(userName);
         AppRole appRole=appRoleRepository.findByRoleName(roleName);
         appUser.getAppRoles().add(appRole);
     }
-    public AppUser findByUserName(String userName){
-        return appUserRepository.findByUsername(userName);
+    public AppUser findByEmail(String email){
+        return appUserRepository.findByEmail(email);
     }
 }

@@ -178,9 +178,9 @@ public class DelibrationsApplication {
             });
 
 
-            accountService.newUser(AppUser.builder().username("user1").password(passwordEncoder.encode("1234")).build());
-            accountService.newUser(AppUser.builder().username("user2").password(passwordEncoder.encode("1234")).build());
-            accountService.newUser(AppUser.builder().username("admin").password(passwordEncoder.encode("1234")).build());
+            accountService.newUser(AppUser.builder().email("user1").password(passwordEncoder.encode("1234")).build());
+            accountService.newUser(AppUser.builder().email("user2").password(passwordEncoder.encode("1234")).build());
+            accountService.newUser(AppUser.builder().email("admin").password(passwordEncoder.encode("1234")).build());
             accountService.newRole(AppRole.builder().roleName("USER").build());
             accountService.newRole(AppRole.builder().roleName("ADMIN").build());
             accountService.addRoleToUser("user1", "USER");

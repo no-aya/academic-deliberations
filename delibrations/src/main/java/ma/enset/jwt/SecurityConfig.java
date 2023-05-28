@@ -81,12 +81,12 @@ public class SecurityConfig {
         return new UserDetailsService() {
             @Autowired private AccountService accountService;
             @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                AppUser appUser=accountService.findByUserName(username);
+            public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+                AppUser appUser=accountService.findByEmail(email);
                 if (appUser==null) throw new UsernameNotFoundException("User not found");
                 //Collection<GrantedAuthority> authorities= List.of(new SimpleGrantedAuthority("USER"));
                 Collection<GrantedAuthority> authorities=appUser.getAppRoles().stream().map(r->new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
-                return new User(username,appUser.getPassword(),authorities);
+                return new User(email,appUser.getPassword(),authorities);
             }
         };
     }

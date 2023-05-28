@@ -51,7 +51,7 @@ public class AuthController {
         if(loginRequest.grantType().equals("password")){
             Authentication authentication=authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            loginRequest.username(),loginRequest.password()
+                            loginRequest.email(),loginRequest.password()
                     )
             );
             response=tokenService.generateJwtToken(authentication.getName(),authentication.getAuthorities(),loginRequest.withRefreshToken());
@@ -62,13 +62,13 @@ public class AuthController {
                 return new ResponseEntity<>(Map.of("error","RefreshToken Not Present"),HttpStatus.UNAUTHORIZED);
             }
             Jwt decodedJwt = jwtDecoder.decode(refreshToken);
-            String username=decodedJwt.getSubject();
-            AppUser appUser=accountService.findByUserName(username);
+            String email=decodedJwt.getSubject();
+                AppUser appUser=accountService.findByEmail(email);
             Collection<GrantedAuthority> authorities=appUser.getAppRoles()
                         .stream()
                         .map(role->new SimpleGrantedAuthority(role.getRoleName()))
                         .collect(Collectors.toList());
-            response=tokenService.generateJwtToken(appUser.getUsername(),authorities,loginRequest.withRefreshToken());
+            response=tokenService.generateJwtToken(appUser.getEmail(),authorities,loginRequest.withRefreshToken());
             return ResponseEntity.ok(response);
         }
         return new ResponseEntity(Map.of("error",String.format("grantType <<%s>> not supported ",loginRequest.grantType())),HttpStatus.UNAUTHORIZED);

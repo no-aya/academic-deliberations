@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.enset.jwt.entities.AppUser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class Professeur {
     private Date updatedOn;
 
     private boolean softDelete = false;
-    //@OneToOne
-    //private AppUser user;
-    // From JWT
+
+    @OneToOne
+    private AppUser appUser;
 }
