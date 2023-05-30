@@ -5,6 +5,8 @@ import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.security.AppUser;
 import ma.enset.delibrations.security.repository.AppUserRepository;
+import ma.enset.delibrations.services.FileStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +23,8 @@ public class DelibrationsApplication {
         SpringApplication.run(DelibrationsApplication.class, args);
     }
 
-
+    @Autowired
+    private FileStorageService fileStorageService;
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
                             ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
@@ -30,6 +33,8 @@ public class DelibrationsApplication {
                             EtudiantRepository etudiantRepository,
                             AppUserRepository appUserRepository) {
         return args -> {
+            fileStorageService.deleteAll();
+            fileStorageService.init();
             AtomicInteger i = new AtomicInteger();
             //Testing Element
             Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
