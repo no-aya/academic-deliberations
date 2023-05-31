@@ -3,8 +3,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {User} from "../model/user.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ComptesService} from "../../services/comptes.service";
-import {Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+
 
 @Component({
   selector: 'app-comptes',
