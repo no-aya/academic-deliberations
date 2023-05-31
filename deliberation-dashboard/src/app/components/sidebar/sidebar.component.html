@@ -90,17 +90,7 @@
       <h6 class="navbar-heading text-muted">Administration</h6>
       <!-- Navigation -->
       <ul class="navbar-nav mb-md-3">
-        <li class="nav-item">
-          <a class="nav-link" href="">
-            <i class="ni ni-settings"></i> Gérer les départements
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/comptes']" >
-            <i class="ni ni-badge"></i> Gérer les comptes
-          </a>
-        </li>
-       <!-- <li class="nav-item">
+         <!-- <li class="nav-item">
           <input type="file" class="file-input"
                  (change)="onFileSelected($event)" #fileUpload>
 
@@ -114,9 +104,10 @@
             </button>
           </div>
         </li>-->
-        <li class="nav-item">
-          <a class="nav-link" href="">
-            <i class="ni ni-ui-04"></i> Gérer les sessions
+        <li *ngFor="let adminItem of adminItems " class="{{adminItem.class}} nav-item">
+          <a routerLinkActive="active" [routerLink]="[adminItem.path]" class="nav-link">
+            <i class="ni {{adminItem.icon}}"></i>
+            {{adminItem.title}}
           </a>
         </li>
       </ul>

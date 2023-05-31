@@ -6,6 +6,7 @@ import { DepartementsComponent } from '../../pages/departments/departements.comp
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import {ComptesComponent} from "../../pages/comptes/comptes.component";
+import {DepartementsEditComponent} from "../../pages/departements-edit/departements-edit.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -13,5 +14,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'tables',         component: TablesComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'departements',   component: DepartementsComponent },
-    {path: 'comptes', component:ComptesComponent}
+    {path: 'comptes', component:ComptesComponent},
+  {path:'departements-edit', component: DepartementsEditComponent}
 ];

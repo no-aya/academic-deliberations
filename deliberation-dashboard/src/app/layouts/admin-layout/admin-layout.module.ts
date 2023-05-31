@@ -14,6 +14,7 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ComptesComponent} from "../../pages/comptes/comptes.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {DepartementsEditComponent} from "../../pages/departements-edit/departements-edit.component";
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -33,7 +34,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     TablesComponent,
     IconsComponent,
     DepartementsComponent,
-    ComptesComponent
+    ComptesComponent,
+    DepartementsEditComponent
   ]
 })
 
