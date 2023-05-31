@@ -13,12 +13,17 @@ export const ROUTES: RouteInfo[] = [
     { path: '/departements', title: 'Mes Départements',  icon:'ni-pin-3 text-orange', class: '' },
     { path: '/user-profile', title: 'Profile',  icon:'ni-single-02 text-yellow', class: '' },
     { path: '/tables', title: 'Mes Notes',  icon:'ni-bullet-list-67 text-red', class: '' }
+
 ];
 export const ROUTESAUTH: RouteInfo[] = [
   { path: '/login', title: 'Se connecter',  icon:'ni-key-25 text-info', class: '' },
   { path: '/register', title: 'S\'inscrire',  icon:'ni-circle-08 text-pink', class: '' }
 ];
-
+export const ROUTESADMIN: RouteInfo[] = [
+  { path: '/departements-edit', title:'Gérer les départements', icon:'ni ni-settings', class:''},
+  { path:'/comptes', title:'Gérer les comptes', icon:'ni ni-badge', class:'' },
+  { path:'/sessions', title:'Gérer les sessions', icon:'ni ni-ui-04', class:''}
+];
 
 @Component({
   selector: 'app-sidebar',
@@ -29,6 +34,8 @@ export class SidebarComponent implements OnInit {
 
   public menuItems: any[];
   public isCollapsed = true;
+  public adminItems: any[];
+  public authItems:any[];
 
   constructor(private router: Router) { }
 
@@ -37,5 +44,12 @@ export class SidebarComponent implements OnInit {
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });
-  }
+    this.adminItems = ROUTESADMIN.filter(adminItem => adminItem);
+    this.router.events.subscribe((event) => {
+      this.isCollapsed = true;
+    });
+    this.authItems=ROUTESAUTH.filter(authItem=>authItem);
+  this.router.events.subscribe(()=>{
+    this.isCollapsed=true;
+  })}
 }
