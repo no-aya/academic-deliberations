@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
   this.router.events.subscribe(()=>{
     this.isCollapsed=true;
   })}
-  
+
   //Uploading files section/method
   fileName = '';
   onFileSelected(event) {
