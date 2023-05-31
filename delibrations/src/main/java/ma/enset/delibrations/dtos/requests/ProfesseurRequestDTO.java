@@ -1,8 +1,10 @@
 package ma.enset.delibrations.dtos.requests;
 
 
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import ma.enset.delibrations.entities.Element;
+import ma.enset.delibrations.security.AppUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ public class ProfesseurRequestDTO {
     private String email;
     private Long[] elementModules;
 
-    //@OneToOne
-    //private AppUser user;
+    @OneToOne
+    private AppUser user;
     // From JWT
 }

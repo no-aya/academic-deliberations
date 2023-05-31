@@ -42,7 +42,6 @@ export class SidebarComponent implements OnInit {
   }
   fileName = '';
   onFileSelected(event) {
-
     const file:File = event.target.files[0];
     if (file) {
       this.fileName = file.name;

@@ -17,6 +17,8 @@ public class AppUser {
 
     @Column(unique = true)
     private String lastname;
+
+
     @Column(unique = true)
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -24,6 +26,8 @@ public class AppUser {
 
     //soft delete
     private boolean suspend = false;
+
+
 
     //Role
 }

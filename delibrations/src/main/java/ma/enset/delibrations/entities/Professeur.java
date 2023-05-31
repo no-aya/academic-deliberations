@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.enset.delibrations.security.AppUser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,9 +20,14 @@ public class Professeur {
         private String cin;
         private String nom;
         private String prenom;
+        @Column(unique = true)
         private String email;
         private String telephone;
         private String adresse;
+
+        //id User
+        @OneToOne
+        private AppUser idUser;
 
         @OneToMany(mappedBy = "professeur", fetch = FetchType.EAGER)
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -1,8 +1,10 @@
 package ma.enset.delibrations.dtos.responses;
 
 
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import ma.enset.delibrations.entities.Element;
+import ma.enset.delibrations.security.AppUser;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,7 @@ public class ProfesseurResponseDTO {
     private Date createdAt;
     private Date updatedOn;
 
-    //@OneToOne
-    //private AppUser user;
+    @OneToOne
+    private AppUser user;
     // From JWT
 }
