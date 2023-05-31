@@ -46,7 +46,7 @@ export class SidebarComponent implements OnInit {
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });
-  }
+
     this.adminItems = ROUTESADMIN.filter(adminItem => adminItem);
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
@@ -55,6 +55,8 @@ export class SidebarComponent implements OnInit {
   this.router.events.subscribe(()=>{
     this.isCollapsed=true;
   })}
+  
+  //Uploading files section/method
   fileName = '';
   onFileSelected(event) {
     const file:File = event.target.files[0];
