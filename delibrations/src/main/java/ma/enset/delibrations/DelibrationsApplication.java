@@ -3,6 +3,10 @@ package ma.enset.delibrations;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.repositories.*;
+import ma.enset.delibrations.security.AppUser;
+import ma.enset.delibrations.security.repository.AppUserRepository;
+import ma.enset.delibrations.services.FileStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,14 +23,18 @@ public class DelibrationsApplication {
         SpringApplication.run(DelibrationsApplication.class, args);
     }
 
-
+    @Autowired
+    private FileStorageService fileStorageService;
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
                             ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
                             AnneeUnivRepository anneeUnivRepository,
                             InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
-                            EtudiantRepository etudiantRepository) {
+                            EtudiantRepository etudiantRepository,
+                            AppUserRepository appUserRepository) {
         return args -> {
+            fileStorageService.deleteAll();
+            fileStorageService.init();
             AtomicInteger i = new AtomicInteger();
             //Testing Element
             Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
@@ -162,6 +170,17 @@ public class DelibrationsApplication {
                 ins.setCreatedAt(new Date());
                 ins.setEtudiant(etudiantRepository.findByApogeeAndSoftDeleteIsFalse("EE9292920"));
                 inscriptionPedagogiqueRepository.save(ins);
+            });
+
+            //Testin AppUser
+            Stream.of("user1","user2","user3","user4","user5","user6","user7","user8","user9","user10").forEach(user->{
+                AppUser appUser = new AppUser();
+                appUser.setUsername(user);
+                appUser.setEmail(user+"@gmail.com");
+                appUser.setLastname("lastname"+user);
+                appUser.setPassword("1234");
+                appUser.setSuspend(false);
+                appUserRepository.save(appUser);
             });
 
 

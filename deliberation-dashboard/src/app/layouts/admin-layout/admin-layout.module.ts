@@ -12,6 +12,8 @@ import { DepartementsComponent } from '../../pages/departments/departements.comp
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ComptesComponent} from "../../pages/comptes/comptes.component";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {DepartementsEditComponent} from "../../pages/departements-edit/departements-edit.component";
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -22,7 +24,9 @@ import {DepartementsEditComponent} from "../../pages/departements-edit/departeme
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    ReactiveFormsModule,
+    MatSlideToggleModule
   ],
   declarations: [
     DashboardComponent,
@@ -30,6 +34,7 @@ import {DepartementsEditComponent} from "../../pages/departements-edit/departeme
     TablesComponent,
     IconsComponent,
     DepartementsComponent,
+    ComptesComponent,
     DepartementsEditComponent
   ]
 })

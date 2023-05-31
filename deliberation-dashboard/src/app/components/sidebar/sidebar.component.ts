@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
 
 declare interface RouteInfo {
     path: string;
@@ -37,13 +39,14 @@ export class SidebarComponent implements OnInit {
   public adminItems: any[];
   public authItems:any[];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private http: HttpClient) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });
+  }
     this.adminItems = ROUTESADMIN.filter(adminItem => adminItem);
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
@@ -52,4 +55,15 @@ export class SidebarComponent implements OnInit {
   this.router.events.subscribe(()=>{
     this.isCollapsed=true;
   })}
+  fileName = '';
+  onFileSelected(event) {
+    const file:File = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
+      const formData = new FormData();
+      formData.append("file", file);
+      const upload$ = this.http.post(environment.backendHost+"/upload-file", formData);
+      upload$.subscribe();
+    }
+  }
 }

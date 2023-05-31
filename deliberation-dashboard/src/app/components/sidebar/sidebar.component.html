@@ -90,6 +90,20 @@
       <h6 class="navbar-heading text-muted">Administration</h6>
       <!-- Navigation -->
       <ul class="navbar-nav mb-md-3">
+         <!-- <li class="nav-item">
+          <input type="file" class="file-input"
+                 (change)="onFileSelected($event)" #fileUpload>
+
+          <div class="file-upload">
+
+            {{fileName || "No file uploaded yet."}}
+
+            <button mat-mini-fab color="primary" class="upload-btn"
+                    (click)="fileUpload.click()">
+              <mat-icon>attach_file</mat-icon>
+            </button>
+          </div>
+        </li>-->
         <li *ngFor="let adminItem of adminItems " class="{{adminItem.class}} nav-item">
           <a routerLinkActive="active" [routerLink]="[adminItem.path]" class="nav-link">
             <i class="ni {{adminItem.icon}}"></i>
