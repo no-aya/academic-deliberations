@@ -39,6 +39,8 @@ public class Filiere {
         private RegleCalcul regleCalcul;
 
         @OneToMany(mappedBy = "filiere")
+        private Departement departement;
+
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private List<Etudiant> etudiants;
 
