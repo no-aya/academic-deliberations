@@ -11,12 +11,52 @@
 <div class="container-fluid mt--7">
 
   <ng-container *ngIf="sessions | async as listSessions ; else failure">
+    <div class="card shadow">
+      <div class="card-header border-0"><h3 class="mb-0">Ajouter une session</h3></div>
+      <div class="card-body">
+        <!-- Form add session -->
+        <form [formGroup]="newSessionFormGroup" (ngSubmit)="handleSaveSession()">
+          <div class="mb-3">
+            <label class="form-label">Name:</label>
+            <input type="text" formControlName="Libelle" class="form-control">
+            <span class="text-danger"
+                  *ngIf="newSessionFormGroup.controls['Libelle'].touched
+                && newSessionFormGroup.controls['Libelle'].errors
+                && newSessionFormGroup.controls['Libelle'].errors!['Libelle']">
+            Name is not valid
+            </span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date début:</label>
+            <input type="date" formControlName="DateDebut" class="form-control">
+            <span class="text-danger"
+                  *ngIf="newSessionFormGroup.controls['DateDebut'].touched
+                && newSessionFormGroup.controls['DateDebut'].errors
+                && newSessionFormGroup.controls['DateDebut'].errors!['DateDebut']">
+            Date is not valid
+          </span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date fin:</label>
+            <input type="date" formControlName="DateFin" class="form-control">
+            <span class="text-danger"
+                  *ngIf="newSessionFormGroup.controls['DateFin'].touched
+                && newSessionFormGroup.controls['DateFin'].errors
+                && newSessionFormGroup.controls['DateFin'].errors!['DateFin']">
+            Date is not valid
+          </span>
+          </div>
+          <button  class="btn btn-sm btn-danger">Save</button>
+        </form>
+      </div>
+    </div>
 
     <div class="card shadow">
       <div class="card-header border-0"><h3 class="mb-0">Sessions</h3></div>
       <div class="card-body">
+
         <!--Table des sessions-->
-        <div class="table-responsive">
+        <div class="table-responsive ">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
             <tr>

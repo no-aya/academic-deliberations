@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Session} from "../model/session.model";
 import {catchError, Observable, throwError} from "rxjs";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SessionService} from "../../services/session.service";
 
 @Component({
@@ -13,18 +13,28 @@ export class SessionComponent implements OnInit {
 
   sessions!: Observable<Array<Session>>;
   errorMessage!: string;
+  newSessionFormGroup! : FormGroup;
 
 
   isClosed: boolean;
-  constructor(private sessionService : SessionService) { }
+  constructor(private sessionService : SessionService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
+    this.newSessionFormGroup=this.fb.group({
+      Libelle : this.fb.control(null, [Validators.required, Validators.minLength(4)]),
+      DateDebut : this.fb.control(null,[Validators.required]),
+      DateFin : this.fb.control(null,[Validators.required]),
+    });
+
     this.sessions=this.sessionService.getSessions().pipe(
       catchError(err => {
         this.errorMessage=err.message;
         return throwError(err);
       }
       ));
+
+
+
   }
 
 
@@ -47,5 +57,18 @@ export class SessionComponent implements OnInit {
       }
     })
 
+  }
+
+  handleSaveSession() {
+    let session:Session=this.newSessionFormGroup.value;
+    console.log(session);
+    this.sessionService.saveSession(session).subscribe({
+      next : data=>{
+        alert("Session has been successfully saved!");
+      },
+      error : err => {
+        console.log(err);
+      }
+    });
   }
 }
