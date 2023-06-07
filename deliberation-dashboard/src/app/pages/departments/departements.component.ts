@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 @Component({
   selector: 'app-departements',
   templateUrl: './departements.component.html',
-  styleUrls: ['./departements.component.scss'],
+  styleUrls: ['./departements.component.css'],
 })
 export class DepartementsComponent implements OnInit {
   departments = [
@@ -20,6 +20,7 @@ export class DepartementsComponent implements OnInit {
   }
 
   ngOnInit() {
+
 
 
 
