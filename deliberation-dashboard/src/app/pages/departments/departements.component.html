@@ -5,19 +5,19 @@
       <div class="row">
         <ng-container *ngIf="departments as listdepartements">
           <!--For each departement, show a card with the number of elements-->
-          <div class="col-xl-3 col-lg-6" *ngFor="let dep of departments">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <a href="#!">
+          <div class="col-xl-3 col-lg-6" *ngFor="let dep of departments | async">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <a href="#">
                 <div class="card-body">
-                  <div class="row">
+                  <div class="row mt-1">
                     <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">{{dep[0]}}</h5>
-                      <span class="h2 font-weight-bold mb-0">{{dep[1]}}</span>
+                      <h3 class="card-title text-uppercase text-muted mb-0">{{dep.intitule}}</h3>
+                      <h4 class="font-weight-bold mb-0">{{dep.nbrElement}} element(s)</h4>
                     </div>
                   </div>
                 </div>
-                </a>
-              </div>
+              </a>
+            </div>
           </div>
         </ng-container>
       </div>
@@ -29,7 +29,28 @@
   <div class="row">
     <div class="col">
       <div class="card shadow border-0">
-        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" style="height: 600px;"></div>
+        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" style="height: 600px;">
+
+          <div id="accordion" class="my-3">
+            <div class="card" *ngFor="let link of links">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <a  (click)="toggleLink(link)" [attr.aria-expanded]="link.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + link.id">
+                    <i class="fas" [ngClass]="link.expanded ? 'fa-minus' : 'fa-plus'"></i> {{ link.label }}
+                  </a>
+                </h5>
+              </div>
+              <div [id]="'collapse-' + link.id" class="collapse" [ngClass]="{'show': link.expanded}">
+                <div class="card-body">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let childLink of link.children">{{ childLink }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

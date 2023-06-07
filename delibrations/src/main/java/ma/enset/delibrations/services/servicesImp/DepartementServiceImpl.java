@@ -7,17 +7,19 @@ import ma.enset.delibrations.dtos.mappers.FiliereMapper;
 import ma.enset.delibrations.dtos.requests.DepartementRequestDTO;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
 import ma.enset.delibrations.entities.Departement;
+import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.Filiere;
+import ma.enset.delibrations.entities.Professeur;
+import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.exceptions.*;
-import ma.enset.delibrations.repositories.DepartementRepository;
+import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.services.DepartementService;
 import ma.enset.delibrations.services.FiliereService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,6 +31,11 @@ public class DepartementServiceImpl implements DepartementService
     private DepartementRepository departementRepository;
     private FiliereMapper filiereMapper;
     private FiliereService filiereService;
+
+    private ProfesseurRepository professeurRepository;
+    private ElementRepository elementRepository;
+    private ModuleRepository moduleRepository;
+    private FiliereRepository filiereRepository;
 
     @Override
     public DepartementResponseDTO createDepartement(DepartementRequestDTO departementRequestDTO) throws CannotProceedException, DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
@@ -101,4 +108,56 @@ public class DepartementServiceImpl implements DepartementService
         departement.setSoftDelete(true);
         departementRepository.save(departement);
     }
+
+    @Override
+    public List<DepartementResponseDTO> getDepartementsByProf(Long id) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
+        if(id==null) return null;
+        Professeur professeur = professeurRepository.findByIdAndSoftDeleteIsFalse(id);
+        if(professeur!=null){
+            List<Element> elements = elementRepository.findByCleEtrangere(id);
+            if(elements!=null){
+                List<Departement> departements = new ArrayList<>();
+                for (Element e: elements) {
+                    Module module = moduleRepository.findById(e.getModule().getId()).orElseThrow( ()-> new ModuleNotFoundException(e.getModule().getId()));
+                    if(module!=null) {
+                        Filiere filiere= filiereRepository.findById(module.getFiliere().getId()).orElse(null);
+                        if(filiere!=null){
+                            Departement departement= departementRepository.findById(filiere.getDepartement().getId()).orElseThrow(()-> new DepartementNotFoundException(filiere.getDepartement().getId()));
+                            if(departement!=null) departements.add(departement);
+                        }
+                    }
+                }
+                List<DepartementResponseDTO> responses = departements.stream()
+                        .map(departement -> departementMapper.fromEntityToResponseDTO(departement))
+                        .collect(Collectors.toList());
+
+
+                Map<DepartementResponseDTO, Integer> responseOccurrences = new HashMap<>();
+
+                // Compter les occurrences de chaque élément
+                for (DepartementResponseDTO response : responses) {
+                    responseOccurrences.put(response, responseOccurrences.getOrDefault(response, 0) + 1);
+                }
+
+                // Créer une nouvelle liste en éliminant les doublons
+                List<DepartementResponseDTO> uniqueResponses = new ArrayList<>(responseOccurrences.keySet());
+
+                // Mettre à jour les occurrences pour chaque élément dans la nouvelle liste
+                for (DepartementResponseDTO response : uniqueResponses) {
+                    int occurrence = responseOccurrences.get(response);
+                    response.setNbrElement(occurrence);
+                }
+
+                return uniqueResponses;
+
+               // Set<DepartementResponseDTO> uniqueResponses = new HashSet<>(responses);
+                //return new ArrayList<>(uniqueResponses);
+            }
+        }
+
+        return null;
+
+    }
+
+
 }

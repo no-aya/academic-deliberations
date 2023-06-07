@@ -21,4 +21,7 @@ public class DepartementResponseDTO {
 
     private Date createdAt;
     private Date updatedAt;
+
+    // récupérer les départements liés à un professeur tout en obtenant le nombre d'éléments enseignés dans chaque département
+    private Integer nbrElement;
 }

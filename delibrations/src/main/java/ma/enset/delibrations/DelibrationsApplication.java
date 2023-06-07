@@ -37,7 +37,7 @@ public class DelibrationsApplication {
             fileStorageService.init();
             AtomicInteger i = new AtomicInteger();
             //Testing Element
-            Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
+            Stream.of("Element1","Element2","Element3","Element4","Element5","Element6","Element7","Element8","Element9","Element10").forEach(module->{
                 Element element = new Element();
                 element.setCode("CODE"+(i.getAndIncrement()));
                 element.setTitre(module);
