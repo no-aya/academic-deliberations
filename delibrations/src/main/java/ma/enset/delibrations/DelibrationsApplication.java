@@ -31,7 +31,8 @@ public class DelibrationsApplication {
                             AnneeUnivRepository anneeUnivRepository,
                             InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
                             EtudiantRepository etudiantRepository,
-                            AppUserRepository appUserRepository) {
+                            AppUserRepository appUserRepository,
+                            SessionRepository sessionRepository) {
         return args -> {
             fileStorageService.deleteAll();
             fileStorageService.init();
@@ -181,6 +182,15 @@ public class DelibrationsApplication {
                 appUser.setPassword("1234");
                 appUser.setSuspend(false);
                 appUserRepository.save(appUser);
+            });
+
+            //Testing sessions
+            Stream.of("Session1","Session2").forEach(session->{
+                Session session1 = new Session();
+                session1.setLibelle(session);
+                session1.setDateDebut(new Date());
+                session1.setDateFin(new Date());
+                sessionRepository.save(session1);
             });
 
 

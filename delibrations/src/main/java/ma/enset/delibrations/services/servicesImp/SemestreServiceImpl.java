@@ -9,6 +9,7 @@ import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
 import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.entities.NoteSemestre;
 import ma.enset.delibrations.entities.Semestre;
+import ma.enset.delibrations.entities.Session;
 import ma.enset.delibrations.exceptions.AnneeUnivNotFoundException;
 import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
 import ma.enset.delibrations.exceptions.SemestreNotFoundException;
@@ -53,6 +54,9 @@ public class SemestreServiceImpl implements SemestreService {
                 semestre.setCode(generateCode());
                 semestre.setNoteSemestres(noteSemestres);
             }
+            // Create session
+            /*Session session = new Session();
+            semestreRequestDTO.setSessionId(session.getId());*/
             semestreRepository.save(semestre);
             return semestreMapper.fromEntityToResponseDTO(semestre);
         }
@@ -65,7 +69,7 @@ public class SemestreServiceImpl implements SemestreService {
         if(id!=null && semestreRequestDTO!=null) {
             Semestre semestre = semestreRepository.findByCode(id);
             if(semestre==null) throw  new SemestreNotFoundException(id);
-            semestre.setSessionStatus(semestreRequestDTO.isSessionStatus());
+            //semestre.setSessionStatus(semestreRequestDTO.isSessionStatus());
             if(semestreRequestDTO.getCode()!=null) semestre.setCode(semestreRequestDTO.getCode());
             if (semestreRequestDTO.getLibelle()!=null) semestre.setLibelle(semestreRequestDTO.getLibelle());
 
