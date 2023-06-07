@@ -24,7 +24,7 @@ export const ROUTESAUTH: RouteInfo[] = [
 export const ROUTESADMIN: RouteInfo[] = [
   { path: '/departements-edit', title:'Gérer les départements', icon:'ni ni-settings', class:''},
   { path:'/comptes', title:'Gérer les comptes', icon:'ni ni-badge', class:'' },
-  { path:'/sessions', title:'Gérer les sessions', icon:'ni ni-ui-04', class:''}
+  { path:'/session', title:'Gérer les sessions', icon:'ni ni-ui-04', class:''}
 ];
 
 @Component({
@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
   this.router.events.subscribe(()=>{
     this.isCollapsed=true;
   })}
-  
+
   //Uploading files section/method
   fileName = '';
   onFileSelected(event) {
