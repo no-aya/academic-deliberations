@@ -4,8 +4,10 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.SessionRequestDTO;
 import ma.enset.delibrations.dtos.responses.SessionResponseDTO;
+import ma.enset.delibrations.entities.Session;
 import ma.enset.delibrations.exceptions.SessionNotFoundException;
 import ma.enset.delibrations.services.SessionService;
+import ma.enset.delibrations.services.servicesImp.SemestreServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +35,9 @@ public class SessionController {
     }
 
     @PutMapping("/sessions/{id}")
-    public SessionResponseDTO updateSession(@PathVariable Long id, @RequestBody SessionRequestDTO sessionRequestDTO) throws SessionNotFoundException {
-        return sessionService.updateSession(id, sessionRequestDTO);
+    public Session updateSession(@PathVariable Long id, @RequestBody Session session) throws SessionNotFoundException {
+        session.setId(id);
+        return sessionService.updateSession(session);
     }
 
     @DeleteMapping("/sessions/{id}")

@@ -10,6 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SessionRequestDTO {
+    private Long id;
     private String Libelle;
     boolean isClosed;
     Date dateDebut;

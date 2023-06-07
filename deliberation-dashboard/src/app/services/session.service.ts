@@ -17,11 +17,10 @@ export class SessionService {
 
   saveSession(s: Session) {
     return this.http.post(environment.backendHost+"/sessions",s);
-
   }
 
   updateSession(s: Session) {
-    return this.http.post(environment.backendHost+"/sessions/"+s.id,s);
+    return this.http.put(environment.backendHost+"/sessions",s);
 
   }
 }
