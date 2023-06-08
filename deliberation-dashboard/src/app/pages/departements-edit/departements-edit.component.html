@@ -2,6 +2,58 @@
   <div class="container-fluid">
     <div class="header-body">
     </div>
-
   </div>
 </div>
+<div class="container-fluid mt--7">
+        <ng-container *ngIf="departements | async as listDepartements; else failureOrLading">
+          <div class="card">
+            <div class="card-header">Departements</div>
+            <div class="card-body">
+              <div *ngIf="searchFormGroup" class="mb-5">
+                <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchDepartements()">
+                  <div class="input-group">
+                    <label class="input-group-text text-primary">Intitulé</label>
+                    <input type="text" formControlName="keyword" class="form-control">
+                    <button class="btn btn-primary" type="submit">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>ID</th><th>CODE</th><th>INTITULE</th><th>DATE CREATION</th><th>ACTIONS</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let d of departements | async">
+                  <td>{{d.id}}</td>
+                  <td>{{d.code}}</td>
+                  <td>{{d.intitule}}</td>
+                  <td>{{d.createdAt}}</td>
+                  <td>
+                    <button class="btn btn-sm btn-danger" (click)="handleDeleteDepartement(d)">Supprimer <i class="fa fa-trash"></i></button>
+                    <button class="btn btn-sm btn-primary" (click)="handleUpdateDepartement(d)">Modifier <i class="fa fa-edit"></i></button>
+                  </td>
+
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-template #failureOrLading>
+          <ng-container *ngIf="errorMessage; else loading">
+            <div class="text-danger">
+              {{errorMessage}}
+            </div>
+          </ng-container>
+          <ng-template #loading>
+            Loading .....
+          </ng-template>
+        </ng-template>
+      </div>
+
+

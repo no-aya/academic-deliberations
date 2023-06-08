@@ -37,12 +37,6 @@ export class DepartementsComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
-
-
-
-
       //exporting the data to the html page
   }
 
