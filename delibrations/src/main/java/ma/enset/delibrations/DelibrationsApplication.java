@@ -32,7 +32,8 @@ public class DelibrationsApplication {
                             AnneeUnivRepository anneeUnivRepository,
                             InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
                             EtudiantRepository etudiantRepository,
-                            AppUserRepository appUserRepository) {
+                            AppUserRepository appUserRepository,
+                            SessionRepository sessionRepository) {
         return args -> {
         /*        fileStorageService.deleteAll();
                 fileStorageService.init();
@@ -139,55 +140,58 @@ public class DelibrationsApplication {
                 depart.setFilieres(filiereRepository.findAll());
                 departementRepository.save(depart);
             });
-/*
 
-                Departement departement1 = departementRepository.findByCode("Departement1");
-                //testing Filiere
-                Stream.of("Filiere1", "Filiere2", "Filiere3").forEach(filiere -> {
-                    Filiere fil = new Filiere();
-                    fil.setIntitule(filiere);
-                    fil.setCode(filiere);
-                    fil.setCreatedAt(new Date());
-                    fil.setDepartement(departement1);
-                    filiereRepository.save(fil);
-                });
-
-
-                //Testing anneUniv
-                Stream.of("20-21", "21-22", "22-23", "23-24", "24-25", "25-26", "26-27", "27-28", "28-29", "29-30").forEach(anneUniv -> {
-                    AnneeUniv anne = new AnneeUniv();
-                    //Code, date-debut, date-fin
-                    anne.setCodeAnnee(anneUniv);
-                    anne.setDateDebut(new Date());
-                    anne.setDateFin(new Date());
-                    anneeUnivRepository.save(anne);
-                });
+            Departement departement1 = departementRepository.findByCode("Departement1");
+            //testing Filiere
+            Stream.of("Filiere1","Filiere2","Filiere3").forEach(filiere->{
+                Filiere fil = new Filiere();
+                fil.setIntitule(filiere);
+                fil.setCode(filiere);
+                fil.setCreatedAt(new Date());
+                fil.setDepartement(departement1);
+                filiereRepository.save(fil);
+            });
 
 
-                //Testing InscriptionPedagogique
-                Stream.of("InscriptionPedagogique1", "InscriptionPedagogique2", "InscriptionPedagogique3", "InscriptionPedagogique4", "InscriptionPedagogique5", "InscriptionPedagogique6", "InscriptionPedagogique7", "InscriptionPedagogique8", "InscriptionPedagogique9", "InscriptionPedagogique10").forEach(inscriptionPedagogique -> {
-                    InscriptionPedagogique ins = new InscriptionPedagogique();
-                    ins.setModule(moduleRepository.findByCode("Module1ID"));
-                    ins.setCreatedAt(new Date());
-                    ins.setEtudiant(etudiantRepository.findByApogeeAndSoftDeleteIsFalse("EE9292920"));
-                    inscriptionPedagogiqueRepository.save(ins);
-                });
-
-                //Testin AppUser
-                Stream.of("user1", "user2", "user3", "user4", "user5", "user6", "user7", "user8", "user9", "user10").forEach(user -> {
-                    AppUser appUser = new AppUser();
-                    appUser.setUsername(user);
-                    appUser.setEmail(user + "@gmail.com");
-                    appUser.setLastname("lastname" + user);
-                    appUser.setPassword("1234");
-                    appUser.setSuspend(false);
-                    appUserRepository.save(appUser);
-                });
+            //Testing anneUniv
+            Stream.of("20-21","21-22","22-23","23-24","24-25","25-26","26-27","27-28","28-29","29-30").forEach(anneUniv->{
+                AnneeUniv anne = new AnneeUniv();
+                //Code, date-debut, date-fin
+                anne.setCodeAnnee(anneUniv);
+                anne.setDateDebut(new Date());
+                anne.setDateFin(new Date());
+                anneeUnivRepository.save(anne);
+            });
 
 
-            };
-        }
-    */
+            //Testing InscriptionPedagogique
+            Stream.of("InscriptionPedagogique1","InscriptionPedagogique2","InscriptionPedagogique3","InscriptionPedagogique4","InscriptionPedagogique5","InscriptionPedagogique6","InscriptionPedagogique7","InscriptionPedagogique8","InscriptionPedagogique9","InscriptionPedagogique10").forEach(inscriptionPedagogique->{
+                InscriptionPedagogique ins = new InscriptionPedagogique();
+                ins.setModule(moduleRepository.findByCode("Module1ID"));
+                ins.setCreatedAt(new Date());
+                ins.setEtudiant(etudiantRepository.findByApogeeAndSoftDeleteIsFalse("EE9292920"));
+                inscriptionPedagogiqueRepository.save(ins);
+            });
+
+            //Testin AppUser
+            Stream.of("user1","user2","user3","user4","user5","user6","user7","user8","user9","user10").forEach(user->{
+                AppUser appUser = new AppUser();
+                appUser.setUsername(user);
+                appUser.setEmail(user+"@gmail.com");
+                appUser.setLastname("lastname"+user);
+                appUser.setPassword("1234");
+                appUser.setSuspend(false);
+                appUserRepository.save(appUser);
+            });
+
+            //Testing sessions
+            Stream.of("Session1","Session2").forEach(session->{
+                Session session1 = new Session();
+                session1.setLibelle(session);
+                session1.setDateDebut(new Date());
+                session1.setDateFin(new Date());
+                sessionRepository.save(session1);
+            });
 
         };
     }

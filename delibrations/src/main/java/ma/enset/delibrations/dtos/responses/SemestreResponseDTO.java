@@ -15,6 +15,6 @@ public class SemestreResponseDTO {
     private Long[] noteSemestres;
 
     private Long anneeUnivId;
-
-    private boolean sessionStatus = false;
+/*
+    private boolean sessionStatus = false;*/
 }

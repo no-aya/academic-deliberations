@@ -32,5 +32,6 @@ public class Semestre {
 
 
     //Session Status
-    private boolean sessionStatus = false;
+    @OneToOne
+    Session session;
 }

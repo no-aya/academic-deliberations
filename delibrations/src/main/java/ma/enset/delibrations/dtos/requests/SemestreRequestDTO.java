@@ -15,7 +15,7 @@ public class SemestreRequestDTO {
 
     private Long anneeUnivId;
 
-    private boolean sessionStatus = false;
+    /*private Long sessionId;*/
 
     /*Request syntax:
     {
