@@ -2,7 +2,7 @@ export interface DepartementEditModel {
   id : number;
   code : string;
   intitule : string;
-  dateCreation : Date;
+  createdAt : Date;
   dateMAJ : Date;
 }
 
