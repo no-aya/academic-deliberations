@@ -29,8 +29,52 @@
   <div class="row">
     <div class="col">
       <div class="card shadow border-0">
-        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" style="height: 600px;"></div>
+<ng-container *ngIf="elements as listelements">
+            <table class="custom-table">
+              <thead>
+              <tr>
+                <th>Element de module</th>
+                <th>Nombre d'étudiants</th>
+                <th>Moyenne de la classe</th>
+                <th>Validés</th>
+                <th>Rattrapage</th>
+                <th>Non validés</th>
+                <th>Inconnus</th>
+              </tr>
+              </thead>
+              <ng-container *ngFor="let element of elements">
+                <tbody>
+                <tr>
+                  <td colspan="20" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle"></i> {{element[0]}}</button></td>
+                </tr>
+                <ng-container *ngFor="let elements of element[1]">
+                <tr class="toggler toggler1">
+                  <td><a [routerLink]="['/tables']">{{elements[0]}}</a></td>
+                  <td>{{elements[1]}}</td>
+                  <td>{{elements[2]}}</td>
+                  <td>{{elements[3]}}</td>
+                  <td>{{elements[4]}}</td>
+                  <td>{{elements[5]}}</td>
+                  <td>{{elements[6]}}</td>
+
+                </tr>
+                </ng-container>
+                </tbody>
+
+
+              </ng-container>
+            </table>
+  </ng-container>
       </div>
     </div>
   </div>
 </div>
+<script >
+    $(".tbtn").click(function () {
+      $(this).parents(".custom-table").find(".toggler1").removeClass("toggler1");
+      $(this).parents("tbody").find(".toggler").addClass("toggler1");
+      $(this).parents(".custom-table").find(".fa-minus-circle").removeClass("fa-minus-circle");
+      $(this).parents("tbody").find(".fa-plus-circle").addClass("fa-minus-circle");
+      alert("hi")
+    });
+</script>
