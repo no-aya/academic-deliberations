@@ -23,8 +23,7 @@ import java.util.List;
 @Transactional
 @AllArgsConstructor
 @Slf4j
-public class DepartementServiceImpl implements DepartementService
-{
+public class DepartementServiceImpl implements DepartementService {
     private DepartementMapper departementMapper;
     private DepartementRepository departementRepository;
     private FiliereMapper filiereMapper;
