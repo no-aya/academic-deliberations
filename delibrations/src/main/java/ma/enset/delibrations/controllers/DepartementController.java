@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/departement")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DepartementController {
     private DepartementService departementService;
 

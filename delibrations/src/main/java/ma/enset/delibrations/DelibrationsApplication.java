@@ -18,22 +18,23 @@ import java.util.stream.Stream;
 public class DelibrationsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DelibrationsApplication.class, args);}
+        SpringApplication.run(DelibrationsApplication.class, args);
+    }
 
 
-       /* //@Autowired
-        //private FileStorageService fileStorageService;
-        @Bean
-        CommandLineRunner start (ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
-                ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository
-        semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository
-        departementRepository, FiliereRepository filiereRepository,
-                AnneeUnivRepository anneeUnivRepository,
-                InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
-                EtudiantRepository etudiantRepository,
-                AppUserRepository appUserRepository){
-            return args -> {
-                fileStorageService.deleteAll();
+    //@Autowired
+    //private FileStorageService fileStorageService;
+    @Bean
+    CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
+                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository
+                                    semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository
+                                    departementRepository, FiliereRepository filiereRepository,
+                            AnneeUnivRepository anneeUnivRepository,
+                            InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
+                            EtudiantRepository etudiantRepository,
+                            AppUserRepository appUserRepository) {
+        return args -> {
+        /*        fileStorageService.deleteAll();
                 fileStorageService.init();
                 AtomicInteger i = new AtomicInteger();
                 //Testing Element
@@ -128,17 +129,17 @@ public class DelibrationsApplication {
                     etud.setCreatedAt(new Date());
                     etudiantRepository.save(etud);
                 });
-
-                //testing Departement
-                Stream.of("Departement1", "Departement2", "Departement3", "Departement4", "Departement5", "Departement6", "Departement7").forEach(departement -> {
-                    Departement depart = new Departement();
-                    depart.setIntitule(departement);
-                    depart.setCode(departement);
-                    depart.setCreatedAt(new Date());
-                    depart.setFilieres(filiereRepository.findAll());
-                    departementRepository.save(depart);
-                });
-
+*/
+            //testing Departement
+            Stream.of("Departement1", "Departement2", "Departement3", "Departement4", "Departement5", "Departement6", "Departement7").forEach(departement -> {
+                Departement depart = new Departement();
+                depart.setIntitule(departement);
+                depart.setCode(departement);
+                depart.setCreatedAt(new Date());
+                depart.setFilieres(filiereRepository.findAll());
+                departementRepository.save(depart);
+            });
+/*
 
                 Departement departement1 = departementRepository.findByCode("Departement1");
                 //testing Filiere
@@ -188,5 +189,6 @@ public class DelibrationsApplication {
         }
     */
 
-
+        };
+    }
 }

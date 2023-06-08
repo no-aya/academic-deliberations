@@ -63,5 +63,8 @@ export class DepartementsEditComponent implements OnInit {
   /*handleCustomerAccounts(departement: DepartementEditModel) {
     this.router.navigateByUrl("/customer-accounts/"+departement.id,{state :departement});
   }*/
+  handleUpdateDepartement(d: DepartementEditModel) {
+    
+  }
 }
 

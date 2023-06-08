@@ -4,8 +4,7 @@
     </div>
   </div>
 </div>
-
-      <div class="container mt-2">
+<div class="container-fluid mt--7">
         <ng-container *ngIf="departements | async as listDepartements; else failureOrLading">
           <div class="card">
             <div class="card-header">Departements</div>
@@ -24,7 +23,7 @@
               <table class="table">
                 <thead>
                 <tr>
-                  <th>ID</th><th>CODE</th><th>INTITULE</th><th>DATE CREATION</th>
+                  <th>ID</th><th>CODE</th><th>INTITULE</th><th>DATE CREATION</th><th>ACTIONS</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,6 +34,7 @@
                   <td>{{d.dateCreation}}</td>
                   <td>
                     <button class="btn btn-sm btn-danger" (click)="handleDeleteDepartement(d)">Supprimer <i class="fa fa-trash"></i></button>
+                    <button class="btn btn-sm btn-primary" (click)="handleUpdateDepartement(d)">Modifier <i class="fa fa-edit"></i></button>
                   </td>
 
                 </tr>
