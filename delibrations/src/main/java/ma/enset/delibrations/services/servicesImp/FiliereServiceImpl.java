@@ -4,20 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.FiliereMapper;
 import ma.enset.delibrations.dtos.requests.FiliereRequestDTO;
+import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Filiere;
+import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.exceptions.FiliereNotFoundException;
-import ma.enset.delibrations.repositories.DepartementRepository;
-import ma.enset.delibrations.repositories.FiliereRepository;
-import ma.enset.delibrations.repositories.RegleCalculRepository;
+import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.services.FiliereService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /*
     generateCode()
@@ -35,7 +38,11 @@ public class FiliereServiceImpl implements FiliereService {
     private DepartementRepository departementRepository;
 
     private RegleCalculRepository regleCalculRepository;
-
+    private ProfesseurRepository professeurRepository;
+    private ElementRepository elementRepository;
+    private  ModuleRepository moduleRepository;
+    private SemestreRepository semestreRepository;
+    private  AnneeUnivRepository anneeUnivRepository;
     private String generateCode() {
         //TODO: Generate Filiere code based on the format TI00006
         return "CODE"+System.currentTimeMillis();
@@ -139,5 +146,38 @@ public class FiliereServiceImpl implements FiliereService {
         filiere.setSoftDelete(true);
         filiereRepository.save(filiere);
     }
-    
+
+    @Override
+    public List<FiliereResponseDTO> getFiliereWithDeptAndProf(Long idProf, Long idDept,String codeAnnee, String libelSemestre) throws ModuleNotFoundException {
+        if(idProf!=null && idDept!=null){
+            Departement departement= departementRepository.findByIdAndSoftDeleteIsFalse(idDept);
+            Professeur professeur= professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
+            Semestre semestre = semestreRepository.findByLibelle(libelSemestre);
+            AnneeUniv anneeUniv = anneeUnivRepository.findByCodeAnnee(codeAnnee);
+            if(professeur!=null  && departement!=null && semestre!=null && anneeUniv!=null){
+                List<Element> elements = elementRepository.findByCleEtrangere(idProf);
+                if(elements!=null){
+                    List<Filiere> filieres = new ArrayList<>();
+                    for (Element e: elements) {
+                        Module module = moduleRepository.findById(e.getModule().getId()).orElseThrow( ()-> new ModuleNotFoundException(e.getModule().getId()));
+                        if(module!=null && module.getSemestre().getId()==semestre.getId() && module.getSemestre().getAnneeUniv().getId()==anneeUniv.getId()) {
+                            Filiere filiere= filiereRepository.findById(module.getFiliere().getId()).orElse(null);
+                            if(filiere!=null && filiere.getDepartement().getId()== idDept ){
+                                filieres.add(filiere);
+                            }
+                        }
+                    }
+                    List<FiliereResponseDTO> responses = filieres.stream()
+                            .map(f -> filiereMapper.fromEntityToResponseDTO(f))
+                            .collect(Collectors.toList());
+
+                    Set<FiliereResponseDTO> uniqueResponses = new HashSet<>(responses);
+                    return new ArrayList<>(uniqueResponses);
+                }
+            }
+        }
+        return null;
+    }
+
+
 }

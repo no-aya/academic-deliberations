@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/annee-univ")
+@CrossOrigin("*")
 public class AnneeUnivController {
 
     private AnneeUnivService anneeUnivService;

@@ -5,18 +5,24 @@ import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.ElementMapper;
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
+import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
 import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.Professeur;
 import ma.enset.delibrations.exceptions.ElementNotFoundException;
 import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
 import ma.enset.delibrations.repositories.ElementRepository;
+import ma.enset.delibrations.repositories.ModuleRepository;
 import ma.enset.delibrations.repositories.ProfesseurRepository;
 import ma.enset.delibrations.services.ElementService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ma.enset.delibrations.entities.Module;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -24,9 +30,11 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class ElementServiceImpl implements ElementService {
-    ElementRepository elementRepository;
-    ElementMapper elementMapper;
-    ProfesseurRepository professeurRepository;
+    private ElementRepository elementRepository;
+    private ElementMapper elementMapper;
+    private ProfesseurRepository professeurRepository;
+    private ModuleRepository moduleRepository;
+
 
     private String generateCode() {
         //TODO: Generate code based on the "Module", "Filiere" and "Semestre" attributes
@@ -109,5 +117,32 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Element getElement(Long id) throws ElementNotFoundException {
         return elementRepository.findById(id).orElseThrow(()->new ElementNotFoundException("Element with id "+id+" not found"));
+    }
+
+    @Override
+    public List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule) {
+       if(idProf!=null && idProf!=null){
+           Professeur prof = professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
+           Module module= moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
+           if(prof!=null && module!=null){
+               List<Element> elements = elementRepository.findByCleEtrangere(idProf);
+               if (elements!=null){
+                   List<Element> elementResponse=new ArrayList<>();
+                   for (Element e: elements) {
+                       if(e.getModule().getId()==idModule) elementResponse.add(e);
+                   }
+
+                   List<ElementResponseDTO> responses = elementResponse.stream()
+                           .map(e -> elementMapper.fromEntitytoResponseDTO(e))
+                           .collect(Collectors.toList());
+
+                   Set<ElementResponseDTO> uniqueResponses = new HashSet<>(responses);
+                   return new ArrayList<>(uniqueResponses);
+
+               }
+           }
+
+       }
+        return null;
     }
 }

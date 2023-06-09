@@ -12,7 +12,7 @@ export class DepartementService {
 
   constructor(private http:HttpClient) { }
 
-  public getDepartementsByProf(idProf : number):Observable<Array<Departement>>{
-    return this.http.get<Array<Departement>>(environment.backendHost+"/api/departements/"+idProf);
+  public getDepartementsByProf(idProf : number, anneeUniv : string, semestre: string):Observable<Array<Departement>>{
+    return this.http.get<Array<Departement>>(environment.backendHost+"/api/departements?id="+idProf+"&codeAnnee="+anneeUniv+"&libelS="+semestre);
   }
 }

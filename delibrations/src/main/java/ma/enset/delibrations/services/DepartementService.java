@@ -15,5 +15,5 @@ public interface DepartementService {
     List<DepartementResponseDTO> getDepartements();
     void deleteDepartement(String id) throws  DepartementNotFoundException;
 
-    public List<DepartementResponseDTO> getDepartementsByProf(Long id) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException;
+    public List<DepartementResponseDTO> getDepartementsByProf(Long id, String codeAnnee, String libelSemestre) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException;
 }

@@ -15,10 +15,11 @@ import java.util.List;
 public class AnneeUniv {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String CodeAnnee;
 
-    private Date DateDebut;
-    private Date DateFin;
+    private String codeAnnee;
+
+    private Date dateDebut;
+    private Date dateFin;
 
     @OneToMany(mappedBy = "anneeUniv", fetch = jakarta.persistence.FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

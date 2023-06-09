@@ -3,10 +3,7 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.FiliereRequestDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.DepartementNotFoundException;
-import ma.enset.delibrations.exceptions.FiliereNotFoundException;
-import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
+import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.services.FiliereService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +11,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/filiere")
+@RequestMapping("/api/filieres")
+@CrossOrigin("*")
 public class FiliereController {
     private FiliereService filiereService;
 
@@ -51,5 +49,11 @@ public class FiliereController {
             return true;
         }
         return false;
+    }
+
+    @GetMapping
+    public List<FiliereResponseDTO> getFiliere(@RequestParam Long idProf, @RequestParam Long idDept, @RequestParam String codeAnnee,@RequestParam String libelS) throws FiliereNotFoundException, ModuleNotFoundException {
+        if (idProf!=null && idDept!=null && codeAnnee!=null && libelS!=null ) return filiereService.getFiliereWithDeptAndProf(idProf, idDept,codeAnnee,libelS);
+        return null;
     }
 }

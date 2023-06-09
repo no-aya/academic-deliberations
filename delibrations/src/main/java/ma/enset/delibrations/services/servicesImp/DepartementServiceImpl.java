@@ -6,10 +6,7 @@ import ma.enset.delibrations.dtos.mappers.DepartementMapper;
 import ma.enset.delibrations.dtos.mappers.FiliereMapper;
 import ma.enset.delibrations.dtos.requests.DepartementRequestDTO;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
-import ma.enset.delibrations.entities.Departement;
-import ma.enset.delibrations.entities.Element;
-import ma.enset.delibrations.entities.Filiere;
-import ma.enset.delibrations.entities.Professeur;
+import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.repositories.*;
@@ -36,6 +33,8 @@ public class DepartementServiceImpl implements DepartementService
     private ElementRepository elementRepository;
     private ModuleRepository moduleRepository;
     private FiliereRepository filiereRepository;
+    private SemestreRepository semestreRepository;
+    private AnneeUnivRepository anneeUnivRepository;
 
     @Override
     public DepartementResponseDTO createDepartement(DepartementRequestDTO departementRequestDTO) throws CannotProceedException, DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
@@ -110,16 +109,19 @@ public class DepartementServiceImpl implements DepartementService
     }
 
     @Override
-    public List<DepartementResponseDTO> getDepartementsByProf(Long id) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
-        if(id==null) return null;
+    public List<DepartementResponseDTO> getDepartementsByProf(Long id, String codeAnnee, String libelS) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
+        if(id==null || codeAnnee==null || libelS==null) return null;
         Professeur professeur = professeurRepository.findByIdAndSoftDeleteIsFalse(id);
-        if(professeur!=null){
+        Semestre semestre = semestreRepository.findByLibelle(libelS);
+        AnneeUniv anneeUniv = anneeUnivRepository.findByCodeAnnee(codeAnnee);
+        if(professeur!=null && semestre!=null && anneeUniv!=null){
             List<Element> elements = elementRepository.findByCleEtrangere(id);
             if(elements!=null){
                 List<Departement> departements = new ArrayList<>();
                 for (Element e: elements) {
                     Module module = moduleRepository.findById(e.getModule().getId()).orElseThrow( ()-> new ModuleNotFoundException(e.getModule().getId()));
-                    if(module!=null) {
+
+                    if(module!=null && module.getSemestre().getId()==semestre.getId() && module.getSemestre().getAnneeUniv().getId()==anneeUniv.getId()) {
                         Filiere filiere= filiereRepository.findById(module.getFiliere().getId()).orElse(null);
                         if(filiere!=null){
                             Departement departement= departementRepository.findById(filiere.getDepartement().getId()).orElseThrow(()-> new DepartementNotFoundException(filiere.getDepartement().getId()));

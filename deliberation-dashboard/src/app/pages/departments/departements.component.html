@@ -2,9 +2,132 @@
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
+      <div class="row "  style="margin-left: 0.5rem">
+        <form [formGroup]="deptFormGroup" (ngSubmit)="searchDept()" >
+          <div class="form-row"  >
+            <div class="form-group  col-5 ">
+              <label >Annee</label>
+              <select class="form-control" formControlName="anneeUniv" >
+                <option  *ngFor="let a of anneesUniv | async" value={{a.codeAnnee}}>{{a.codeAnnee}}</option>
+              </select>
+
+            </div>
+            <div class="form-group col-5 ">
+              <label >Semestre</label>
+              <select class="form-control" formControlName="semestre" >
+                <option value="Semestre1">Semestre1</option>
+                <option value="Semestre2">Semestre2</option>
+                <option value="Semestre3">Semestre3</option>
+                <option value="Semestre4">Semestre4</option>
+                <option value="Semestre5">Semestre5</option>
+              </select>
+            </div>
+            <div class="form-group col-2">
+              <label>Search</label>
+              <button type="submit" class="btn btn-primary mb-2">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow border-0">
+        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" >
+
+          <div class="accordion" class="my-3">
+            <div class="card" *ngFor="let dep of departments | async">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <a  (click)="searchFiliere(dep)" [attr.aria-expanded]="dep.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + dep.id">
+                    <i class="fas" [ngClass]="dep.expanded ? 'fa-minus' : 'fa-plus'"></i> {{ dep.intitule }}
+                  </a>
+                </h5>
+             </div>
+              <div [id]="'collapse-' + dep.id" class="collapse" [ngClass]="{'show': dep.expanded}">
+                <div class="card-body">
+                  <ul class="list-group">
+                  <!-- AAA Second Accordion-->
+                    <div class="accordion accordion2" style="margin: 0rem">
+                      <div class="card" *ngFor="let f of filieres | async" >
+                        <div class="card-header">
+                          <h5 class="mb-0">
+                            <ul >
+                              <a  (click)="searchModule(dep,f)" [attr.aria-expanded]="f.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + f.id">
+                                <i class="fas list-group-item" [ngClass]="f.expanded ? 'fa-minus' : 'fa-plus'" > {{f.intitule.toString()}}</i>
+                              </a>
+                            </ul>
+
+                          </h5>
+                        </div>
+                        <div [id]="'collapse-' + f.id" class="collapse" [ngClass]="{'show': f.expanded}">
+                          <div class="card-body">
+                            <ul class="list-group">
+                              <!-- BBB Third Accordion-->
+                              <div class="accordion accordion2" style="margin: 0rem">
+                                <div class="card" *ngFor="let m of modules | async">
+                                  <div class="card-header">
+                                    <h5 class="mb-0">
+                                      <ul >
+                                        <a  (click)="searchStudent(dep,f,m)" [attr.aria-expanded]="m.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + m.id">
+                                          <i class="fas list-group-item" [ngClass]="m.expanded ? 'fa-minus' : 'fa-plus'" > {{m.intitule}}</i>
+                                        </a>
+                                      </ul>
+
+                                    </h5>
+                                  </div>
+                                  <div [id]="'collapse-' + m.id" class="collapse" [ngClass]="{'show': m.expanded}">
+                                    <div class="card-body">
+                                      <ul class="list-group">
+                                        <h1>Looooooooooooooooooooooooool</h1>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!--BBB Fin Third Accordion-->
+                              <!--<li class="list-group-item" *ngFor="let m of f.moduleChildren">
+                                   {{m}}
+                               </li>-->
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                   <!--AAA Fin Second Accordion-->
+                   <!-- <li class="list-group-item" *ngFor="let f of dep.filiereChildren">
+                        {{f}}
+                    </li>-->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      &lt;!&ndash; Card stats &ndash;&gt;
       <div class="row">
         <ng-container *ngIf="departments as listdepartements">
-          <!--For each departement, show a card with the number of elements-->
+          &lt;!&ndash;For each departement, show a card with the number of elements&ndash;&gt;
           <div class="col-xl-3 col-lg-6" *ngFor="let dep of departments | async">
             <div class="card card-stats mb-4 mb-xl-0">
               <a href="#">
@@ -24,26 +147,34 @@
     </div>
   </div>
 </div>
-<!-- Page content -->
-<div class="container-fluid mt--7">
+&lt;!&ndash; Page content &ndash;&gt;
+<div class="container-fluid mt&#45;&#45;7">
   <div class="row">
     <div class="col">
       <div class="card shadow border-0">
-        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" style="height: 600px;">
+        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" >
 
           <div id="accordion" class="my-3">
-            <div class="card" *ngFor="let link of links">
+            <div class="card" *ngFor="let dep of departments | async">
               <div class="card-header">
                 <h5 class="mb-0">
-                  <a  (click)="toggleLink(link)" [attr.aria-expanded]="link.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + link.id">
-                    <i class="fas" [ngClass]="link.expanded ? 'fa-minus' : 'fa-plus'"></i> {{ link.label }}
+                  <a  (click)="toggleLink(dep)" [attr.aria-expanded]="dep.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + dep.id">
+                    <i class="fas" [ngClass]="dep.expanded ? 'fa-minus' : 'fa-plus'"></i> {{ dep.intitule }}
                   </a>
                 </h5>
               </div>
-              <div [id]="'collapse-' + link.id" class="collapse" [ngClass]="{'show': link.expanded}">
+              <div [id]="'collapse-' + dep.id" class="collapse" [ngClass]="{'show': dep.expanded}">
                 <div class="card-body">
                   <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let childLink of link.children">{{ childLink }}</li>
+                    <li class="list-group-item" *ngFor="let f of dep.filiereChildren; let i = index">
+                      <a id="item" (click)="toggleAccordion(i)" >
+                        <i class="fas" [ngClass]="accordionExpanded ? ' fa-plus' : 'fa-minus'"></i>
+                        <div>loooooool</div>
+
+
+                      </a>
+                    </li>
+
                   </ul>
                 </div>
               </div>
@@ -55,3 +186,90 @@
     </div>
   </div>
 </div>
+-->
+
+<!--
+<div class="collapse" [ngbCollapse]="activeAccordion === i && accordionExpanded">
+  <table class="table align-items-center table-flush">
+    <thead class="thead-light">
+    <tr>
+      <th scope="col">Etudiant</th>
+      <th scope="col">Visitors</th>
+      <th scope="col">Unique users</th>
+      <th scope="col">Bounce rate</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th scope="row">
+        /argon/
+      </th>
+      <td>
+        4,569
+      </td>
+      <td>
+        340
+      </td>
+      <td>
+        <i class="fas fa-arrow-up text-success mr-3"></i> 46,53%
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">
+        /argon/index.html
+      </th>
+      <td>
+        3,985
+      </td>
+      <td>
+        319
+      </td>
+      <td>
+        <i class="fas fa-arrow-down text-warning mr-3"></i> 46,53%
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">
+        /argon/charts.html
+      </th>
+      <td>
+        3,513
+      </td>
+      <td>
+        294
+      </td>
+      <td>
+        <i class="fas fa-arrow-down text-warning mr-3"></i> 36,49%
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">
+        /argon/tables.html
+      </th>
+      <td>
+        2,050
+      </td>
+      <td>
+        147
+      </td>
+      <td>
+        <i class="fas fa-arrow-up text-success mr-3"></i> 50,87%
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">
+        /argon/profile.html
+      </th>
+      <td>
+        1,795
+      </td>
+      <td>
+        190
+      </td>
+      <td>
+        <i class="fas fa-arrow-down text-danger mr-3"></i> 46,53%
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>-->

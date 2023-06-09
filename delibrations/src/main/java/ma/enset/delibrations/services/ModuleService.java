@@ -6,6 +6,7 @@ package ma.enset.delibrations.services;
 
 
 import ma.enset.delibrations.dtos.requests.ModuleRequestDTO;
+import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
 import ma.enset.delibrations.exceptions.CannotProceedException;
 import ma.enset.delibrations.exceptions.ModuleNotFoundException;
@@ -25,5 +26,8 @@ public interface ModuleService {
     ModuleResponseDTO getModule (String id) throws ModuleNotFoundException;
     List<ModuleResponseDTO> getModules();
     void deleteModule(String id) throws ModuleNotFoundException;
+
+    List<ModuleResponseDTO> getModuleWithFiliereAndProf(Long idProf, Long idFiliere,String codeAnnee, String libelS) throws ModuleNotFoundException;
+
 }
 

@@ -6,22 +6,21 @@ import ma.enset.delibrations.dtos.mappers.ModuleMapper;
 import ma.enset.delibrations.dtos.mappers.NoteModuleMapper;
 import ma.enset.delibrations.dtos.requests.ModuleRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
+import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.exceptions.ModuleNotFoundException;
 import ma.enset.delibrations.exceptions.NoteModuleNotFoundException;
 import ma.enset.delibrations.exceptions.SemestreNotFoundException;
-import ma.enset.delibrations.repositories.ModuleRepository;
-import ma.enset.delibrations.repositories.SemestreRepository;
+import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.services.ModuleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.CannotProceedException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service @Transactional @AllArgsConstructor
@@ -34,6 +33,10 @@ public class ModuleServiceImpl implements ModuleService {
     private NoteModuleMapper noteModuleMapper;
     private NoteModuleServiceImpl noteModuleService;
     private SemestreRepository semestreRepository;
+    private FiliereRepository filiereRepository;
+    private ProfesseurRepository professeurRepository;
+    private ElementRepository elementRepository;
+    private  AnneeUnivRepository anneeUnivRepository;
 
     private String generateCode() {
         //TODO: Generate code based on the "Module", "Filiere" and "Semestre" attributes
@@ -140,4 +143,35 @@ public class ModuleServiceImpl implements ModuleService {
             moduleRepository.save(module);
         }
     }
+
+    @Override
+    public List<ModuleResponseDTO> getModuleWithFiliereAndProf(Long idProf, Long idFiliere,String codeAnnee, String libelSemestre) throws ModuleNotFoundException {
+        if(idProf!=null && idFiliere!=null){
+            Filiere filiere= filiereRepository.findByIdAndSoftDeleteIsFalse(idFiliere);
+            Professeur prof = professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
+            Semestre semestre = semestreRepository.findByLibelle(libelSemestre);
+            AnneeUniv anneeUniv = anneeUnivRepository.findByCodeAnnee(codeAnnee);
+            if (filiere!=null && prof!=null && semestre!=null && anneeUniv!=null){
+                List<Element> elements = elementRepository.findByCleEtrangere(idProf);
+                if(elements!=null){
+                    List<Module> modules = new ArrayList<>();
+                    for (Element e: elements) {
+                        Module module = moduleRepository.findById(e.getModule().getId()).orElseThrow( ()-> new ModuleNotFoundException(e.getModule().getId()));
+                        if (module!=null && module.getFiliere().getId()==idFiliere  && module.getSemestre().getId()==semestre.getId() && module.getSemestre().getAnneeUniv().getId()==anneeUniv.getId()){
+                            modules.add(module);
+                        }
+                    }
+                    List<ModuleResponseDTO> responses = modules.stream()
+                            .map(f -> moduleMapper.fromEntitytoResponseDTO(f))
+                            .collect(Collectors.toList());
+
+                    Set<ModuleResponseDTO> uniqueResponses = new HashSet<>(responses);
+                    return new ArrayList<>(uniqueResponses);
+                }
+            }
+        }
+        return null;
+    }
+
+
 }

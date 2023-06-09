@@ -3,11 +3,9 @@ package ma.enset.delibrations.controllers;
 
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.ModuleRequestDTO;
+import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.ModuleNotFoundException;
-import ma.enset.delibrations.exceptions.NoteModuleNotFoundException;
-import ma.enset.delibrations.exceptions.SemestreNotFoundException;
+import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.services.ModuleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +13,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/module")
+@RequestMapping("/api/modules")
+@CrossOrigin("*")
 public class ModuleController {
     private ModuleService moduleService;
 
@@ -46,5 +45,11 @@ public class ModuleController {
     public void deleteModule(@PathVariable String  code)throws ModuleNotFoundException {
         if(code!=null)
             moduleService.deleteModule(code);
+    }
+
+    @GetMapping
+    public List<ModuleResponseDTO> getModule(@RequestParam Long idProf, @RequestParam Long idFiliere , @RequestParam String codeAnnee,@RequestParam String libelS) throws FiliereNotFoundException, ModuleNotFoundException {
+        if (idProf!=null && idFiliere!=null && codeAnnee!=null && libelS!=null) return moduleService.getModuleWithFiliereAndProf(idProf, idFiliere,codeAnnee,libelS);
+        return null;
     }
 }

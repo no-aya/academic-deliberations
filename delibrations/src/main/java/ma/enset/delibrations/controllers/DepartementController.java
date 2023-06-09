@@ -50,10 +50,10 @@ public class DepartementController {
     }
 
 
-    @GetMapping("/{id}")
-    public List<DepartementResponseDTO> getDepartementsByProf(@PathVariable Long id) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
-        if(id!=null) {
-            return  departementService.getDepartementsByProf(id);
+    @GetMapping
+    public List<DepartementResponseDTO> getDepartementsByProf(@RequestParam Long id,@RequestParam String codeAnnee,@RequestParam String libelS) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
+        if(id!=null && codeAnnee!=null && libelS!=null) {
+            return  departementService.getDepartementsByProf(id, codeAnnee, libelS);
         }else return null;
     }
  

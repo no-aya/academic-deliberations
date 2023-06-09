@@ -1,11 +1,50 @@
+
+.card, .card-header, .card-body, .list-group-item{
+  border: none;
+}
+
+.card-body {
+  padding: 0rem 1.5rem 0.5rem 1.5rem;
+}
+
+.list-group-item {
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+}
+
+
 .card-header {
+  padding: 0.5rem 1.25rem 0rem 1.25rem;
+}
+
+a{
+  cursor: pointer;
+}
+
+#item{
+  font-size: 14px;
+}
+label{
+  color: white;
+}
+
+.accordion2{
+  padding: 0rem;
+  margin: 0rem;
+}
+
+.list-group-item{
+  padding: 0.5rem 1.5rem 0.5rem 0rem;
+}
+ul{
+  margin: 0;
   padding: 0;
 }
 
-.card-header h5 {
-  margin-bottom: 0;
-}
 
+/*
+a{
+  font-size: 17px;
+}
 .card-header .btn-link {
   text-decoration: none;
 }
@@ -17,3 +56,7 @@
 .list-group-item {
   padding-left: 20px;
 }
+#accordion{
+  background-color: black;
+}
+*/
