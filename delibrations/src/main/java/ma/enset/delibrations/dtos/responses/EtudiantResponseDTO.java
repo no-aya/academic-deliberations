@@ -24,6 +24,7 @@ public class EtudiantResponseDTO {
     private String adresse;
     private Date dateNaissance;
     private Sexe sexe;
+    private Long filiere;
 
     private Date createdAt; //date creation de l'etudiant dans la base de donnée
     private Date updatedOn; //date modification de l'un des attributs de l'étudiant dans la BD
