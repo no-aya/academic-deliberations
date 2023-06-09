@@ -12,23 +12,41 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { DepartementsAdminComponent } from './pages/departements-edit/departements-admin/departements-admin.component';
+import { FilieresAdminComponent } from './pages/departements-edit/filieres-admin/filieres-admin.component';
+import { ModulesAdminComponent } from './pages/departements-edit/modules-admin/modules-admin.component';
+import { AddEditDepartComponent } from './pages/departements-edit/add-edit-depart/add-edit-depart.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatDialogModule} from "@angular/material/dialog";
+import { EditDepartementComponent } from './pages/departements-edit/edit-departement/edit-departement.component';
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    ComponentsModule,
-    NgbModule,
-    RouterModule,
-    AppRoutingModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BrowserAnimationsModule,
+        FormsModule,
+        HttpClientModule,
+        ComponentsModule,
+        NgbModule,
+        RouterModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatButtonModule
+    ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    DepartementsAdminComponent,
+    FilieresAdminComponent,
+    ModulesAdminComponent,
+    AddEditDepartComponent,
+    EditDepartementComponent
 
   ],
   providers: [],

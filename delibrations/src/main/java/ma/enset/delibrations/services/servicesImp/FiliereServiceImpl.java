@@ -90,7 +90,7 @@ public class FiliereServiceImpl implements FiliereService {
                 filiereResponseDTO.setDepartementId(filiere.getDepartement().getId());
             }
             if(filiere.getRegleCalcul()!=null)
-            filiereResponseDTO.setRegleCalculId(filiere.getRegleCalcul().getId());
+                filiereResponseDTO.setRegleCalculId(filiere.getRegleCalcul().getId());
             return filiereResponseDTO;
         }
     }

@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/module")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ModuleController {
     private ModuleService moduleService;
 

@@ -8,6 +8,13 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import {ComptesComponent} from "../../pages/comptes/comptes.component";
 import {DepartementsEditComponent} from "../../pages/departements-edit/departements-edit.component";
 import {SessionComponent} from "../../pages/session/session.component";
+import {
+  DepartementsAdminComponent
+} from "../../pages/departements-edit/departements-admin/departements-admin.component";
+import {FilieresAdminComponent} from "../../pages/departements-edit/filieres-admin/filieres-admin.component";
+import {ModulesAdminComponent} from "../../pages/departements-edit/modules-admin/modules-admin.component";
+import {AddEditDepartComponent} from "../../pages/departements-edit/add-edit-depart/add-edit-depart.component";
+import {EditDepartementComponent} from "../../pages/departements-edit/edit-departement/edit-departement.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -17,5 +24,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'departements',   component: DepartementsComponent },
     {path: 'comptes', component:ComptesComponent},
     {path:'departements-edit', component: DepartementsEditComponent},
+    {path:'departements-admin', component: DepartementsAdminComponent},
+    {path:'filieres-admin', component: FilieresAdminComponent},
+    {path:'modules-admin', component: ModulesAdminComponent},
+    {path:'add-edit-departement', component: AddEditDepartComponent},
+    {path:'edit-departement/:id', component: EditDepartementComponent},
     {path:'session', component: SessionComponent}
 ];

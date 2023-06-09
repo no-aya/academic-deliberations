@@ -35,10 +35,10 @@ public class DepartementServiceImpl implements DepartementService {
             Departement departement = departementMapper.fromRequestDTOtoEntity(departementRequestDTO);
             departement.setCreatedAt(new Date());
             /*Filieres*/
-            for (Filiere filiere : departement.getFilieres()) {
+            /*for (Filiere filiere : departement.getFilieres()) {
                 filiere.setDepartement(departement);
                 filiereService.createFiliere(filiereMapper.fromEntityToRequestDTO(filiere));
-            }
+            }*/
             departementRepository.save(departement);
             return departementMapper.fromEntityToResponseDTO(departement);
         }
@@ -52,7 +52,7 @@ public class DepartementServiceImpl implements DepartementService {
             if (departement == null) throw new DepartementNotFoundException(id);
             if (departementRequestDTO.getCode() != null) departement.setCode(departementRequestDTO.getCode());
             if (departementRequestDTO.getIntitule() != null) departement.setIntitule(departementRequestDTO.getIntitule());
-            if (departementRequestDTO.getFilieres() != null){
+            /*if (departementRequestDTO.getFilieres() != null){
                 Long[] filiereIDs = departementRequestDTO.getFilieres();
                 List<Filiere> filieres = new ArrayList<>();
                 for (Long filiereId : filiereIDs) {
@@ -65,7 +65,7 @@ public class DepartementServiceImpl implements DepartementService {
                     filiere.setDepartement(departement);
                     filiereService.updateFiliere(filiereMapper.fromEntityToRequestDTO(filiere));
                 }
-            }
+            }*/
             departement.setUpdatedAt(new Date());
             departementRepository.save(departement);
             return departementMapper.fromEntityToResponseDTO(departement);

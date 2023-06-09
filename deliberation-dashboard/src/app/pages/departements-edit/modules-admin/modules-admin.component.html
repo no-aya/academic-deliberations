@@ -1,0 +1,70 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+
+<div class="container mt-2">
+  <ng-container *ngIf="modules | async as listModules; else failureOrLoading">
+    <div class="card">
+      <div class="card-header">Modules</div>
+      <button class="button" routerLink="/add-edit-departement">Ajouter Module</button>
+
+      <div class="card-body">
+        <div *ngIf="searchFormGroup" class="mb-5">
+          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchModules()">
+            <div class="input-group">
+              <label class="input-group-text text-primary">Intitulé</label>
+              <input type="text" formControlName="keyword" class="form-control">
+              <button class="btn btn-primary" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>CODE</th>
+            <th>INTITULE</th>
+            <th>Semestres</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let d of listModules">
+            <td>{{ d.id }}</td>
+            <td>{{ d.code }}</td>
+            <td>{{ d.intitule }}</td>
+            <td>{{ d.semestre }}</td>
+           <!--<td>
+            <select class="form-control" [(ngModel)]="selectedSemestre[d.id]">
+              <option *ngFor="let semestre of d.semestre" [value]="semestre">{{ semestre.libelle }}</option>
+            </select>
+            </td>-->
+            <td>
+              <button class="btn btn-sm btn-danger" (click)="handleDeleteModule(d)">
+                <i class="fa fa-trash"></i>
+              </button>
+              <button class="btn btn-sm btn-primary" (click)="handleEditModule(d)">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #failureOrLoading>
+    <ng-container *ngIf="errorMessage; else loading">
+      <div class="text-danger">
+        {{ errorMessage }}
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      Loading .....
+    </ng-template>
+  </ng-template>
+</div>

@@ -1,0 +1,47 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+
+<!--<div class="container">
+  <div class="card col-md-6 offset-3 mt-2">-->
+      <div class="card-body">
+        <form [formGroup]="departementFormGroup">
+          <div class="mb-3">
+            <label class="form-label">Code:</label>
+            <input type="text" formControlName="code"  placeholder="Code" class="form-control">
+            <span class="text-danger"
+                  *ngIf="departementFormGroup.controls['code'].touched
+                    && departementFormGroup.controls['code'].errors
+                    && departementFormGroup.controls['code'].errors['required']">
+              Code est obligatoire
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Intitulé:</label>
+            <input type="text" formControlName="intitule" placeholder="Intitulé" class="form-control">
+            <span class="text-danger"
+                  *ngIf="departementFormGroup.controls['intitule'].touched
+                    && departementFormGroup.controls['intitule'].errors
+                    && departementFormGroup.controls['intitule'].errors['required']">
+              Intitule est obligatoire
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Date de Création:</label>
+            <input type="date" formControlName="createdAt"  placeholder="Date de création" class="form-control">
+            <span class="text-danger"
+                  *ngIf="departementFormGroup.controls['createdAt'].touched
+                    && departementFormGroup.controls['createdAt'].errors
+                    && departementFormGroup.controls['createdAt'].errors['required']">
+              Date de création est obligatoire
+            </span>
+          </div>
+
+          <button class="button" (click)="handleUpdateDepartement()">Enregistrer</button>
+        </form>
+      </div>
