@@ -25,8 +25,8 @@ public class DepartementController {
     }
 
     @GetMapping("/{code}")
-    public DepartementResponseDTO getDepartement(@PathVariable String code) throws DepartementNotFoundException {
-        if(code!=null) return departementService.getDepartement(code);
+    public DepartementResponseDTO getDepartement(@PathVariable Long id) throws DepartementNotFoundException {
+        if(id!=null) return departementService.getDepartement(id);
         return null;
     }
 
@@ -37,9 +37,9 @@ public class DepartementController {
     }
 
     @PutMapping("/{code}")
-    public DepartementResponseDTO updateDepartement(@PathVariable String code, @RequestBody DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
-        if(departementRequestDTO!=null && code!=null)
-            return departementService.updateDepartement(code, departementRequestDTO);
+    public DepartementResponseDTO updateDepartement(@PathVariable Long id, @RequestBody DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
+        if(departementRequestDTO!=null && id!=null)
+            return departementService.updateDepartement(id, departementRequestDTO);
         return null;
     }
 

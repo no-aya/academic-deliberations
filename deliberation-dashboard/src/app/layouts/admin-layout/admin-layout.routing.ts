@@ -15,6 +15,8 @@ import {FilieresAdminComponent} from "../../pages/departements-edit/filieres-adm
 import {ModulesAdminComponent} from "../../pages/departements-edit/modules-admin/modules-admin.component";
 import {AddEditDepartComponent} from "../../pages/departements-edit/add-edit-depart/add-edit-depart.component";
 import {EditDepartementComponent} from "../../pages/departements-edit/edit-departement/edit-departement.component";
+import {AddModuleComponent} from "../../pages/departements-edit/add-module/add-module.component";
+import {EditModuleComponent} from "../../pages/departements-edit/edit-module/edit-module.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -25,9 +27,11 @@ export const AdminLayoutRoutes: Routes = [
     {path: 'comptes', component:ComptesComponent},
     {path:'departements-edit', component: DepartementsEditComponent},
     {path:'departements-admin', component: DepartementsAdminComponent},
-    {path:'filieres-admin', component: FilieresAdminComponent},
-    {path:'modules-admin', component: ModulesAdminComponent},
     {path:'add-edit-departement', component: AddEditDepartComponent},
     {path:'edit-departement/:id', component: EditDepartementComponent},
+    {path:'filieres-admin', component: FilieresAdminComponent},
+    {path:'modules-admin', component: ModulesAdminComponent},
+    {path:'add-module', component: AddModuleComponent},
+    {path:'edit-module', component: EditModuleComponent},
     {path:'session', component: SessionComponent}
 ];

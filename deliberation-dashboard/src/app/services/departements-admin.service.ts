@@ -3,8 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DepartementEditModel} from "../pages/model/departementEdit.model";
 import {environment} from "../../environments/environment";
-import {ɵFormGroupValue, ɵTypedOrUntyped} from "@angular/forms";
-import {Session} from "../pages/model/session.model";
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +25,14 @@ export class DepartementsAdminService {
 
   public saveDepartement(departement: DepartementEditModel):Observable<DepartementEditModel>{
     return this.http.post<DepartementEditModel>(environment.backendHost+"/api/departement/add",departement);
-
   }
-  public deleteDepartement(code: String){
+
+  public deleteDepartement(code: string){
     return this.http.delete(environment.backendHost+"/api/department/"+code);
   }
 
-  public editDepartment(code : String, departement :DepartementEditModel): Observable<DepartementEditModel> {
-    return this.http.put<DepartementEditModel>(environment.backendHost+"/api/department/"+code,departement);
+  public editDepartment(id : number, departement :DepartementEditModel): Observable<DepartementEditModel> {
+    return this.http.put<DepartementEditModel>(environment.backendHost+"/api/department/"+id,departement);
   }
 
 }

@@ -46,9 +46,9 @@ public class DepartementServiceImpl implements DepartementService {
     }
 
     @Override
-    public DepartementResponseDTO updateDepartement(String id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
+    public DepartementResponseDTO updateDepartement(Long id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
         if (id != null && departementRequestDTO != null) {
-            Departement departement = departementRepository.findByCodeAndSoftDeleteIsFalse(id);
+            Departement departement = departementRepository.findByIdAndSoftDeleteIsFalse(id);
             if (departement == null) throw new DepartementNotFoundException(id);
             if (departementRequestDTO.getCode() != null) departement.setCode(departementRequestDTO.getCode());
             if (departementRequestDTO.getIntitule() != null) departement.setIntitule(departementRequestDTO.getIntitule());
@@ -74,9 +74,9 @@ public class DepartementServiceImpl implements DepartementService {
     }
 
     @Override
-    public DepartementResponseDTO getDepartement(String  id) throws DepartementNotFoundException {
+    public DepartementResponseDTO getDepartement(Long  id) throws DepartementNotFoundException {
         if (id == null) return null;
-        Departement departement = departementRepository.findByCodeAndSoftDeleteIsFalse(id);
+        Departement departement = departementRepository.findByIdAndSoftDeleteIsFalse(id);
         if (departement == null) throw new DepartementNotFoundException(id);
         return departementMapper.fromEntityToResponseDTO(departement);
       

@@ -15,7 +15,7 @@ export class ModulesAdminComponent implements OnInit {
   modules!: Observable<Array<ModuleEditModel>>;
   errorMessage!: string;
   searchFormGroup: FormGroup | undefined;
-  selectedSemestre: { [key: number]: Semestre } = {};
+ selectedSemestre: { [key: number]: Semestre } = {};
   constructor(
     private modulesAdminService: ModulesAdminService,
     private fb: FormBuilder,
@@ -24,7 +24,7 @@ export class ModulesAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
-      keyword: this.fb.control('')
+      keyword: this.fb.control("")
     });
 
     this.modules = this.modulesAdminService.getModules().pipe(
@@ -34,6 +34,8 @@ export class ModulesAdminComponent implements OnInit {
       })
     );
   }
+
+
 
   handleSearchModules() {
     let kw = this.searchFormGroup?.value.keyword;

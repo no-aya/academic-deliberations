@@ -1,0 +1,47 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+
+<div class="card-header">Nouveau Module</div>
+<div class="card-body">
+  <form [formGroup]="newCustomerFormGroup">
+    <div class="mb-3">
+      <label class="form-label">Code:</label>
+      <input type="text" formControlName="code" class="form-control">
+      <span class="text-danger"
+            *ngIf="newCustomerFormGroup.controls['code'].touched
+                  && newCustomerFormGroup.controls['code'].errors
+                  && newCustomerFormGroup.controls['code'].errors['required']">
+            Code est obligatoire
+          </span>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Intitulé:</label>
+      <input type="text" formControlName="intitule" class="form-control">
+      <span class="text-danger"
+            *ngIf="newCustomerFormGroup.controls['intitule'].touched
+                  && newCustomerFormGroup.controls['intitule'].errors
+                  && newCustomerFormGroup.controls['intitule'].errors['required']">
+            Intitule est obligatoire
+          </span>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">semestre</label>
+      <input type="text" formControlName="semestre" class="form-control">
+      <span class="text-danger"
+            *ngIf="newCustomerFormGroup.controls['semestre'].touched
+                  && newCustomerFormGroup.controls['semestre'].errors
+                  && newCustomerFormGroup.controls['semestre'].errors['required']">
+            Semestre est obligatoire
+          </span>
+    </div>
+
+    <button [disabled]="!newCustomerFormGroup.valid" (click)="handleSaveModule()"  class="button">Enregistrer</button>
+  </form>
+</div>
+

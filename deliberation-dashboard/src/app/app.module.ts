@@ -21,6 +21,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatDialogModule} from "@angular/material/dialog";
 import { EditDepartementComponent } from './pages/departements-edit/edit-departement/edit-departement.component';
 import {MatButtonModule} from "@angular/material/button";
+import { EditModuleComponent } from './pages/departements-edit/edit-module/edit-module.component';
+import { AddModuleComponent } from './pages/departements-edit/add-module/add-module.component';
 
 
 @NgModule({
@@ -46,7 +48,9 @@ import {MatButtonModule} from "@angular/material/button";
     FilieresAdminComponent,
     ModulesAdminComponent,
     AddEditDepartComponent,
-    EditDepartementComponent
+    EditDepartementComponent,
+    EditModuleComponent,
+    AddModuleComponent
 
   ],
   providers: [],

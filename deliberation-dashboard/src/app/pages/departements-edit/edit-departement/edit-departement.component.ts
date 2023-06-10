@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {DepartementEditModel} from "../../model/departementEdit.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DepartementsAdminService} from "../../../services/departements-admin.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {error} from "protractor";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DepartementEditModel } from '../../model/departementEdit.model';
+import { DepartementsAdminService } from '../../../services/departements-admin.service';
+import {concatMap, from} from "rxjs";
 
 @Component({
   selector: 'app-edit-departement',
@@ -11,45 +11,77 @@ import {error} from "protractor";
   styleUrls: ['./edit-departement.component.css']
 })
 export class EditDepartementComponent implements OnInit {
-   departementId  : number;
-  departement! : DepartementEditModel;
-  departementFormGroup :FormGroup;
+  departementId: number;
+  departement!: DepartementEditModel;
+  departementFormGroup: FormGroup;
 
-
-  constructor(private fb: FormBuilder, private departementsAdminService: DepartementsAdminService, private router: Router, private route: ActivatedRoute) {
- this.departementId =  this.route.snapshot.params['id'];
-
+  constructor(
+    private fb: FormBuilder,
+    private departementsAdminService: DepartementsAdminService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.departementId = this.route.snapshot.params['id'];
+    this.departementFormGroup = this.fb.group({
+      code: ['', Validators.required],
+      intitule: ['', Validators.required],
+      createdAt: ['', Validators.required],
+    });
   }
 
   ngOnInit(): void {
-    this.departementsAdminService.getDepartment(this.departementId).subscribe({
-    next:(departement) => {
-        this.departement = departement;
-      this.departementFormGroup = this.fb.group({
-        code: this.fb.control(this.departement.code, [Validators.required]),
-        intitule: this.fb.control(this.departement.intitule, [Validators.required]),
-        createdAt: this.fb.control(this.departement.createdAt, [Validators.required])
+    const state = history.state.departement;
+    if (state) {
+      this.departement = state;
+      this.departementFormGroup.patchValue(this.departement);
+    } else {
+      this.departementsAdminService.getDepartment(this.departementId).subscribe({
+        next: (departement) => {
+          this.departement = departement;
+          this.departementFormGroup.patchValue(this.departement);
+        },
+        error: (err) => {
+          console.log(err);
+        },
       });
-      },
-      error : (err)=>{
-      console.log(err);
-      }
-  });
+    }
   }
 
-  handleUpdateDepartement() {
-    // Logique de modification du département
-    const departementId = this.route.snapshot.paramMap.get('id');
+
+
+
+  /*handleUpdateDepartement() {
     let departement: DepartementEditModel = this.departementFormGroup.value;
 
-    this.departementsAdminService.editDepartment(departementId, departement).subscribe({
+    this.departementsAdminService.editDepartment(this.departementId, departement).subscribe({
       next: () => {
-        this.router.navigateByUrl('/departements-admin');
+        this.router.navigateByUrl('/departements-admin').then(r => );
       },
       error: (err) => {
         console.log(err);
       },
     });
+  }*/
+
+  handleUpdateDepartement() {
+    let departement: DepartementEditModel = this.departementFormGroup.value;
+
+    this.departementsAdminService.editDepartment(this.departementId, departement).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/departements-admin', {state: {updatedDepartement: departement}}).then(
+          ()=>{
+            console.log(" département modifié !");
+
+          }
+        );
+       },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
+
+
+
 
 }

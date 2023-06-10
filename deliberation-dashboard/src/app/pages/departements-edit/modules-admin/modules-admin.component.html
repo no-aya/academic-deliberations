@@ -9,7 +9,7 @@
   <ng-container *ngIf="modules | async as listModules; else failureOrLoading">
     <div class="card">
       <div class="card-header">Modules</div>
-      <button class="button" routerLink="/add-edit-departement">Ajouter Module</button>
+      <button routerLink="/add-module">Ajouter Module</button>
 
       <div class="card-body">
         <div *ngIf="searchFormGroup" class="mb-5">
@@ -37,12 +37,12 @@
             <td>{{ d.id }}</td>
             <td>{{ d.code }}</td>
             <td>{{ d.intitule }}</td>
-            <td>{{ d.semestre }}</td>
-           <!--<td>
+           <td>{{ d.semestre }}</td>
+           <td>
             <select class="form-control" [(ngModel)]="selectedSemestre[d.id]">
-              <option *ngFor="let semestre of d.semestre" [value]="semestre">{{ semestre.libelle }}</option>
+              <option *ngFor="let semestre of d.semestre" [value]="semestre.libelle">{{ semestre.libelle }}</option>
             </select>
-            </td>-->
+            </td>
             <td>
               <button class="btn btn-sm btn-danger" (click)="handleDeleteModule(d)">
                 <i class="fa fa-trash"></i>

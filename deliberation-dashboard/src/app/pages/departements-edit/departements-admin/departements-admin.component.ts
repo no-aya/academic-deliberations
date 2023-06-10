@@ -69,7 +69,14 @@ departement : Observable<DepartementEditModel>;
 
 
   handleEditDepartement(departement: DepartementEditModel) {
-    this.router.navigateByUrl("/edit-departement/"+departement.id,{state :departement});
-
+    this.router.navigateByUrl("/edit-departement/" + departement.id, { state: { departement } })
+      .then(() => {
+        // Actions à effectuer après la navigation
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
+
+
 }

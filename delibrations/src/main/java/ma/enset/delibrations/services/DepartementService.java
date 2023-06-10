@@ -13,8 +13,8 @@ import java.util.List;
 
 public interface DepartementService {
     DepartementResponseDTO createDepartement(DepartementRequestDTO departementRequestDTO) throws CannotProceedException, DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException;
-    DepartementResponseDTO updateDepartement(String id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException;
-   DepartementResponseDTO getDepartement(String id) throws  DepartementNotFoundException;
+    DepartementResponseDTO updateDepartement(Long id, DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException;
+   DepartementResponseDTO getDepartement(Long id) throws  DepartementNotFoundException;
     List<DepartementResponseDTO> getDepartements();
     void deleteDepartement(String id) throws  DepartementNotFoundException;
 }
