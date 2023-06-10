@@ -6,12 +6,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
+import { AuthGuardService } from './services/auth-guard.service';
+
 const routes: Routes =[
   {
     path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  }, {
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
     path: '',
     component: AdminLayoutComponent,
     children: [
@@ -49,3 +52,4 @@ const routes: Routes =[
   ],
 })
 export class AppRoutingModule { }
+
