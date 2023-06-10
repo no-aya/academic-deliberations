@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //backendHost : "http://localhost:8085", for asmae
-  backendHost : "http://localhost:8080", //for us
+  backendHost : "http://localhost:8085", //for asmae
+  //backendHost : "http://localhost:8080", //for us
 };
 
 /*
