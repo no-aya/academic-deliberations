@@ -15,6 +15,8 @@ public class ProfesseurRequestDTO {
     private String nom;
     private String prenom;
     private String email;
+    private String adresse;
+    private String telephone;
     private Long[] elementModules;
 
     @OneToOne

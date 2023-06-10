@@ -37,6 +37,7 @@ public class ProfesseurServiceImpl implements ProfesseurService {
         if(professeurRequestDTO!=null){
             Professeur professeur = professeurMapper.fromRequestDTOtoEntity(professeurRequestDTO);
             professeur.setCreatedAt(new Date());
+            professeur.setSoftDelete(false);
             /*Element*/
            if (professeurRequestDTO.getElementModules() != null) {
                for (Long elementId : professeurRequestDTO.getElementModules()) {
