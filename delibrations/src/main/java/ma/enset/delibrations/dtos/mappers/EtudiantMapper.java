@@ -12,6 +12,7 @@ public class EtudiantMapper {
     public EtudiantResponseDTO fromEtudiant(Etudiant etudiant) {
         EtudiantResponseDTO etudiantResponseDTO = new EtudiantResponseDTO();
         BeanUtils.copyProperties(etudiant, etudiantResponseDTO);
+        etudiantResponseDTO.setFiliere(etudiant.getFiliere().getId());
         return etudiantResponseDTO;
     }
 
