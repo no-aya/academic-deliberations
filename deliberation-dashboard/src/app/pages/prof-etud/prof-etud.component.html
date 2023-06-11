@@ -81,6 +81,57 @@
           <div class="card-body">
 
 
+            <form [formGroup]="newEtudiantFormGroup" (ngSubmit)="handleSaveEtudiant()">
+              <div class="mb-3">
+                <label class="form-label">Name:</label>
+                <input type="text" formControlName="nom" class="form-control">
+                <span class="text-danger"
+                      *ngIf="newEtudiantFormGroup.controls['nom'].touched
+                && newEtudiantFormGroup.controls['nom'].errors
+                && newEtudiantFormGroup.controls['nom'].errors!['nom']">
+            Nom n'est pas valide
+            </span>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Prénom:</label>
+                <input type="text" formControlName="prenom" class="form-control">
+                <span class="text-danger"
+                      *ngIf="newEtudiantFormGroup.controls['prenom'].touched
+                && newEtudiantFormGroup.controls['prenom'].errors
+                && newEtudiantFormGroup.controls['prenom'].errors!['prenom']">
+            Prénom n'est pas valide
+            </span>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Code apogé:</label>
+                <input type="text" formControlName="apogee" class="form-control">
+                <span class="text-danger"
+                      *ngIf="newEtudiantFormGroup.controls['apogee'].touched
+                && newEtudiantFormGroup.controls['apogee'].errors
+                && newEtudiantFormGroup.controls['apogee'].errors!['apogee']">
+            Code n'est pas valide
+            </span>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Email :</label>
+                <input type="text" formControlName="email" class="form-control">
+                <span class="text-danger"
+                      *ngIf="newEtudiantFormGroup.controls['email'].touched
+                && newEtudiantFormGroup.controls['email'].errors
+                && newEtudiantFormGroup.controls['email'].errors!['email']">
+            Email n'est pas valide
+            </span>
+              </div>
+
+
+
+              <button  class="btn btn-info">  Ajouter  </button>
+              <button  class="btn btn-danger">  Importer d'un fichier Xls  </button>
+            </form>
+
 
 
           </div>
