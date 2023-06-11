@@ -11,13 +11,12 @@ import {SessionComponent} from "../../pages/session/session.component";
 import {ProfEtudComponent} from "../../pages/prof-etud/prof-etud.component";
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'tables',         component: TablesComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'departements',   component: DepartementsComponent },
-    {path: 'comptes', component:ComptesComponent},
-    {path:'departements-edit', component: DepartementsEditComponent},
+  //  { path: 'dashboard',      component: DashboardComponent },
+   // { path: 'user-profile',   component: UserProfileComponent },
+    //{ path: 'tables',         component: TablesComponent },
+//    { path: 'departements',   component: DepartementsComponent },
+    {path: 'comptes',         component:ComptesComponent},
+    {path:'departements-edit',component: DepartementsEditComponent},
     {path:'session', component: SessionComponent},
     {path:'prof-etud', component: ProfEtudComponent}
 ];

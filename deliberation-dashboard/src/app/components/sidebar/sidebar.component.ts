@@ -9,14 +9,14 @@ declare interface RouteInfo {
     icon: string;
     class: string;
 }
-export const ROUTES: RouteInfo[] = [
+/*export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Tableau de bord',  icon: 'ni-tv-2 text-primary', class: '' },
     { path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
     { path: '/departements', title: 'Mes Départements',  icon:'ni-pin-3 text-orange', class: '' },
     { path: '/user-profile', title: 'Profile',  icon:'ni-single-02 text-yellow', class: '' },
     { path: '/tables', title: 'Mes Notes',  icon:'ni-bullet-list-67 text-red', class: '' }
 
-];
+];*/
 export const ROUTESAUTH: RouteInfo[] = [
   { path: '/login', title: 'Se connecter',  icon:'ni-key-25 text-info', class: '' },
   { path: '/register', title: 'S\'inscrire',  icon:'ni-circle-08 text-pink', class: '' }
@@ -43,10 +43,10 @@ export class SidebarComponent implements OnInit {
   constructor(private router: Router,private http: HttpClient) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    /*this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
-   });
+   });*/
 
     this.adminItems = ROUTESADMIN.filter(adminItem => adminItem);
     this.router.events.subscribe((event) => {
