@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class ElementResponseDTO {
+    private Long id;
     private String code;
     private String titre;
     private Float ponderation;

@@ -6,17 +6,14 @@ import ma.enset.delibrations.dtos.mappers.ElementMapper;
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
-import ma.enset.delibrations.entities.Element;
-import ma.enset.delibrations.entities.Professeur;
+import ma.enset.delibrations.entities.*;
+import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.exceptions.ElementNotFoundException;
 import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
-import ma.enset.delibrations.repositories.ElementRepository;
-import ma.enset.delibrations.repositories.ModuleRepository;
-import ma.enset.delibrations.repositories.ProfesseurRepository;
+import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.services.ElementService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ma.enset.delibrations.entities.Module;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,6 +31,8 @@ public class ElementServiceImpl implements ElementService {
     private ElementMapper elementMapper;
     private ProfesseurRepository professeurRepository;
     private ModuleRepository moduleRepository;
+    private SemestreRepository semestreRepository;
+    private AnneeUnivRepository anneeUnivRepository;
 
 
     private String generateCode() {
@@ -120,16 +119,18 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule) {
-       if(idProf!=null && idProf!=null){
+    public List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule, String codeAnnee, String libelS) {
+       if(idProf!=null && idProf!=null && codeAnnee!=null && libelS!=null ){
            Professeur prof = professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
            Module module= moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
-           if(prof!=null && module!=null){
+           Semestre semestre = semestreRepository.findByLibelle(libelS);
+           AnneeUniv anneeUniv = anneeUnivRepository.findByCodeAnnee(codeAnnee);
+           if(prof!=null && module!=null && semestre!=null && anneeUniv!=null){
                List<Element> elements = elementRepository.findByCleEtrangere(idProf);
                if (elements!=null){
                    List<Element> elementResponse=new ArrayList<>();
                    for (Element e: elements) {
-                       if(e.getModule().getId()==idModule) elementResponse.add(e);
+                       if(e.getModule().getId()==idModule && e.getModule().getSemestre().getId()==semestre.getId() && e.getModule().getSemestre().getAnneeUniv().getId()==anneeUniv.getId() ) elementResponse.add(e);
                    }
 
                    List<ElementResponseDTO> responses = elementResponse.stream()

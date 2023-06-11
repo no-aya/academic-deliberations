@@ -20,6 +20,6 @@ public interface ElementService {
     ElementResponseDTO getElement(String code) throws ElementNotFoundException;
     Element getElement(Long code) throws ElementNotFoundException;
 
-    List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule)  ;
+    List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule,String codeAnnee, String libelSemestre)  ;
 
 }

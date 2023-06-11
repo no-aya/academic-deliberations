@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/etudiant")
+@CrossOrigin("*")
 public class EtudiantController {
     private EtudiantService etudiantService;
 
@@ -46,4 +47,9 @@ public class EtudiantController {
 
     }
 
+    @GetMapping("/inscriptionPedagogique/{idModule}")
+    public List<EtudiantResponseDTO>  getAllEtudiantsByInscrption(@PathVariable Long idModule){
+        if(idModule==null ) return null;
+        return etudiantService.getEtudiantsByInscriptionPedagogique(idModule);
+    }
 }

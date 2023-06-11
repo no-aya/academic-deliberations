@@ -10,7 +10,7 @@ import {Element} from "../../pages/model/element.model";
 export class ElementService {
 
   constructor(private http:HttpClient) { }
-  public getElementByProfAndModule(idProf : number,idModule : number):Observable<Array<Element>>{
-    return this.http.get<Array<Element>>(environment.backendHost+"/api/elements?idProf="+idProf+"&idDept="+idModule);
+  public getElementByProfAndModule(idProf : number,idModule : number, anneeUniv : string, semestre: string):Observable<Array<Element>>{
+    return this.http.get<Array<Element>>(environment.backendHost+"/api/elements?idProf="+idProf+"&idModule="+idModule+"&codeAnnee="+anneeUniv+"&libelS="+semestre);
   }
 }

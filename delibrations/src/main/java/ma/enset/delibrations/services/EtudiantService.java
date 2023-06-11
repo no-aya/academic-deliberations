@@ -16,5 +16,6 @@ public interface EtudiantService {
     List<EtudiantResponseDTO> getEtudiants();
     void deleteEtudiant(String id) throws EtudiantNotFoundException;
 
+    List<EtudiantResponseDTO> getEtudiantsByInscriptionPedagogique(Long idModule);
     //get Etudiant Par filliere..
 }

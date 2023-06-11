@@ -1,6 +1,7 @@
 package ma.enset.delibrations.services;
 
 import ma.enset.delibrations.dtos.requests.NoteElementRequestDTO;
+import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.NoteElementResponseDTO;
 import ma.enset.delibrations.exceptions.ElementNotFoundException;
 import ma.enset.delibrations.exceptions.NoteElementNotFoundException;
@@ -13,4 +14,6 @@ public interface NoteElementService {
     NoteElementResponseDTO getNoteElement(Long id) throws NoteElementNotFoundException;
     void deleteNoteElement(Long id) throws NoteElementNotFoundException;
     List<NoteElementResponseDTO> getNoteElements();
+    NoteElementResponseDTO getNoteModuleByInscriptionPedagogique(Long idEtu,Long idModule, Long idElement);
+
 }

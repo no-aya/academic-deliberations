@@ -2,6 +2,7 @@ package ma.enset.delibrations.controllers;
 
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.NoteElementRequestDTO;
+import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.NoteElementResponseDTO;
 import ma.enset.delibrations.exceptions.ElementNotFoundException;
 import ma.enset.delibrations.exceptions.NoteElementNotFoundException;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/note-element")
+@CrossOrigin("*")
 public class NoteElementController {
     NoteElementService noteElementService;
 
@@ -41,6 +43,12 @@ public class NoteElementController {
     public Boolean deleteNoteElement(@PathVariable Long id) throws NoteElementNotFoundException {
         noteElementService.deleteNoteElement(id);
         return true;
+    }
+
+    @GetMapping("/inscriptionPedagogique")
+    public NoteElementResponseDTO  getNoteElementByInscrption(@RequestParam Long idEtu,@RequestParam Long idModule,@RequestParam Long idElement){
+        if(idModule==null || idModule==null || idElement==null ) return null;
+        return noteElementService.getNoteModuleByInscriptionPedagogique(idEtu,idModule,idElement);
     }
 }
 

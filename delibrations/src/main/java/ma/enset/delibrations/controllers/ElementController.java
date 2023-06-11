@@ -59,8 +59,8 @@ public class ElementController {
     }
 
     @GetMapping
-    public List<ElementResponseDTO> getFiliere(@RequestParam Long idProf, @RequestParam Long idModule) throws FiliereNotFoundException, ModuleNotFoundException {
-        if (idProf!=null && idModule!=null) return elementService.getElementWithModuleAndProf(idProf, idModule);
+    public List<ElementResponseDTO> getFiliere(@RequestParam Long idProf, @RequestParam Long idModule, @RequestParam String codeAnnee,@RequestParam String libelS) throws FiliereNotFoundException, ModuleNotFoundException {
+        if (idProf!=null && idModule!=null && codeAnnee!=null && libelS!=null) return elementService.getElementWithModuleAndProf(idProf, idModule, codeAnnee, libelS);
         return null;
     }
 }

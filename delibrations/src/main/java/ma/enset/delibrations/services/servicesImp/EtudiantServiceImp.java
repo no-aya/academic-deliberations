@@ -4,10 +4,17 @@ import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.mappers.EtudiantMapper;
 import ma.enset.delibrations.dtos.requests.EtudiantRequestDTO;
 import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
+import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
 import ma.enset.delibrations.entities.Etudiant;
+import ma.enset.delibrations.entities.Filiere;
+import ma.enset.delibrations.entities.InscriptionPedagogique;
+import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.exceptions.CannotProceedException;
 import ma.enset.delibrations.exceptions.EtudiantNotFoundException;
 import ma.enset.delibrations.repositories.EtudiantRepository;
+import ma.enset.delibrations.repositories.FiliereRepository;
+import ma.enset.delibrations.repositories.InscriptionPedagogiqueRepository;
+import ma.enset.delibrations.repositories.ModuleRepository;
 import ma.enset.delibrations.services.EtudiantService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -24,6 +31,9 @@ public class EtudiantServiceImp implements EtudiantService {
 
     private EtudiantRepository etudiantRepository;
     private EtudiantMapper etudiantMapper;
+    private InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository;
+    private ModuleRepository moduleRepository;
+    private FiliereRepository filiereRepository;
 
     //Inscription pedagogique
 
@@ -98,5 +108,25 @@ public class EtudiantServiceImp implements EtudiantService {
             etudiant.setSoftDelete(true);
             etudiantRepository.save(etudiant);
 
+    }
+
+    @Override
+    public List<EtudiantResponseDTO> getEtudiantsByInscriptionPedagogique(Long idModule) {
+        if (idModule!=null){
+            Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
+            if(module!=null ){
+                List<InscriptionPedagogique> inscriptions= inscriptionPedagogiqueRepository.findByCleEtrangere(idModule);
+                if(inscriptions!=null){
+                    List<EtudiantResponseDTO> respenses = new ArrayList<>();
+                    for (InscriptionPedagogique i: inscriptions) {
+                        Etudiant etu = etudiantRepository.findByIdAndSoftDeleteIsFalse(i.getEtudiant().getId());
+                        if(etu!=null){
+                            respenses.add(etudiantMapper.fromEtudiant(etu));}
+                    }
+                   return respenses;
+                    }
+                }
+            }
+        return null;
     }
 }
