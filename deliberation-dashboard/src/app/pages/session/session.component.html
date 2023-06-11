@@ -18,31 +18,31 @@
         <form [formGroup]="newSessionFormGroup" (ngSubmit)="handleSaveSession()">
           <div class="mb-3">
             <label class="form-label">Name:</label>
-            <input type="text" formControlName="Libelle" class="form-control">
+            <input type="text" formControlName="libelle" class="form-control">
             <span class="text-danger"
-                  *ngIf="newSessionFormGroup.controls['Libelle'].touched
-                && newSessionFormGroup.controls['Libelle'].errors
-                && newSessionFormGroup.controls['Libelle'].errors!['Libelle']">
+                  *ngIf="newSessionFormGroup.controls['libelle'].touched
+                && newSessionFormGroup.controls['libelle'].errors
+                && newSessionFormGroup.controls['libelle'].errors!['libelle']">
             Name is not valid
             </span>
           </div>
           <div class="mb-3">
             <label class="form-label">Date début:</label>
-            <input type="date" formControlName="DateDebut" class="form-control">
+            <input type="date" formControlName="dateDebut" class="form-control">
             <span class="text-danger"
-                  *ngIf="newSessionFormGroup.controls['DateDebut'].touched
-                && newSessionFormGroup.controls['DateDebut'].errors
-                && newSessionFormGroup.controls['DateDebut'].errors!['DateDebut']">
+                  *ngIf="newSessionFormGroup.controls['dateDebut'].touched
+                && newSessionFormGroup.controls['dateDebut'].errors
+                && newSessionFormGroup.controls['dateDebut'].errors!['dateDebut']">
             Date is not valid
           </span>
           </div>
           <div class="mb-3">
             <label class="form-label">Date fin:</label>
-            <input type="date" formControlName="DateFin" class="form-control">
+            <input type="date" formControlName="dateFin" class="form-control">
             <span class="text-danger"
-                  *ngIf="newSessionFormGroup.controls['DateFin'].touched
-                && newSessionFormGroup.controls['DateFin'].errors
-                && newSessionFormGroup.controls['DateFin'].errors!['DateFin']">
+                  *ngIf="newSessionFormGroup.controls['dateFin'].touched
+                && newSessionFormGroup.controls['dateFin'].errors
+                && newSessionFormGroup.controls['dateFin'].errors!['dateFin']">
             Date is not valid
           </span>
           </div>
