@@ -8,6 +8,7 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import {ComptesComponent} from "../../pages/comptes/comptes.component";
 import {DepartementsEditComponent} from "../../pages/departements-edit/departements-edit.component";
 import {SessionComponent} from "../../pages/session/session.component";
+import {ProfEtudComponent} from "../../pages/prof-etud/prof-etud.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -17,5 +18,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'departements',   component: DepartementsComponent },
     {path: 'comptes', component:ComptesComponent},
     {path:'departements-edit', component: DepartementsEditComponent},
-    {path:'session', component: SessionComponent}
+    {path:'session', component: SessionComponent},
+    {path:'prof-etud', component: ProfEtudComponent}
 ];
