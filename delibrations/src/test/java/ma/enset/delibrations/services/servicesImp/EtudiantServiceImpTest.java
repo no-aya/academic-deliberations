@@ -43,18 +43,17 @@ class EtudiantServiceImpTest {
         EtudiantResponseDTO savedEtudiant = etudiantService.createEtudiant(expectedEtudiant);
 
         assertNotNull(savedEtudiant);
-        assertEquals("apogee", savedEtudiant.getApogee());
-        assertEquals("cne", savedEtudiant.getCne());
-        assertEquals("cin", savedEtudiant.getCin());
-        assertEquals("nom", savedEtudiant.getNom());
-        assertEquals("prenom", savedEtudiant.getPrenom());
-        assertEquals("photo", savedEtudiant.getPhoto());
-        assertEquals("email", savedEtudiant.getEmail());
-        assertEquals("password", savedEtudiant.getPassword());
-        assertEquals("06 666 666", savedEtudiant.getTelephone());
-        assertEquals("adresse", savedEtudiant.getAdresse());
-
-        assertEquals(Femme, savedEtudiant.getSexe());
+        assertEquals(expectedEtudiant.getApogee(), savedEtudiant.getApogee());
+        assertEquals(expectedEtudiant.getCne(), savedEtudiant.getCne());
+        assertEquals(expectedEtudiant.getCin(), savedEtudiant.getCin());
+        assertEquals(expectedEtudiant.getNom(), savedEtudiant.getNom());
+        assertEquals(expectedEtudiant.getPrenom(), savedEtudiant.getPrenom());
+        assertEquals(expectedEtudiant.getPhoto(), savedEtudiant.getPhoto());
+        assertEquals(expectedEtudiant.getEmail(), savedEtudiant.getEmail());
+        assertEquals(expectedEtudiant.getPassword(), savedEtudiant.getPassword());
+        assertEquals(expectedEtudiant.getTelephone(), savedEtudiant.getTelephone());
+        assertEquals(expectedEtudiant.getAdresse(), savedEtudiant.getAdresse());
+        assertEquals(expectedEtudiant.getSexe(), savedEtudiant.getSexe());
 
 
     }
