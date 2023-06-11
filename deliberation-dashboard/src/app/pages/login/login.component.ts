@@ -23,17 +23,17 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password:['', Validators.required]
     });
-
   }
 
   login(){
-    let b = this.form.value
-    console.log(b)
+    let user = this.form.controls.username.value
+    let pass = this.form.controls.password.value
+    console.log(user, pass)
     if (this.form.invalid) {
       return;
     }
     //test if it's an admin
-    if(b.username == 'admin' && b.password == 'admin'){
+    if(user == 'admin' && pass == 'admin'){
       this.router.navigate(['dashboard'])
     }
     /*this._api.postTypeRequest('login', b).subscribe((res: any) => {
