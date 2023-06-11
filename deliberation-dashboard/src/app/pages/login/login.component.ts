@@ -1,8 +1,6 @@
 import {Component, OnInit, OnDestroy, NgModule} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth.service";
 import {ApiService} from "../../services/api.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -47,4 +45,8 @@ export class LoginComponent implements OnInit {
     });*/
   }
 
+  onsubmit() {
+    this.router.navigate(['/dashboard']).then(r => console.log(r));
+
+  }
 }

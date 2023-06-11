@@ -11,10 +11,9 @@ import { AuthGuardService } from './services/auth-guard.service';
 const routes: Routes =[
   {
     path: '',
+    pathMatch: 'full',
+  }, {
     redirectTo: 'login',
-    pathMatch: 'full'
-  },
-  {
     path: '',
     component: AdminLayoutComponent,
     children: [
