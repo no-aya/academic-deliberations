@@ -2,14 +2,22 @@ package ma.enset.delibrations.controllers;
 
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.FiliereRequestDTO;
+import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
+import ma.enset.delibrations.entities.Filiere;
 import ma.enset.delibrations.exceptions.CannotProceedException;
 import ma.enset.delibrations.exceptions.DepartementNotFoundException;
 import ma.enset.delibrations.exceptions.FiliereNotFoundException;
 import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
 import ma.enset.delibrations.services.FiliereService;
+import ma.enset.delibrations.services.ModuleService;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileOutputStream;
 import java.util.List;
 
 @RestController
@@ -17,7 +25,60 @@ import java.util.List;
 @RequestMapping("/api/filiere")
 public class FiliereController {
     private FiliereService filiereService;
+    private ModuleService moduleService;
+/*
+    @GetMapping("/export")
+    public String exportDataToExcel() {
+        try {
+            List<FiliereResponseDTO> dataList = filiereService.getFilieres();
 
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("liste_des_filières");
+
+            // Create header row
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("COD_ETU");
+            headerRow.createCell(1).setCellValue("COD_NNE_IND");
+            headerRow.createCell(2).setCellValue("CIN_IND");
+            headerRow.createCell(3).setCellValue("LIB_NOM_PAT_IND");
+            headerRow.createCell(4).setCellValue("LIB_PR1_IND");
+            headerRow.createCell(5).setCellValue("COD_ETP");
+            headerRow.createCell(6).setCellValue("COD_DIP");
+            headerRow.createCell(7).setCellValue("COD_SEX_ETU");
+            headerRow.createCell(8).setCellValue("DATE_NAI_IND");
+            headerRow.createCell(9).setCellValue("LIB_AD");
+
+
+            // Add more header cells for other data fields
+
+            // Populate data rows
+            int rowNum = 1;
+            for (FiliereResponseDTO data : dataList) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(data.);
+                row.createCell(1).setCellValue(data.getCne());
+                row.createCell(2).setCellValue(data.getCin());
+                row.createCell(3).setCellValue(data.getNom());
+                row.createCell(4).setCellValue(data.getPrenom());
+                row.createCell(5).setCellValue(" ");
+                row.createCell(6).setCellValue("data.getCin()");
+                row.createCell(7).setCellValue(data.getSexe().toString());
+                row.createCell(8).setCellValue(data.getDateNaissance());
+                row.createCell(9).setCellValue(data.getAdresse());
+            }
+
+            // Save the workbook to a file
+            FileOutputStream fileOutputStream = new FileOutputStream("liste_filières.xlsx");
+            workbook.write(fileOutputStream);
+            fileOutputStream.close();
+
+            return "Data exported successfully!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error exporting data.";
+        }
+    }
+    */
     @GetMapping("/all")
     public List<FiliereResponseDTO> getAllFilieres(){
         return filiereService.getFilieres();

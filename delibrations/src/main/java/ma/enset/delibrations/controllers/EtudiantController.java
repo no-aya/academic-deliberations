@@ -71,6 +71,7 @@ public class EtudiantController {
                 dataObject.setSexe(sexe.equals("F") ? Sexe.Femme : Sexe.Homme);
 
                 String filiereCode = row.getCell(9).getStringCellValue();
+
                 FiliereResponseDTO filiereResponseDTO = filiereService.getFiliere(filiereCode);
                 dataObject.setFiliereID(filiereResponseDTO.getId());
 

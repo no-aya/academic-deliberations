@@ -2,6 +2,7 @@ package ma.enset.delibrations;
 
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
+import ma.enset.delibrations.entities.enums.Sexe;
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.security.AppUser;
 import ma.enset.delibrations.security.repository.AppUserRepository;
@@ -116,18 +117,6 @@ public class DelibrationsApplication {
 
             });
 
-            //Testing Etudiant
-            Stream.of("Etudiant1","Etudiant2","Etudiant3","Etudiant4","Etudiant5","Etudiant6","Etudiant7","Etudiant8","Etudiant9","Etudiant10").forEach(etudiant->{
-                Etudiant etud = new Etudiant();
-                etud.setNom(etudiant);
-                etud.setPrenom(etudiant);
-                etud.setCne("EE929292"+c.getAndIncrement());
-                etud.setEmail(etudiant+"@gmail.com");
-                etud.setTelephone("0606060606");
-                etud.setAdresse("Adresse "+etudiant);
-                etud.setCreatedAt(new Date());
-                etudiantRepository.save(etud);
-            });
 
             //testing Departement
             Stream.of("Departement1","Departement2","Departement3","Departement4","Departement5","Departement6","Departement7").forEach(departement->{
@@ -142,7 +131,7 @@ public class DelibrationsApplication {
 
             Departement departement1 = departementRepository.findByCode("Departement1");
             //testing Filiere
-            Stream.of("Filiere1","Filiere2","Filiere3").forEach(filiere->{
+            Stream.of("TI2IBDC","Filiere2","Filiere3").forEach(filiere->{
                 Filiere fil = new Filiere();
                 fil.setIntitule(filiere);
                 fil.setCode(filiere);

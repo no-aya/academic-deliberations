@@ -13,4 +13,6 @@ public interface NoteElementService {
     NoteElementResponseDTO getNoteElement(Long id) throws NoteElementNotFoundException;
     void deleteNoteElement(Long id) throws NoteElementNotFoundException;
     List<NoteElementResponseDTO> getNoteElements();
+
+    NoteElementResponseDTO getNoteModuleByInscriptionPedagogique(Long idEtu, Long idModule, Long idElement);
 }
