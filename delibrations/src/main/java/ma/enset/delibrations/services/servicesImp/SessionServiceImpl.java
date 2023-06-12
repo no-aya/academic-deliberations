@@ -36,12 +36,12 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void closeSession(SessionRequestDTO sessionRequestDTO) {
-        if (sessionRequestDTO == null) {
-            throw new IllegalArgumentException("SessionRequestDTO is null");
+    public void closeSession(Long id){
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
         }
-        Session session = sessionMapper.fromRequestDTOtoEntity(sessionRequestDTO);
-        session.setClosed(true);
+        Session session = sessionRepository.findById(id).get();
+        session.setClosed(!session.isClosed());
         session = sessionRepository.save(session);
 
     }
@@ -71,7 +71,6 @@ public class SessionServiceImpl implements SessionService {
     public Session updateSession(Session session) throws SessionNotFoundException {
         Session s = sessionRepository.findById(session.getId()).orElseThrow(() -> new SessionNotFoundException("Session not found for this id :: " + session.getId()));
         s.setClosed(session.isClosed());
-        System.out.println(s.isClosed());
         s.setLibelle(session.getLibelle());
         s.setDateDebut(session.getDateDebut());
         s.setDateFin(session.getDateFin());

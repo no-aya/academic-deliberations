@@ -35,7 +35,7 @@ public class SessionController {
     public SessionResponseDTO createSession(@RequestBody SessionRequestDTO sessionRequestDTO){
         return sessionService.createSession(sessionRequestDTO);
     }
-    @CrossOrigin(origins = "http://localhost:4200/")
+
     @PostMapping("/updateSessions/{id}")
     public Session updateSession(@PathVariable Long id, @RequestBody Session session) throws SessionNotFoundException {
         session.setId(id);
@@ -47,6 +47,11 @@ public class SessionController {
         if (id != null) sessionService.deleteSession(id);
     }
 
+    @PutMapping("/close/{id}")
+    public void closeSession(@PathVariable Long id, @RequestBody Session session){
+        session.setId(id);
+        sessionService.closeSession(id);
+    }
 
 
 
