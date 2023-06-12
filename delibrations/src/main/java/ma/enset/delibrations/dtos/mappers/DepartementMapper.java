@@ -18,6 +18,7 @@ public class DepartementMapper {
     public DepartementResponseDTO fromEntityToResponseDTO(Departement departement){
         DepartementResponseDTO departementResponseDTO = new DepartementResponseDTO();
         BeanUtils.copyProperties(departement, departementResponseDTO);
+        if (departement.getFilieres() == null) departement.setFilieres(new ArrayList<>());
         departementResponseDTO.setFilieres(
                 departement.getFilieres()
                         .stream()
