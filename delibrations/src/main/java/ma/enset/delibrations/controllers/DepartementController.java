@@ -3,18 +3,14 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.*;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
-
+import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
+import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
+import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
 import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.Filiere;
 import ma.enset.delibrations.entities.Module;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.FiliereNotFoundException;
-import ma.enset.delibrations.exceptions.DepartementNotFoundException;
-import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
-import ma.enset.delibrations.services.DepartementService;
-import ma.enset.delibrations.services.FiliereService;
-import ma.enset.delibrations.services.ModuleService;
-import ma.enset.delibrations.services.SemestreService;
+import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.services.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpStatus;
@@ -33,20 +29,17 @@ import java.util.List;
 @RequestMapping("/api/departement")
 public class DepartementController {
 
-    private FiliereController filiereController;
-    private SemestreController semestreController;
-    private ModuleController moduleController;
-    private ElementController elementController;
-
     private DepartementService departementService;
     private FiliereService filiereService;
     private SemestreService semestreService;
     private ModuleService moduleService;
+    private ElementService elementService;
 
     @PostMapping("/import")
     public ResponseEntity<String> importDataFromExcel(@RequestParam("file") MultipartFile file) {
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
+
             List<DepartementRequestDTO> dataObjects = new ArrayList<>();
             List<FiliereRequestDTO> filiereRequestDTOS = new ArrayList<>();
             List<SemestreRequestDTO> semestreRequestDTOS = new ArrayList<>();
@@ -56,18 +49,98 @@ public class DepartementController {
             if (rowIterator.hasNext()) {
                 rowIterator.next(); // Skip header row
             }
-
+            //pour les departements
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 DepartementRequestDTO dataObject = new DepartementRequestDTO();
-                dataObject.setCode(row.getCell(0).getStringCellValue());
-                dataObject.setIntitule(row.getCell(1).getStringCellValue());
+                String depCode= row.getCell(0).getStringCellValue();
+                if (!depCode.isBlank()) {
+                    dataObject.setCode(row.getCell(0).getStringCellValue());
+                    dataObject.setIntitule(row.getCell(1).getStringCellValue());
+                    departementService.createDepartement(dataObject);
+                }
 
-                dataObjects.add(dataObject);
+
             }
 
-            for (DepartementRequestDTO departement : dataObjects) {
-                departementService.createDepartement(departement);
+            //pour les filieres
+            rowIterator = sheet.iterator();
+            rowIterator.next();
+            List<String> depCodes = new ArrayList<>();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                FiliereRequestDTO dataObject = new FiliereRequestDTO();
+                String filCode= row.getCell(2).getStringCellValue();
+                if(!filCode.isBlank()) {
+                    dataObject.setCode(row.getCell(2).getStringCellValue());
+                    dataObject.setIntitule(row.getCell(3).getStringCellValue());
+                    String codeDep = row.getCell(0).getStringCellValue();
+                    if (!codeDep.isBlank()) depCodes.add(codeDep);
+                    DepartementResponseDTO departement = departementService.getDepartement(depCodes.get(depCodes.size() - 1));
+                    dataObject.setDepartementId(departement.getId());
+                    filiereService.createFiliere(dataObject);
+                }
+
+            }
+
+            //pour les semestres
+            rowIterator = sheet.iterator();
+            rowIterator.next();
+            List<String> filCodes = new ArrayList<>(); // list qui contient les codes des filieres
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                SemestreRequestDTO dataObject = new SemestreRequestDTO();
+                String semCode= row.getCell(4).getStringCellValue();
+                if(!semCode.isBlank()) {
+                    dataObject.setCode(row.getCell(4).getStringCellValue());
+                    dataObject.setLibelle(row.getCell(5).getStringCellValue());
+                    String codeFil = row.getCell(2).getStringCellValue();
+                    if (!codeFil.isBlank()) filCodes.add(codeFil);
+                    FiliereResponseDTO filiere = filiereService.getFiliere(filCodes.get(filCodes.size() - 1));
+                    dataObject.setFiliereID(filiere.getId());
+                    semestreService.createSemestre(dataObject);
+                }
+
+            }
+            //pour les modules
+            rowIterator = sheet.iterator();
+            rowIterator.next();
+            List<String> semCodes = new ArrayList<>(); // list qui contient les codes des semestres
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                ModuleRequestDTO dataObject = new ModuleRequestDTO();
+                String moduleCode= row.getCell(6).getStringCellValue();
+                if(!moduleCode.isBlank()) {
+                    dataObject.setCode(moduleCode);
+                    dataObject.setIntitule(row.getCell(7).getStringCellValue());
+                    String codeSemstre = row.getCell(4).getStringCellValue();
+                    if (!codeSemstre.isBlank()) semCodes.add(codeSemstre);
+                    SemestreResponseDTO semestre = semestreService.getSemestre(semCodes.get(semCodes.size() - 1));
+                    dataObject.setSemestreId(semestre.getId());
+                    moduleService.createModule(dataObject);
+                }
+
+            }
+
+            //pour les élements de module
+            rowIterator = sheet.iterator();
+            rowIterator.next();
+            List<String> modCodes = new ArrayList<>(); // list qui contient les codes des modules
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                ElementRequestDTO dataObject = new ElementRequestDTO();
+                String elementCode= row.getCell(8).getStringCellValue();
+                if(!elementCode.isBlank()) {
+                    dataObject.setCode(elementCode);
+                    dataObject.setTitre(row.getCell(9).getStringCellValue());
+                    dataObject.setPonderation((float) row.getCell(10).getNumericCellValue());
+                    String codeModule = row.getCell(6).getStringCellValue();
+                    if (!codeModule.isBlank()) modCodes.add(codeModule);
+                    ModuleResponseDTO module = moduleService.getModule(modCodes.get(modCodes.size() - 1));
+                    dataObject.setModuleId(module.getId());
+                    elementService.addElement(dataObject);
+                }
+
             }
 
 
@@ -80,6 +153,16 @@ public class DepartementController {
         } catch (RegleCalculNotFoundException e) {
             throw new RuntimeException(e);
         } catch (DepartementNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (javax.naming.CannotProceedException e) {
+            throw new RuntimeException(e);
+        } catch (NoteSemestreNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SemestreNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NoteModuleNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (ModuleNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

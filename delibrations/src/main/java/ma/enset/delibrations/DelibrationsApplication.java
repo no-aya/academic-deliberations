@@ -86,13 +86,7 @@ public class DelibrationsApplication {
                 module1.setIntitule(module);
                 moduleRepository.save(module1);
             });
-            //Testing Semestre
-            Stream.of("Semestre1","Semestre2","Semestre3","Semestre4","Semestre5","Semestre6","Semestre7","Semestre8","Semestre9","Semestre10").forEach(semestre->{
-                Semestre sem = new Semestre();
-                sem.setCode("CODE"+(i.getAndIncrement()));
-                sem.setLibelle(semestre);
-                semestreRepository.save(sem);
-            });
+
             //Testing NoteSemestre
             Stream.of("NoteSemestre1","NoteSemestre2","NoteSemestre3","NoteSemestre4","NoteSemestre5","NoteSemestre6","NoteSemestre7","NoteSemestre8","NoteSemestre9","NoteSemestre10").forEach(noteSemestre->{
                 NoteSemestre note = new NoteSemestre();
@@ -118,27 +112,6 @@ public class DelibrationsApplication {
             });
 
 
-            //testing Departement
-            Stream.of("Departement1","Departement2","Departement3","Departement4","Departement5","Departement6","Departement7").forEach(departement->{
-                Departement depart = new Departement();
-                depart.setIntitule(departement);
-                depart.setCode(departement);
-                depart.setCreatedAt(new Date());
-                depart.setFilieres(filiereRepository.findAll());
-                departementRepository.save(depart);
-            });
-
-
-            Departement departement1 = departementRepository.findByCode("Departement1");
-            //testing Filiere
-            Stream.of("TI2IBDC","Filiere2","Filiere3").forEach(filiere->{
-                Filiere fil = new Filiere();
-                fil.setIntitule(filiere);
-                fil.setCode(filiere);
-                fil.setCreatedAt(new Date());
-                fil.setDepartement(departement1);
-                filiereRepository.save(fil);
-            });
 
 
             //Testing anneUniv

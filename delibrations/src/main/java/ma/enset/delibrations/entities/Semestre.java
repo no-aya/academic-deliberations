@@ -30,7 +30,9 @@ public class Semestre {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AnneeUniv anneeUniv;
 
-
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Filiere filiere;
     //Session Status
     private boolean sessionStatus = false;
 }

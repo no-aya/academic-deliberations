@@ -12,6 +12,7 @@ public class SemestreRequestDTO {
     private String code;
     private String libelle;
     private Long[] noteSemestres;
+    private Long filiereID;
 
     private Long anneeUnivId;
 

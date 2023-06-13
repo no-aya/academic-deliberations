@@ -36,10 +36,10 @@ public class DepartementServiceImpl implements DepartementService
             Departement departement = departementMapper.fromRequestDTOtoEntity(departementRequestDTO);
             departement.setCreatedAt(new Date());
             /*Filieres*/
-            for (Filiere filiere : departement.getFilieres()) {
-                filiere.setDepartement(departement);
-                filiereService.createFiliere(filiereMapper.fromEntityToRequestDTO(filiere));
-            }
+//            for (Filiere filiere : departement.getFilieres()) {
+//              filiere.setDepartement(departement);
+            //filiereService.createFiliere(filiereMapper.fromEntityToRequestDTO(filiere));
+         //   }
             departementRepository.save(departement);
             return departementMapper.fromEntityToResponseDTO(departement);
         }
