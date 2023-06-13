@@ -1,4 +1,4 @@
-package ma.enset.delibrations.exceptions;
+package ma.enset.delibrations.entities.exceptions;
 
 public class SemestreNotFoundException extends Exception {
     public SemestreNotFoundException(String id) {

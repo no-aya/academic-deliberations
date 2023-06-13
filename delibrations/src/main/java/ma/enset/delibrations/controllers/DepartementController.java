@@ -3,10 +3,7 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.DepartementRequestDTO;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.FiliereNotFoundException;
-import ma.enset.delibrations.exceptions.DepartementNotFoundException;
-import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.DepartementService;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,5 +47,13 @@ public class DepartementController {
             return true;
 
         }else return false;
+    }
+
+    @GetMapping
+    public List<DepartementResponseDTO> getDepartementsByProf(@RequestParam Long idProf,@RequestParam String libelS) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
+        if(idProf
+                !=null && libelS!=null) {
+            return  departementService.getDepartementsByProf(idProf, libelS);
+        }else return null;
     }
 }

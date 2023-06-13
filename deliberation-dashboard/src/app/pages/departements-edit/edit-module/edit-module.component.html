@@ -1,1 +1,49 @@
-<p>edit-module works!</p>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <button class="button" (click)="handleUpdateModule()">Enregistrer</button>
+
+    </div>
+  </div>
+</div>
+
+<!--<div class="container">
+  <div class="card col-md-6 offset-3 mt-2">-->
+<div class="card-body">
+  <form [formGroup]="moduleFormGroup">
+    <div class="mb-3">
+      <label class="form-label">Code:</label>
+      <input type="text" formControlName="code" placeholder="Code" class="form-control">
+      <span class="text-danger"
+            *ngIf="moduleFormGroup.controls['code'].touched
+          && moduleFormGroup.controls['code'].errors
+          && moduleFormGroup.controls['code'].errors['required']">
+    Code est obligatoire
+  </span>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Intitulé:</label>
+      <input type="text" formControlName="intitule" placeholder="Intitulé" class="form-control">
+      <span class="text-danger"
+            *ngIf="moduleFormGroup.controls['intitule'].touched
+          && moduleFormGroup.controls['intitule'].errors
+          && moduleFormGroup.controls['intitule'].errors['required']">
+    Intitule est obligatoire
+  </span>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Semestre</label>
+      <input type="date" formControlName="semestre" placeholder="Semestre" class="form-control">
+      <span class="text-danger"
+            *ngIf="moduleFormGroup.controls['semestre'].touched
+          && moduleFormGroup.controls['semestre'].errors
+          && moduleFormGroup.controls['semestre'].errors['semestre']">
+    Semestre est obligatoire
+  </span>
+    </div>
+
+
+  </form>
+</div>

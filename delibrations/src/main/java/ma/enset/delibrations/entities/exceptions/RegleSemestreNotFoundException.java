@@ -1,4 +1,4 @@
-package ma.enset.delibrations.exceptions;
+package ma.enset.delibrations.entities.exceptions;
 
 public class RegleSemestreNotFoundException extends Exception {
     public RegleSemestreNotFoundException(Long id) {

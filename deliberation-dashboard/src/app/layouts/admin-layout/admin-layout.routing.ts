@@ -17,6 +17,8 @@ import {AddEditDepartComponent} from "../../pages/departements-edit/add-edit-dep
 import {EditDepartementComponent} from "../../pages/departements-edit/edit-departement/edit-departement.component";
 import {AddModuleComponent} from "../../pages/departements-edit/add-module/add-module.component";
 import {EditModuleComponent} from "../../pages/departements-edit/edit-module/edit-module.component";
+import {AddFiliereComponent} from "../../pages/departements-edit/add-filiere/add-filiere.component";
+import {EditFiliereComponent} from "../../pages/departements-edit/edit-filiere/edit-filiere.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -33,5 +35,7 @@ export const AdminLayoutRoutes: Routes = [
     {path:'modules-admin', component: ModulesAdminComponent},
     {path:'add-module', component: AddModuleComponent},
     {path:'edit-module', component: EditModuleComponent},
+  {path:'add-filiere', component: AddFiliereComponent},
+  {path:'edit-filiere/:code', component: EditFiliereComponent},
     {path:'session', component: SessionComponent}
 ];

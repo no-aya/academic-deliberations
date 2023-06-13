@@ -14,6 +14,7 @@ public class FiliereResponseDTO {
     private String code;
     private String intitule;
     private Long departementId;
+    private String departementIntitule;
     private Long regleCalculId;
 
 

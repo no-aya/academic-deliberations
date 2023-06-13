@@ -34,5 +34,9 @@ export class DepartementsAdminService {
   public editDepartment(id : number, departement :DepartementEditModel): Observable<DepartementEditModel> {
     return this.http.put<DepartementEditModel>(environment.backendHost+"/api/department/"+id,departement);
   }
+  //ajouté
+  public getDepartementsByProf(idProf : number, libelS: string):Observable<Array<DepartementEditModel>>{
+    return this.http.get<Array<DepartementEditModel>>(environment.backendHost+"/api/departement?idProf="+idProf+"&libelS="+libelS);
+  }
 
 }

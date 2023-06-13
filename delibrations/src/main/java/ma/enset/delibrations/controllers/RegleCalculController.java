@@ -3,8 +3,8 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.RegleCalculRequestDTO;
 import ma.enset.delibrations.dtos.responses.RegleCalculResponseDTO;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
+import ma.enset.delibrations.entities.exceptions.CannotProceedException;
+import ma.enset.delibrations.entities.exceptions.RegleCalculNotFoundException;
 import ma.enset.delibrations.services.RegleCalculService;
 import org.springframework.web.bind.annotation.*;
 

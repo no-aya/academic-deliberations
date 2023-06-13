@@ -3,7 +3,7 @@ package ma.enset.delibrations.services;
 
 import ma.enset.delibrations.dtos.requests.InscriptionPedagogiqueRequestDTO;
 import ma.enset.delibrations.dtos.responses.InscriptionpedagoqiqueResponseDTO;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.*;
 
 import java.util.List;
 

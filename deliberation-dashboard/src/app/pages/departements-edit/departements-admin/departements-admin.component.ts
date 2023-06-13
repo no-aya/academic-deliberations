@@ -45,6 +45,8 @@ departement : Observable<DepartementEditModel>;
     );
   }
 
+
+
   handleDeleteDepartement(d: DepartementEditModel) {
     let conf = confirm("Are you sure?");
     if (!conf) return;

@@ -1,4 +1,4 @@
-package ma.enset.delibrations.exceptions;
+package ma.enset.delibrations.entities.exceptions;
 
 public class NoteSemestreNotFoundException extends Exception {
     public NoteSemestreNotFoundException(Long id) {

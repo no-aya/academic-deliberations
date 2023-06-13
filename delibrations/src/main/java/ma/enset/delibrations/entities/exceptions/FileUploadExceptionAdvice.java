@@ -1,4 +1,4 @@
-package ma.enset.delibrations.exceptions;
+package ma.enset.delibrations.entities.exceptions;
 import ma.enset.delibrations.ResponseMessage;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;

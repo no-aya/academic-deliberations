@@ -1,6 +1,6 @@
 package ma.enset.delibrations.services.servicesImp;
 
-import ma.enset.delibrations.exceptions.StorageException;
+import ma.enset.delibrations.entities.exceptions.StorageException;
 import ma.enset.delibrations.services.FileStorageService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

@@ -1,4 +1,4 @@
-package ma.enset.delibrations.exceptions;
+package ma.enset.delibrations.entities.exceptions;
 
 public class RegleCalculNotFoundException extends Exception {
     public RegleCalculNotFoundException(Long id) {

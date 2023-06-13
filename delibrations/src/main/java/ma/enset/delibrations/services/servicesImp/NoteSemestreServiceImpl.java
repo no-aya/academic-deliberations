@@ -5,10 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.NoteSemestreMapper;
 import ma.enset.delibrations.dtos.requests.NoteSemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.NoteSemestreResponseDTO;
-import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
 import ma.enset.delibrations.entities.NoteSemestre;
 import ma.enset.delibrations.entities.Semestre;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.CannotProceedException;
+import ma.enset.delibrations.entities.exceptions.NoteSemestreNotFoundException;
+import ma.enset.delibrations.entities.exceptions.SemestreNotFoundException;
 import ma.enset.delibrations.repositories.NoteSemestreRepository;
 import ma.enset.delibrations.repositories.SemestreRepository;
 import ma.enset.delibrations.services.NoteSemestreService;
@@ -18,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional

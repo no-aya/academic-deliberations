@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.requests.NoteSemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.NoteSemestreResponseDTO;
-import ma.enset.delibrations.entities.NoteSemestre;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.NoteSemestreService;
 import org.springframework.web.bind.annotation.*;
 

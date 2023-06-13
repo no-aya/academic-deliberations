@@ -1,4 +1,4 @@
-package ma.enset.delibrations.exceptions;
+package ma.enset.delibrations.entities.exceptions;
 
 public class DepartementNotFoundException extends Exception{
     public DepartementNotFoundException(Long departementId){ super("departement de id "+departementId +"not found");}

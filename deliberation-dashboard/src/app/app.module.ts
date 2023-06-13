@@ -23,6 +23,8 @@ import { EditDepartementComponent } from './pages/departements-edit/edit-departe
 import {MatButtonModule} from "@angular/material/button";
 import { EditModuleComponent } from './pages/departements-edit/edit-module/edit-module.component';
 import { AddModuleComponent } from './pages/departements-edit/add-module/add-module.component';
+import { EditFiliereComponent } from './pages/departements-edit/edit-filiere/edit-filiere.component';
+import { AddFiliereComponent } from './pages/departements-edit/add-filiere/add-filiere.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { AddModuleComponent } from './pages/departements-edit/add-module/add-mod
     AddEditDepartComponent,
     EditDepartementComponent,
     EditModuleComponent,
-    AddModuleComponent
+    AddModuleComponent,
+    EditFiliereComponent,
+    AddFiliereComponent
 
   ],
   providers: [],

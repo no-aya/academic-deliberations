@@ -15,8 +15,8 @@
             *ngIf="newCustomerFormGroup.controls['code'].touched
                   && newCustomerFormGroup.controls['code'].errors
                   && newCustomerFormGroup.controls['code'].errors['required']">
-            Code est obligatoire
-          </span>
+        Code est obligatoire
+      </span>
     </div>
 
     <div class="mb-3">
@@ -26,22 +26,41 @@
             *ngIf="newCustomerFormGroup.controls['intitule'].touched
                   && newCustomerFormGroup.controls['intitule'].errors
                   && newCustomerFormGroup.controls['intitule'].errors['required']">
-            Intitule est obligatoire
-          </span>
+        Intitule est obligatoire
+      </span>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">semestre</label>
-      <input type="text" formControlName="semestre" class="form-control">
+   <!-- <div class="mb-3">
+      <label class="form-label">Semestre</label>
+      <select formControlName="semestre.libelle" class="form-select">
+        <option value="" disabled selected>Sélectionnez un semestre</option>
+        <option *ngFor="let semestre of semestreLists" [value]="semestre">{{ semestre }}</option>
+      </select>
       <span class="text-danger"
             *ngIf="newCustomerFormGroup.controls['semestre'].touched
-                  && newCustomerFormGroup.controls['semestre'].errors
-                  && newCustomerFormGroup.controls['semestre'].errors['required']">
-            Semestre est obligatoire
-          </span>
+          && newCustomerFormGroup.controls['semestre'].errors
+          && newCustomerFormGroup.controls['semestre'].errors['required']">
+    Semestre est obligatoire
+  </span>
+    </div>-->
+    <div class="mb-3">
+      <label class="form-label">Semestre</label>
+    <select>
+      <option *ngFor="let item of libelles" [value]="item">{{ item }}</option>
+    </select>
+      <span class="text-danger"
+            *ngIf="newCustomerFormGroup.controls['semestre'].touched
+          && newCustomerFormGroup.controls['semestre'].errors
+          && newCustomerFormGroup.controls['semestre'].errors['required']">
+    Semestre est obligatoire
+  </span>
     </div>
 
-    <button [disabled]="!newCustomerFormGroup.valid" (click)="handleSaveModule()"  class="button">Enregistrer</button>
+
+
+
+
+
+    <button [disabled]="!newCustomerFormGroup.valid" (click)="handleSaveModule()" class="button">Enregistrer</button>
   </form>
 </div>
-

@@ -1,8 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DepartementsEditService} from "../../../services/departements-edit.service";
-import {MatDialogRef, MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {DepartementsAdminService} from "../../../services/departements-admin.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DepartementEditModel} from "../../model/departementEdit.model";
@@ -46,5 +43,7 @@ export class AddEditDepartComponent implements OnInit {
         }
       });
     }
+
+
 }
 

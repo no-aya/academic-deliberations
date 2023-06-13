@@ -1,70 +1,92 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-    </div>
-  </div>
-</div>
-
-<div class="container mt-2">
-  <ng-container *ngIf="modules | async as listModules; else failureOrLoading">
-    <div class="card">
-      <div class="card-header">Modules</div>
-      <button routerLink="/add-module">Ajouter Module</button>
-
-      <div class="card-body">
-        <div *ngIf="searchFormGroup" class="mb-5">
-          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchModules()">
-            <div class="input-group">
-              <label class="input-group-text text-primary">Intitulé</label>
-              <input type="text" formControlName="keyword" class="form-control">
-              <button class="btn btn-primary" type="submit">
+      <!-- Card stats -->
+      <div class="row" style="margin-left: 0.5rem">
+        <form [formGroup]="deptFormGroup" (ngSubmit)="searchDept()">
+          <div class="form-row">
+            <!-- <div class="form-group  col-5 ">
+              <label>Année</label>
+              <select class="form-control" formControlName="anneeUniv">
+                <option *ngFor="let a of anneesUniv | async" [value]="a.codeAnnee">{{a.codeAnnee}}</option>
+              </select>
+            </div> -->
+            <div class="form-group col-5">
+              <label>Semestre</label>
+              <select class="form-control" formControlName="libelS">
+                <option value="Semestre1">Semestre 1</option>
+                <option value="Semestre2">Semestre 2</option>
+                <option value="Semestre3">Semestre 3</option>
+                <option value="Semestre4">Semestre 4</option>
+                <option value="Semestre5">Semestre 5</option>
+              </select>
+            </div>
+            <div class="form-group col-2">
+              <label>Search</label>
+              <button type="submit" class="btn btn-primary mb-2">
                 <i class="fa fa-search"></i>
               </button>
             </div>
-          </form>
-        </div>
-        <table class="table">
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>CODE</th>
-            <th>INTITULE</th>
-            <th>Semestres</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let d of listModules">
-            <td>{{ d.id }}</td>
-            <td>{{ d.code }}</td>
-            <td>{{ d.intitule }}</td>
-           <td>{{ d.semestre }}</td>
-           <td>
-            <select class="form-control" [(ngModel)]="selectedSemestre[d.id]">
-              <option *ngFor="let semestre of d.semestre" [value]="semestre.libelle">{{ semestre.libelle }}</option>
-            </select>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-danger" (click)="handleDeleteModule(d)">
-                <i class="fa fa-trash"></i>
-              </button>
-              <button class="btn btn-sm btn-primary" (click)="handleEditModule(d)">
-                <i class="fas fa-edit"></i>
-              </button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+          </div>
+        </form>
       </div>
     </div>
-  </ng-container>
-  <ng-template #failureOrLoading>
-    <ng-container *ngIf="errorMessage; else loading">
-      <div class="text-danger">
-        {{ errorMessage }}
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow border-0">
+        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428">
+          <div class="container-fluid mt-4">
+            <div class="row">
+              <div class="col">
+                <div class="card mt-2" *ngFor="let dep of depArray">
+                  <div class="card-header cardDept">
+                    <div class="row">
+                      <div class="col-11">{{dep.intitule}}</div>
+                      <div class="col-1"><i class="ni ni-bold-down"></i></div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <ul>
+                      <li style="margin-top: 1rem" *ngFor="let f of dep.filiereChildren">
+                        <i class="ni ni-bold-right">{{f.intitule}}</i>
+                        <div class="accordion" style="margin: 0rem">
+                          <div class="card bodyModule" *ngFor="let m of f.moduleChildren">
+                            <div class="card-header cardModule">
+                            <!--  <a (click)="afficherEtu(m)" [attr.aria-expanded]="m.expanded ? 'true' : 'false'"
+                                 [attr.aria-controls]="'collapse-' + m.id">
+                                <i class="ni" style="padding-left: 1rem"
+                                   [ngClass]="m.expanded ? 'ni-bold-up' : 'ni-bold-down'">{{m.intitule}}</i>
+                              </a>-->
+                            </div>
+                            <div [id]="'collapse-' + m.id" class="collapse" [ngClass]="{'show': m.expanded}">
+                              <div class="card-body bodyModule">
+                                <div class="table-responsive">
+                                  <table class="table align-items-center table-flush text-center border-1">
+                                    <thead class="thead-light">
+                                    <tr>
+                                      <th style="background-color: #ccdcfb" colspan="4" scope="col">{{m.intitule}}</th>
+                                    </tr>
+                                    </thead>
+                                    <!-- Ajoutez les lignes de tableau nécessaires ici -->
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </ng-container>
-    <ng-template #loading>
-      Loading .....
-    </ng-template>
-  </ng-template>
+    </div>
+  </div>
 </div>

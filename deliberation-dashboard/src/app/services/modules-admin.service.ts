@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {DepartementEditModel} from "../pages/model/departementEdit.model";
 import {environment} from "../../environments/environment";
 import {ModuleEditModel} from "../pages/model/moduleEdit.model";
 
@@ -11,7 +10,7 @@ import {ModuleEditModel} from "../pages/model/moduleEdit.model";
 export class ModulesAdminService {
 
   constructor(private http:HttpClient) { }
-  public getModule(id: number): Observable<ModuleEditModel> {
+  public getModule(id: String): Observable<ModuleEditModel> {
     return this.http.get<ModuleEditModel>(environment.backendHost + "/api/module/" + id);
   }
 
@@ -31,7 +30,14 @@ export class ModulesAdminService {
     return this.http.delete(environment.backendHost+"/api/module/"+code);
   }
 
-  public editModule(code : String, module :ModuleEditModel): Observable<DepartementEditModel> {
-    return this.http.put<DepartementEditModel>(environment.backendHost+"/api/module/"+code,module);
+  public editModule(code : String, module :ModuleEditModel): Observable<ModuleEditModel> {
+    return this.http.put<ModuleEditModel>(environment.backendHost+"/api/module/"+code,module);
   }
+
+
+  //ajouté
+  public getModuleByProfAndFiliere(idProf : number,idFiliere : number, semestre: string):Observable<Array<ModuleEditModel>>{
+    return this.http.get<Array<ModuleEditModel>>(environment.backendHost+"/api/modules?idProf="+idProf+"&idFiliere="+idFiliere+"&libelS="+semestre);
+  }
+
 }

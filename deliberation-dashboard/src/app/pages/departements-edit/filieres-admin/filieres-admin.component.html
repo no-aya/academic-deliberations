@@ -1,1 +1,72 @@
-<p>filieres-admin works!</p>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+
+<div class="container mt-2">
+  <ng-container *ngIf="filieres | async as listFilieres; else failureOrLoading">
+    <div class="card">
+      <div class="card-header">Filieres</div>
+      <button routerLink="/add-filiere">Ajouter Filiere</button>
+
+      <div class="card-body">
+        <div *ngIf="searchFormGroup" class="mb-5">
+
+          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchFilieres()">
+            <div class="input-group">
+              <label class="input-group-text text-primary">Intitulé</label>
+              <input type="text" formControlName="keyword" class="form-control">
+              <button class="btn btn-primary" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>CODE</th>
+            <th>INTITULE</th>
+            <th>DATE DE CREATION</th>
+            <th>DEPARTEMENT</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let f of listFilieres">
+            <td>{{ f.id }}</td>
+            <td>{{ f.code }}</td>
+            <td>{{ f.intitule }}</td>
+            <td>{{f.createdAt }}</td>
+          <td>{{f.departementIntitule}}</td>
+
+                 <td>
+              <button class="btn btn-sm btn-danger" (click)="handleDeleteFiliere(f)">
+                <i class="fa fa-trash"></i>
+              </button>
+              <button class="btn btn-sm btn-primary" (click)="handleEditFiliere(f)">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</ng-container>
+
+  <ng-template #failureOrLoading>
+    <ng-container *ngIf="errorMessage; else loading">
+      <div class="text-danger">
+        {{ errorMessage }}
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      Loading .....
+    </ng-template>
+  </ng-template>
+
+</div>
