@@ -214,7 +214,7 @@ public class DepartementController {
                                 Row row3 = sheet.createRow(rowNum++);
                                 row3.createCell(8).setCellValue(element.getCode());
                                 row3.createCell(9).setCellValue(element.getTitre());
-                                row3.createCell(10).setCellValue(element.getPonderation());
+                                row3.createCell(10).setCellValue(element.getCoef());
                             }
                         }
                     }

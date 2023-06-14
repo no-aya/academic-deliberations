@@ -42,7 +42,7 @@ public class DelibrationsApplication {
                 Element element = new Element();
                 element.setCode("CODE"+(i.getAndIncrement()));
                 element.setTitre(module);
-                element.setPonderation(0.5F);
+                element.setCoef(0.5F);
                 elementRepository.save(element);
             });
 
