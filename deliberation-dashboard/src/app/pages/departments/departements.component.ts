@@ -42,6 +42,10 @@ export class DepartementsComponent implements OnInit {
   noteElement1!:Observable<NoteElement>;
   noteElement2!:Observable<NoteElement>;
 
+  isEditing: boolean = false;
+  editingCell: number = -1;
+  originalValue: number = 0;
+
   constructor(private fb: FormBuilder,
               private anneeUnivService : AnneeUnivService,
               private departementService: DepartementService,
@@ -90,6 +94,9 @@ export class DepartementsComponent implements OnInit {
           module.intitule = '';
           module.expanded = false;
           module.elementChildren = [];
+          module.etudiants = [];
+
+
         });
       });
     });
@@ -161,7 +168,8 @@ export class DepartementsComponent implements OnInit {
             id: 0,
             intitule: '',
             elementChildren: [],
-            etudiants:[]
+            etudiants: []
+
           };
           mAr.id = ml.id; mAr.intitule=ml.intitule
           f.moduleChildren.push(mAr);
@@ -209,6 +217,14 @@ export class DepartementsComponent implements OnInit {
      }
        this.etudiants.subscribe((etu: Array<Etudiant>) => {
          etu.forEach((e: Etudiant) => {
+           e.editMode = [];
+           e.editMode[0] = false; // Colonne 1
+           e.editMode[1] = false; // Colonne 2
+           e.editMode[2] = false; // Colonne 2
+           e.editMode[3] = false; // Colonne 2
+           e.notesElement1=[];
+          e.notesElement2=[];
+
            if(!m.etudiants){
              m.etudiants=[];
            }
@@ -227,23 +243,43 @@ export class DepartementsComponent implements OnInit {
        this.noteElement2 = this.noteElementService.getNoteElementByInscriptionPedagogique(e.id,m.id,el2.id);
        if(this.noteElement1!=null &&  this.noteElement2!=null){
         this.noteElement1.subscribe((n: NoteElement) => {
-          if (!e.notesElement1) e.notesElement1=[];
 
+            if (!e.notesElement1 ) {
+              e.notesElement1 = [];
+            }
+            if(!e.idNotesElement1){
+              e.idNotesElement1=[];
+            }
+
+           e.idNotesElement1[0] = n.id;
            e.notesElement1[0]= n.noteSession1==null?-1:n.noteSession1;
+           e.idNotesElement1[1]  = n.id;
            e.notesElement1[1]= n.noteSession2==null?-1:n.noteSession2;
-            console.log("---------noteEL1"+m.intitule+" | "+  e.notesElement1[0]+" | "+e.notesElement1[1])
+          //  console.log("---------"+  e.idNotesElement1[0]+" | "+ e.idNotesElement1[1]);
 
           },
           (error: any) => {
-            console.error('Erreur lors de la récupération de la note élément :', error);
+          //  console.error('Erreur lors de la récupération de la note élément :', error);
           }
         );
 
          this.noteElement2.subscribe((n: NoteElement) => {
-             if (!e.notesElement2) e.notesElement2=[];
+
+             if (!e.notesElement2) {
+               e.notesElement2 = [];
+             }
+             if(!e.idNoteElement2){
+               e.idNoteElement2=[];
+             }
+
+            // console.log("---------noteEL2"+m.intitule+" | "+  e.notesElement1[0].noteSession1+" | "+e.notesElement1[1].noteSession2)
+
+             e.idNoteElement2[0]  = n.id;
              e.notesElement2[0]= n.noteSession1==null?-1:n.noteSession1;
+             e.idNoteElement2[1]  = n.id;
+           //  console.log("---------"+n.noteSession1+"|"+n.noteSession2);
              e.notesElement2[1]= n.noteSession2==null?-1:n.noteSession2;
-             console.log("---------noteEL2"+m.intitule+" | "+  e.notesElement1[0]+" | "+e.notesElement1[1])
+            // console.log("---------"+  e.idNoteElement2[0]+" | "+ e.idNoteElement2[1]);
 
            },
            (error: any) => {
@@ -252,137 +288,89 @@ export class DepartementsComponent implements OnInit {
          );
        }
      }
-}
 
+  getColumnValue(e: Etudiant, index: number): string {
 
-/*
-export class DepartementsComponent implements OnInit {
-  idProf: number;
-  deptFormGroup!: FormGroup;
-  anneeUniv!: string;
-  semestre!: string;
-
-  anneesUniv! : Observable<Array<AnneeUniv>>;
-
-  departments!: Observable<Array<Departement>>;
-  filieres!: Observable<Array<Filiere>>;
-  modules!: Observable<Array<Module>>;
-  elements! : Observable<Array<Element>>;
-  etudiants!:Observable<Array<Etudiant>>;
-
-  constructor(private fb: FormBuilder,
-              private anneeUnivService : AnneeUnivService,
-              private departementService: DepartementService,
-              private filiereService: FiliereService,
-              private moduleService: ModuleService,
-              private elementService : ElementService,
-              private etudiantService : EtudiantService) {
+   if (index === 0) {
+     // console.log(e.notesElement1[0].noteSession1)
+      return e.notesElement1[0] !== -1 ? e.notesElement1[0].toString() : "--";
+    } else if (index === 1) {
+      return e.notesElement1[1]!== -1 ? e.notesElement1[1].toString() : "--";
+    }if (index === 2) {
+      return e.notesElement2[0]!== -1 ? e.notesElement2[0].toString() : "--";
+    }else if (index === 3) {
+      return e.notesElement2[1]!== -1 ? e.notesElement2[1].toString() : "--";
+    }
+    e.editMode[index] = !e.editMode[index];
   }
 
-  ngOnInit() {
-    this.idProf = 1;
-    this.deptFormGroup = this.fb.group({
-      anneeUniv: this.fb.control('22-23'), // Set the initial value here
-      semestre: this.fb.control('Semestre1')
+  setColumnValue(value: string, e: Etudiant, index: number) {
+
+    if (index === 0) {
+       e.notesElement1[0] = parseFloat(value);
+
+       let noteM : NoteElement={
+         id:e.idNotesElement1[0],
+         noteSession1:  parseFloat(value),
+         noteSession2:null,
+      };
+       console.log("-----------------"+noteM.id+"|"+noteM.noteSession1)
+       let ne : Observable<NoteElement>;
+       ne = this.noteElementService.updateNoteElement(e.idNotesElement1[0],noteM);
+       ne.forEach((n:NoteElement)=>{
+        // console.log("-------looooooool"+n.id+"|"+n.noteSession1);
+       })
+
+
+    } else if (index === 1) {
+      e.notesElement1[1]= parseFloat(value);
+      let noteM : NoteElement={
+        id:e.idNotesElement1[1],
+        noteSession1:  null,
+        noteSession2:  parseFloat(value),
+      };
+      console.log("-----------------"+noteM.id+"|"+noteM.noteSession1)
+      let ne : Observable<NoteElement>;
+      ne = this.noteElementService.updateNoteElement(e.idNotesElement1[1],noteM);
+      //this.noteElementService.updateNoteElement(e.notesElement1[1].id,e.notesElement1[1]);
+
+
+    }if (index === 2) {
+      e.notesElement2[0]= parseFloat(value);
+      let noteM : NoteElement={
+        id:e.idNoteElement2[0],
+        noteSession1:  parseFloat(value),
+        noteSession2:null,
+      };
+      console.log("-----------------"+noteM.id+"|"+noteM.noteSession1)
+      let ne : Observable<NoteElement>;
+      ne = this.noteElementService.updateNoteElement(e.idNoteElement2[0],noteM);
+
+
+    }else if (index === 3) {
+     e.notesElement2[1]= parseFloat(value);
+      let noteM : NoteElement={
+        id:e.idNoteElement2[1],
+        noteSession1:  null,
+        noteSession2:  parseFloat(value),
+      };
+      console.log("-----------------"+noteM.id+"|"+noteM.noteSession1)
+      let ne : Observable<NoteElement>;
+      ne = this.noteElementService.updateNoteElement(e.idNoteElement2[1],noteM);
+      ne.forEach((n:NoteElement)=>{
+        console.log("-------looooooool"+n.id+"|"+n.noteSession1);
       })
 
-    //Recuperer les annees universitaire :
-    this.anneesUniv= this.anneeUnivService.getAllAnneuniv().pipe(
-      catchError(err=>{
-        return throwError(err);
-      }));
+    }
+
+
   }
 
-  searchDept() {
-     this.anneeUniv=this.deptFormGroup.value.anneeUniv;
-     this.semestre=this.deptFormGroup.value.semestre;
-
-    //Recuperer les departements de prof selon l'annee et semestre selectioné.
-    this.departments = this.departementService.getDepartementsByProf(this.idProf, this.anneeUniv,this.semestre).pipe(
-      catchError(err => {
-        return throwError(err);
-      }))
+  toggleEditMode(etudiant: any, index: number) {
+    // Bascule l'état editMode de la colonne correspondante
+    // Utilisez l'index pour accéder à la colonne spécifique dans l'objet etudiant
+    etudiant.editMode[index] = !etudiant.editMode[index];
   }
 
-
-  searchFiliere(dep: Departement): void {
-    dep.expanded = !dep.expanded;
-
-      //Recuperer les filieres par dept, anne et semestre
-      this.filieres = this.filiereService.getFiliereByProfAndDep(this.idProf, dep.id, this.anneeUniv,this.semestre).pipe(
-        catchError(err => {
-          return throwError(err);
-        })
-      )
-      if (!dep.filiereChildren) {
-        dep.filiereChildren = []; // Initialise filiereChildren comme un tableau vide si c'est undefined
-      }
-
-      if(dep.filiereChildren.length==0) {
-        this.filieres.subscribe((fs: Array<Filiere>) => {
-          fs.forEach((f: Filiere) => {
-            dep.filiereChildren.push(f.intitule.toString());
-          });
-        });
-      }
-
-    }
-
-
-  searchModule(dep: Departement,f :Filiere) {
-    f.expanded = !f.expanded;
-
-    //Recuperer les filieres par dept, anne et semestre
-    this.modules= this.moduleService.getModuleByProfAndFiliere(this.idProf,f.id,this.anneeUniv,this.semestre).pipe(
-      catchError(err=>{
-        return throwError(err);
-      })
-    )
-
-    if (!f.moduleChildren) {
-      f.moduleChildren = []; // Initialise filiereChildren comme un tableau vide si c'est undefined
-    }
-
-    if(f.moduleChildren.length==0) {
-      this.modules.subscribe((m: Array<Module>) => {
-        m.forEach((ml: Module) => {
-          f.moduleChildren.push(ml.intitule.toString());
-        });
-      });
-    }
 
 }
-
-  searchStudent(dep: Departement, f: Filiere, m: Module) {
-    m.expanded = !m.expanded;
-
-   this.elements = this.elementService.getElementByProfAndModule(this.idProf, m.id, this.anneeUniv, this.semestre).pipe(
-     catchError(err => {
-       return throwError(err); }))
-    this.elements.subscribe((e: Array<Element>) => {
-      e.forEach((el: Element) => {
-        console.log("------"+el.titre.toString());
-      });
-    });
-
-    if(!m.elementChildren){
-      m.elementChildren=[];
-    }
-    if(m.elementChildren.length==0) {
-      this.elements.subscribe((e: Array<Element>) => {
-        e.forEach((el: Element) => {
-          m.elementChildren.push(el.titre.toString());
-          console.log("------"+el.titre.toString());
-        });
-      });
-    }
-
-    this.etudiants = this.etudiantService.getEtudiantByInscriptionAndModule(m.id).pipe(
-      catchError(err => {
-        return throwError(err); }))
-
-
-  }
-}
-
-*/

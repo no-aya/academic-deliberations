@@ -50,8 +50,8 @@ public class NoteElementServiceImpl implements NoteElementService {
         if (noteElementRequestDTO.getId() != null) {
             NoteElement noteElement = noteElementRepository.findById(noteElementRequestDTO.getId() ).orElseThrow(()-> new NoteElementNotFoundException("Note Element "+noteElementRequestDTO.getId()+" not found"));
 
-            if (noteElementRequestDTO.getNoteSession1() != 0.0) noteElement.setNoteSession1(noteElementRequestDTO.getNoteSession1());
-            if (noteElementRequestDTO.getNoteSession2() != 0.0) noteElement.setNoteSession2(noteElementRequestDTO.getNoteSession2());
+            if (noteElementRequestDTO.getNoteSession1() != null) noteElement.setNoteSession1(noteElementRequestDTO.getNoteSession1());
+            if (noteElementRequestDTO.getNoteSession2() != null) noteElement.setNoteSession2(noteElementRequestDTO.getNoteSession2());
             if (noteElementRequestDTO.getIdElement() != null) {
                 Element element = elementRepository.findById(noteElementRequestDTO.getIdElement()).orElseThrow(()-> new ElementNotFoundException(noteElementRequestDTO.getIdElement()+" not found"));
                 noteElement.setElement(element);

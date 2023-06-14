@@ -88,14 +88,24 @@
                                    </tr>
                                    </thead>
                                    <tbody>
-                                   <tr *ngFor="let e of m.etudiants">
-                                     <th>{{e.nom}} {{e.prenom}}</th>
+                                   <tr *ngFor="let e of m.etudiants; let i= index">
+                                     <th>{{e.nom}}{{e.prenom}}</th>
                                      <th>{{e.apogee}}</th>
-                                     <th>{{ e.notesElement1[0] !== -1 ? e.notesElement1[0] : "--" }}</th>
-                                     <th>{{e.notesElement1[1]!== -1 ? e.notesElement1[1] : "--"}}</th>
-                                     <th>{{e.notesElement2[0]!== -1 ? e.notesElement2[0] : "--"}}</th>
-                                     <th>{{e.notesElement2[1]!== -1 ? e.notesElement2[1] : "--"}}</th>
-                                     <th></th>
+
+                                     <th *ngFor="let column of e.editMode; let i = index" (dblclick)="toggleEditMode(e, i)">
+                                       <ng-container *ngIf="column">
+                                         <input type="text" [ngModel]="getColumnValue(e, i)" (ngModelChange)="setColumnValue($event, e, i)  ">
+                                       </ng-container>
+                                       <ng-container *ngIf="!column">
+                                         {{getColumnValue(e, i)}}
+                                       </ng-container>
+                                     </th>
+
+                                     <!--  <th>{{ e.notesElement1[0] !== -1 ? e.notesElement1[0] : "&#45;&#45;" }}</th>
+                                     <th>{{e.notesElement1[1]!== -1 ? e.notesElement1[1] : "&#45;&#45;"}}</th>
+                                     <th>{{e.notesElement2[0]!== -1 ? e.notesElement2[0] : "&#45;&#45;"}}</th>
+                                     <th>{{e.notesElement2[1]!== -1 ? e.notesElement2[1] : "&#45;&#45;"}}</th>-->
+                                     <th>{{(e.notesElement1[0]+e.notesElement2[0])/2}}</th>
                                    </tr>
                                    </tbody>
                                  </table>

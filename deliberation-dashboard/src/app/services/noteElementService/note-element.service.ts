@@ -15,4 +15,10 @@ export class NoteElementService {
   public getNoteElementByInscriptionPedagogique(idEtu : number,idModule : number, idElement):Observable<NoteElement>{
     return this.http.get<NoteElement>(environment.backendHost+"/api/note-element/inscriptionPedagogique?idEtu="+idEtu+"&idModule="+idModule+"&idElement="+idElement);
   }
+
+
+  public updateNoteElement(id : number,noteElement : NoteElement):Observable<NoteElement>{
+    return this.http.put<NoteElement>(environment.backendHost+"/api/note-element/"+id, noteElement);
+  }
+
 }

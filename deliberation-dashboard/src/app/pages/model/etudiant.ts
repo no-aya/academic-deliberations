@@ -3,6 +3,9 @@ export interface Etudiant {
   apogee : string;
   nom : string;
   prenom : string;
-  notesElement1?: number[];
-  notesElement2?: number[];
+  idNotesElement1:number[];
+  notesElement1: number[];
+  notesElement2: number[];
+  idNoteElement2:number[];
+  editMode : boolean[];
 }
