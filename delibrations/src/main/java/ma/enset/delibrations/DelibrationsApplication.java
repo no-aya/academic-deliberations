@@ -36,80 +36,9 @@ public class DelibrationsApplication {
         return args -> {
             fileStorageService.deleteAll();
             fileStorageService.init();
-            AtomicInteger i = new AtomicInteger();
-            //Testing Element
-            Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
-                Element element = new Element();
-                element.setCode("CODE"+(i.getAndIncrement()));
-                element.setTitre(module);
-                element.setCoef(0.5F);
-                elementRepository.save(element);
-            });
-
-            AtomicInteger c = new AtomicInteger();
-            //Testing Professeur
-            Stream.of("Professeur1","Professeur2","Professeur3","Professeur4","Professeur5","Professeur6","Professeur7","Professeur8","Professeur9","Professeur10").forEach(professeur->{
-                Professeur prof = new Professeur();
-                prof.setNom(professeur);
-                prof.setPrenom(professeur);
-                prof.setCin("EE929292"+c.getAndIncrement());
-                prof.setEmail(professeur+"@gmail.com");
-                prof.setTelephone("0606060606");
-                prof.setAdresse("Adresse "+professeur);
-                prof.setCreatedAt(new Date());
-                prof.setElementModules(elementRepository.findAll());
-                professeurRepository.save(prof);
-
-            });
-
-            Element element = elementRepository.findByCode("CODE1");
-            Element element2 = elementRepository.findByCode("CODE2");
-            Professeur prof = professeurRepository.findByNom("Professeur1");
-
-            prof.getElementModules().add(element);
-            prof.getElementModules().add(element2);
-            element.setProfesseur(prof);
-            element2.setProfesseur(prof);
-            professeurRepository.save(prof);
-            elementRepository.save(element);
-            elementRepository.save(element2);
-
-            System.out.println("Professeur: "+prof.getPrenom() + " " + prof.getNom());
-            System.out.println("Elements : ");
-            prof.getElementModules().forEach(e->{
-                System.out.println(e.getCode() + " " + e.getTitre());
-            });
-            //Testing Module
-            Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
-                Module module1 = new Module();
-                module1.setCode(module+"ID");
-                module1.setIntitule(module);
-                moduleRepository.save(module1);
-            });
-
-            //Testing NoteSemestre
-            Stream.of("NoteSemestre1","NoteSemestre2","NoteSemestre3","NoteSemestre4","NoteSemestre5","NoteSemestre6","NoteSemestre7","NoteSemestre8","NoteSemestre9","NoteSemestre10").forEach(noteSemestre->{
-                NoteSemestre note = new NoteSemestre();
-                note.setSemestre(semestreRepository.findByCode("CODE10"));
-                note.setNoteSession2(10.0F);
-                note.setNoteSession1(10.0F);
-                noteSemestreRepository.save(note);
-            });
-
-            Element element1 = elementRepository.findByCode("CODE1");
-            //Testing NoteElement
-            Stream.of(15.2,15.3,12.4, 14.5, 16.5, 17.5, 18.5, 19.5, 20.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0).forEach(noteElement->{
-                NoteElement note = new NoteElement();
-                note.setNoteSession1(noteElement);
-                note.setNoteSession2(noteElement);
-                note.setElement(element1);
-                note.setCreatedAt(new Date());
-                noteElementRepository.save(note);
-                element1.getNoteElement().add(note);
-                elementRepository.save(element1);
 
 
-            });
+
 
 
 
@@ -128,9 +57,9 @@ public class DelibrationsApplication {
             //Testing InscriptionPedagogique
             Stream.of("InscriptionPedagogique1","InscriptionPedagogique2","InscriptionPedagogique3","InscriptionPedagogique4","InscriptionPedagogique5","InscriptionPedagogique6","InscriptionPedagogique7","InscriptionPedagogique8","InscriptionPedagogique9","InscriptionPedagogique10").forEach(inscriptionPedagogique->{
                 InscriptionPedagogique ins = new InscriptionPedagogique();
-                ins.setModule(moduleRepository.findByCode("Module1ID"));
+
                 ins.setCreatedAt(new Date());
-                ins.setEtudiant(etudiantRepository.findByApogeeAndSoftDeleteIsFalse("EE9292920"));
+
                 inscriptionPedagogiqueRepository.save(ins);
             });
 

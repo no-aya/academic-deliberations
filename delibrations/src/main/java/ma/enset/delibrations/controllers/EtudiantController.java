@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,9 +54,9 @@ public class EtudiantController {
                 dataObject.setPrenom(row.getCell(4).getStringCellValue());
 
                 // Date de Naissance
-                //double dateStringFormat = row.getCell(12).getNumericCellValue();
-                //Date dateNaissance = DateUtil.getJavaDate(dateStringFormat);
-               // dataObject.setDateNaissance(dateNaissance);
+                double dateStringFormat = row.getCell(12).getNumericCellValue();
+                Date dateNaissance = DateUtil.getJavaDate(dateStringFormat);
+               dataObject.setDateNaissance(dateNaissance);
 
                 // Adress Concatenation
                 StringBuilder adresse = new StringBuilder();
@@ -70,7 +71,7 @@ public class EtudiantController {
                 String sexe = row.getCell(11).getStringCellValue();
                 dataObject.setSexe(sexe.equals("F") ? Sexe.Femme : Sexe.Homme);
 
-                String filiereCode = row.getCell(9).getStringCellValue();
+                String filiereCode = row.getCell(7).getStringCellValue();
 
                 FiliereResponseDTO filiereResponseDTO = filiereService.getFiliere(filiereCode);
                 dataObject.setFiliereID(filiereResponseDTO.getId());

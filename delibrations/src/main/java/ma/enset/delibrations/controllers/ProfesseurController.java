@@ -45,7 +45,7 @@ public class ProfesseurController {
                 dataObject.setCin(row.getCell(2).getStringCellValue());
                 dataObject.setAdresse(row.getCell(3).getStringCellValue());
                 dataObject.setEmail(row.getCell(4).getStringCellValue());
-                dataObject.setTelephone("0"+dataFormatter.formatCellValue(row.getCell(5)));
+                dataObject.setTelephone("0"+dataFormatter.formatCellValue(row.getCell(4)));
 
               // dataObject.setTelephone("0"+row.getCell(5).getNumericCellValue());
                 dataObjects.add(dataObject);

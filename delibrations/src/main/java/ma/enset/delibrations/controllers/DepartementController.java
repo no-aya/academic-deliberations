@@ -133,7 +133,7 @@ public class DepartementController {
                 if(!elementCode.isBlank()) {
                     dataObject.setCode(elementCode);
                     dataObject.setTitre(row.getCell(9).getStringCellValue());
-                    dataObject.setPonderation((float) row.getCell(10).getNumericCellValue());
+                    dataObject.setCoef((float) row.getCell(10).getNumericCellValue());
                     String codeModule = row.getCell(6).getStringCellValue();
                     if (!codeModule.isBlank()) modCodes.add(codeModule);
                     ModuleResponseDTO module = moduleService.getModule(modCodes.get(modCodes.size() - 1));
