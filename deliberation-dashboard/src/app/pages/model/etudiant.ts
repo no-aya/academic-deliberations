@@ -7,5 +7,8 @@ export interface Etudiant {
   notesElement1: number[];
   notesElement2: number[];
   idNoteElement2:number[];
+  noteModule : number;
+  idNoteModule : number;
   editMode : boolean[];
+  statut : string;
 }

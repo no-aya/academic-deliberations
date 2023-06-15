@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/api/note-semestre")
+@CrossOrigin("*")
 public class NoteSemestreController {
 
     private NoteSemestreService noteSemestreService;

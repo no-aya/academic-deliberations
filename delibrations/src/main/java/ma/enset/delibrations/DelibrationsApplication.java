@@ -28,7 +28,7 @@ public class DelibrationsApplication {
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
                             ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
-                            AnneeUnivRepository anneeUnivRepository,
+                            AnneeUnivRepository anneeUnivRepository, NoteModuleRepository noteModuleRepository,
                             InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
                             EtudiantRepository etudiantRepository,
                             AppUserRepository appUserRepository) {
@@ -41,7 +41,7 @@ public class DelibrationsApplication {
                 Element element = new Element();
                 element.setCode("CODE"+(i.getAndIncrement()));
                 element.setTitre(module);
-                element.setPonderation(0.5F);
+                element.setCoeficient(0.5F);
                 elementRepository.save(element);
             });
 
@@ -85,6 +85,11 @@ public class DelibrationsApplication {
                 module1.setIntitule(module);
                 moduleRepository.save(module1);
             });
+            //Note Module
+            for (int j =0;j<10;j++){
+                NoteModule noteModule = new NoteModule();
+                noteModuleRepository.save(noteModule);
+            }
             //Testing Semestre
             Stream.of("Semestre1","Semestre2","Semestre3","Semestre4","Semestre5","Semestre6","Semestre7","Semestre8","Semestre9","Semestre10").forEach(semestre->{
                 Semestre sem = new Semestre();
@@ -164,7 +169,7 @@ public class DelibrationsApplication {
 
 
             //Testing InscriptionPedagogique
-            Stream.of("InscriptionPedagogique1","InscriptionPedagogique2","InscriptionPedagogique3","InscriptionPedagogique4","InscriptionPedagogique5","InscriptionPedagogique6","InscriptionPedagogique7","InscriptionPedagogique8","InscriptionPedagogique9","InscriptionPedagogique10").forEach(inscriptionPedagogique->{
+            Stream.of("InscriptionPedagogique1","InscriptionPedagogique2").forEach(inscriptionPedagogique->{
                 InscriptionPedagogique ins = new InscriptionPedagogique();
                 ins.setModule(moduleRepository.findByCode("Module1ID"));
                 ins.setCreatedAt(new Date());

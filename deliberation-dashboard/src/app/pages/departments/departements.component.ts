@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgModule } from '@angular/core';
-import {catchError, filter, first, forkJoin, map, Observable, throwError} from "rxjs";
-import { find } from 'rxjs/operators';
+import {catchError, filter, first, forkJoin, map, Observable, of, throwError} from "rxjs";
 import {DepartementService} from "../../services/DepartementService/departement.service";
 import {Departement} from "../model/departement.model";
 import {Filiere} from "../model/filiere.model";
@@ -18,6 +16,9 @@ import {EtudiantService} from "../../services/etudiantService/etudiant.service";
 import {DepAr, ElementAr, FiliereAr, ModuleAr} from "../model/arbreDep.model";
 import {NoteElement} from "../model/noteElement.model";
 import {NoteElementService} from "../../services/noteElementService/note-element.service";
+import {NoteModuleService} from "../../services/noteModuleService/note-module.service";
+import {NoteModule} from "../model/noteModule.model";
+import {coerceStringArray} from "@angular/cdk/coercion";
 
 @Component({
   selector: 'app-departements',
@@ -41,6 +42,10 @@ export class DepartementsComponent implements OnInit {
   etudiants!:Observable<Array<Etudiant>>;
   noteElement1!:Observable<NoteElement>;
   noteElement2!:Observable<NoteElement>;
+  noteModule!:Observable<NoteModule>;
+  idnM:number;
+  n:string;
+  statut:string;
 
   isEditing: boolean = false;
   editingCell: number = -1;
@@ -53,7 +58,8 @@ export class DepartementsComponent implements OnInit {
               private moduleService: ModuleService,
               private elementService : ElementService,
               private etudiantService : EtudiantService,
-              private noteElementService : NoteElementService) {
+              private noteElementService : NoteElementService,
+              private  noteModuleService : NoteModuleService) {
   }
 
   ngOnInit() {
@@ -184,6 +190,8 @@ export class DepartementsComponent implements OnInit {
       catchError(err => {
         return throwError(err); }))
 
+
+
     this.elements.subscribe((el: Array<Element>) => {
       el.forEach((e: Element) => {
         let eAr: ElementAr = {
@@ -224,6 +232,7 @@ export class DepartementsComponent implements OnInit {
            e.editMode[3] = false; // Colonne 2
            e.notesElement1=[];
           e.notesElement2=[];
+          e.idNoteModule=0;
 
            if(!m.etudiants){
              m.etudiants=[];
@@ -234,13 +243,19 @@ export class DepartementsComponent implements OnInit {
              this.serchNoteElement(e,m,m.elementChildren[0],m.elementChildren[1]);
            }
 
+
+
+
          });
        });
      }
 
+
      serchNoteElement(e:Etudiant,m : ModuleAr, el1 : Element, el2 : Element){
        this.noteElement1 = this.noteElementService.getNoteElementByInscriptionPedagogique(e.id,m.id,el1.id);
        this.noteElement2 = this.noteElementService.getNoteElementByInscriptionPedagogique(e.id,m.id,el2.id);
+       this.idnM=m.id;
+       console.log("oooooooooook"+this.idnM);
        if(this.noteElement1!=null &&  this.noteElement2!=null){
         this.noteElement1.subscribe((n: NoteElement) => {
 
@@ -289,11 +304,29 @@ export class DepartementsComponent implements OnInit {
        }
      }
 
+
+  /*getNoteModule(e: Etudiant) {
+
+    this.noteModuleService.getNoteModuleByModule(this.idnM, e.id).pipe(
+      map((noteModule: NoteModule) => {
+        e.noteModule = noteModule.noteSession2;
+        e.statut = noteModule.statut;
+        this.n=noteModule.noteSession2.toString();
+        console.log("------------Recuperer la valeur --" + e.noteModule + " | " + e.statut);
+      }),
+      catchError((error: any) => {
+        console.error("Erreur lors de la récupération du module de note :", error);
+        return of(""); // Retourner une valeur par défaut en cas d'erreur
+      })
+    );
+  }*/
+
   getColumnValue(e: Etudiant, index: number): string {
 
    if (index === 0) {
      // console.log(e.notesElement1[0].noteSession1)
       return e.notesElement1[0] !== -1 ? e.notesElement1[0].toString() : "--";
+
     } else if (index === 1) {
       return e.notesElement1[1]!== -1 ? e.notesElement1[1].toString() : "--";
     }if (index === 2) {
@@ -302,10 +335,11 @@ export class DepartementsComponent implements OnInit {
       return e.notesElement2[1]!== -1 ? e.notesElement2[1].toString() : "--";
     }
     e.editMode[index] = !e.editMode[index];
+
+
   }
 
   setColumnValue(value: string, e: Etudiant, index: number) {
-
     if (index === 0) {
        e.notesElement1[0] = parseFloat(value);
 
@@ -329,23 +363,27 @@ export class DepartementsComponent implements OnInit {
         noteSession1:  null,
         noteSession2:  parseFloat(value),
       };
-      console.log("-----------------"+noteM.id+"|"+noteM.noteSession1)
+      console.log("-----------------"+noteM.id+"|"+noteM.noteSession2)
       let ne : Observable<NoteElement>;
       ne = this.noteElementService.updateNoteElement(e.idNotesElement1[1],noteM);
-      //this.noteElementService.updateNoteElement(e.notesElement1[1].id,e.notesElement1[1]);
+
+
+      console.log("------------STATUT1 --"+e.noteModule+" | "+e.statut);
+
 
 
     }if (index === 2) {
       e.notesElement2[0]= parseFloat(value);
-      let noteM : NoteElement={
+      let noteM2 : NoteElement={
         id:e.idNoteElement2[0],
         noteSession1:  parseFloat(value),
         noteSession2:null,
       };
-      console.log("-----------------"+noteM.id+"|"+noteM.noteSession1)
+      console.log("-----------------"+noteM2.id+"|"+noteM2.noteSession1)
       let ne : Observable<NoteElement>;
-      ne = this.noteElementService.updateNoteElement(e.idNoteElement2[0],noteM);
-
+       this.noteElementService.updateNoteElement(noteM2.id,noteM2).subscribe((nE: NoteElement) => {
+         console.log("--------Verifier Note Zlement session 2" + nE.id + " | " + nE.noteSession1 + " | " + nE.noteSession2);
+       });
 
     }else if (index === 3) {
      e.notesElement2[1]= parseFloat(value);
@@ -357,9 +395,7 @@ export class DepartementsComponent implements OnInit {
       console.log("-----------------"+noteM.id+"|"+noteM.noteSession1)
       let ne : Observable<NoteElement>;
       ne = this.noteElementService.updateNoteElement(e.idNoteElement2[1],noteM);
-      ne.forEach((n:NoteElement)=>{
-        console.log("-------looooooool"+n.id+"|"+n.noteSession1);
-      })
+
 
     }
 
@@ -371,6 +407,7 @@ export class DepartementsComponent implements OnInit {
     // Utilisez l'index pour accéder à la colonne spécifique dans l'objet etudiant
     etudiant.editMode[index] = !etudiant.editMode[index];
   }
+
 
 
 }

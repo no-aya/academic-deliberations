@@ -115,7 +115,7 @@ public class EtudiantServiceImp implements EtudiantService {
         if (idModule!=null){
             Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
             if(module!=null ){
-                List<InscriptionPedagogique> inscriptions= inscriptionPedagogiqueRepository.findByCleEtrangere(idModule);
+                List<InscriptionPedagogique> inscriptions= inscriptionPedagogiqueRepository.findByCleEtrangereModule(idModule);
                 if(inscriptions!=null){
                     List<EtudiantResponseDTO> respenses = new ArrayList<>();
                     for (InscriptionPedagogique i: inscriptions) {

@@ -12,5 +12,11 @@ public interface InscriptionPedagogiqueRepository extends JpaRepository<Inscript
     List<InscriptionPedagogique> findBySoftDeleteIsFalse();
 
     @Query("SELECT i FROM InscriptionPedagogique i JOIN FETCH i.module m WHERE m.id = :cleEtrangere ")
-    List<InscriptionPedagogique> findByCleEtrangere(Long cleEtrangere);
+    List<InscriptionPedagogique> findByCleEtrangereModule(Long cleEtrangere);
+
+    @Query("SELECT i FROM InscriptionPedagogique i JOIN FETCH i.noteElement n WHERE n.id = :cleEtrangere ")
+    InscriptionPedagogique findByCleEtrangereNoteElement(Long cleEtrangere);
+
+    @Query("SELECT i FROM InscriptionPedagogique i JOIN FETCH i.noteModule n WHERE n.id = :cleEtrangere ")
+    List<InscriptionPedagogique> findByCleEtrangereNoteModule(Long cleEtrangere);
 }

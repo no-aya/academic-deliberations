@@ -73,6 +73,7 @@
                                      <th colspan="2" scope="col">Etudiant</th>
                                      <th style="background-color: #ccdcfb" colspan="4" scope="col">{{m.intitule}}</th>
                                      <th rowspan="3" scope="col">Note Module</th>
+                                     <th rowspan="3"  scope="col">  Statut</th>
                                    </tr>
                                    <tr>
                                      <th rowspan="2" scope="col">Nom et Prenom</th>
@@ -89,23 +90,28 @@
                                    </thead>
                                    <tbody>
                                    <tr *ngFor="let e of m.etudiants; let i= index">
-                                     <th>{{e.nom}}{{e.prenom}}</th>
+                                     <th>{{e.nom}} {{e.prenom}}</th>
                                      <th>{{e.apogee}}</th>
 
                                      <th *ngFor="let column of e.editMode; let i = index" (dblclick)="toggleEditMode(e, i)">
                                        <ng-container *ngIf="column">
-                                         <input type="text" [ngModel]="getColumnValue(e, i)" (ngModelChange)="setColumnValue($event, e, i)  ">
+                                         <input  class="full-width-input" type="text" [ngModel]="getColumnValue(e, i)" (ngModelChange)="setColumnValue( $event>20 || $event<0?getColumnValue(e, i): $event, e, i)  ">
                                        </ng-container>
                                        <ng-container *ngIf="!column">
                                          {{getColumnValue(e, i)}}
                                        </ng-container>
                                      </th>
 
-                                     <!--  <th>{{ e.notesElement1[0] !== -1 ? e.notesElement1[0] : "&#45;&#45;" }}</th>
-                                     <th>{{e.notesElement1[1]!== -1 ? e.notesElement1[1] : "&#45;&#45;"}}</th>
-                                     <th>{{e.notesElement2[0]!== -1 ? e.notesElement2[0] : "&#45;&#45;"}}</th>
-                                     <th>{{e.notesElement2[1]!== -1 ? e.notesElement2[1] : "&#45;&#45;"}}</th>-->
-                                     <th>{{(e.notesElement1[0]+e.notesElement2[0])/2}}</th>
+                                      <th>{{(e.notesElement1[0]+e.notesElement2[0]) /2}}</th>
+                                     <th>
+  <span class="badge badge-dot mr-4" >
+     <i [ngClass]="{'bg-success': ((e.notesElement1[0] + e.notesElement2[0]) / 2) >= 12, 'bg-danger': ((e.notesElement1[0] + e.notesElement2[0]) / 2) <= 12}"></i>
+
+    <span *ngIf="((e.notesElement1[0] + e.notesElement2[0]) / 2) >= 12">Val</span>
+    <span *ngIf="((e.notesElement1[0] + e.notesElement2[0]) / 2) < 12">RAT</span>
+    </span>
+
+                                     </th>
                                    </tr>
                                    </tbody>
                                  </table>
@@ -129,7 +135,10 @@
 
 
 
-
+<!--  <th>{{ e.notesElement1[0] !== -1 ? e.notesElement1[0] : "&#45;&#45;" }}</th>
+                                     <th>{{e.notesElement1[1]!== -1 ? e.notesElement1[1] : "&#45;&#45;"}}</th>
+                                     <th>{{e.notesElement2[0]!== -1 ? e.notesElement2[0] : "&#45;&#45;"}}</th>
+                                     <th>{{e.notesElement2[1]!== -1 ? e.notesElement2[1] : "&#45;&#45;"}}</th>-->
 
 
 

@@ -1,15 +1,20 @@
 package ma.enset.delibrations.services.servicesImp;
 
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.mappers.NoteModuleMapper;
 import ma.enset.delibrations.dtos.requests.NoteModuleRequestDTO;
 import ma.enset.delibrations.dtos.responses.NoteModuleResponseDTO;
+import ma.enset.delibrations.entities.Etudiant;
+import ma.enset.delibrations.entities.InscriptionPedagogique;
 import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.entities.NoteModule;
 import ma.enset.delibrations.exceptions.ModuleNotFoundException;
 import ma.enset.delibrations.exceptions.NoteModuleNotFoundException;
 import ma.enset.delibrations.exceptions.SemestreNotFoundException;
+import ma.enset.delibrations.repositories.EtudiantRepository;
+import ma.enset.delibrations.repositories.InscriptionPedagogiqueRepository;
 import ma.enset.delibrations.repositories.ModuleRepository;
 import ma.enset.delibrations.repositories.NoteModuleRepository;
 import ma.enset.delibrations.services.NoteModuleService;
@@ -29,6 +34,8 @@ public class NoteModuleServiceImpl implements NoteModuleService {
     private NoteModuleRepository noteModuleRepository;
     private NoteModuleMapper noteModuleMapper;
     private ModuleRepository moduleRepository;
+    private EtudiantRepository etudiantRepository;
+    private InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository;
 
     @Override
     public NoteModuleResponseDTO createNoteModule(NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException, ModuleNotFoundException {
@@ -105,5 +112,29 @@ public class NoteModuleServiceImpl implements NoteModuleService {
         NoteModule noteModule = noteModuleRepository.findById(id).orElseThrow(()-> new NoteModuleNotFoundException(id));
         if(noteModule != null) noteModuleRepository.delete(noteModule);
 
+    }
+
+    @Override
+    public NoteModuleResponseDTO getNoteModuleByModule(Long idModule, Long idEtu) {
+        if(idModule!=null && idEtu!=null){
+            Module module = moduleRepository.findById(idModule).orElse(null);
+            Etudiant etudiant = etudiantRepository.findByIdAndSoftDeleteIsFalse(idEtu);
+            if(module!=null && etudiant!=null ){
+                List<NoteModule> notes = noteModuleRepository.findByCleEtrangere(idModule);
+                for (NoteModule n : notes) {
+                    //chercher la note de Module qui appartient à l'etu de l'id idEtu
+                    List<InscriptionPedagogique>  inscrips =  inscriptionPedagogiqueRepository.findByCleEtrangereNoteModule(n.getId());
+                    for (InscriptionPedagogique i: inscrips) {
+                         if (i.getEtudiant().getId()==idEtu){
+                             return noteModuleMapper.fromEntitytoResponseDTO(n);
+                         }
+                    }
+
+                }
+
+
+            }
+        }
+        return null;
     }
 }

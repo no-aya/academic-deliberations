@@ -17,8 +17,9 @@ import java.util.List;
 public class NoteModule {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Float noteSession1;
-    private Float noteSession2;
+    private Double noteSession1;
+    private Double noteSession2;
+    private String statut; //enum
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne

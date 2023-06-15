@@ -56,7 +56,7 @@ public class ElementServiceImpl implements ElementService {
             Element element = elementRepository.findByCode(elementRequestDTO.getCode());
             if (element == null) throw new ElementNotFoundException(elementRequestDTO.getCode());
             if (elementRequestDTO.getTitre() != null) element.setTitre(elementRequestDTO.getTitre());
-            if (elementRequestDTO.getPonderation() != null) element.setPonderation(elementRequestDTO.getPonderation());
+            if (elementRequestDTO.getPonderation() != null) element.setCoeficient(elementRequestDTO.getPonderation());
             if (elementRequestDTO.getProfesseurId() != null) {
                 Professeur professeur = professeurRepository.findById(elementRequestDTO.getProfesseurId()).orElseThrow(()->new ProfesseurNotFoundException(elementRequestDTO.getProfesseurId()));
                 element.setProfesseur(professeur);

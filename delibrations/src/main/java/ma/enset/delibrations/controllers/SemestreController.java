@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/semestre")
+@CrossOrigin("*")
 public class SemestreController {
     private SemestreService semestreService;
 

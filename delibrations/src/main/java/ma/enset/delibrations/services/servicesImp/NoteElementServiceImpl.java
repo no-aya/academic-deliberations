@@ -31,6 +31,7 @@ public class NoteElementServiceImpl implements NoteElementService {
     ModuleRepository moduleRepository;
     EtudiantRepository etudiantRepository;
     InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository;
+    NoteModuleRepository noteModuleRepository;
 
     @Override
     public NoteElementResponseDTO createNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws ElementNotFoundException {
@@ -47,6 +48,7 @@ public class NoteElementServiceImpl implements NoteElementService {
 
     @Override
     public NoteElementResponseDTO updateNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws NoteElementNotFoundException, ElementNotFoundException {
+
         if (noteElementRequestDTO.getId() != null) {
             NoteElement noteElement = noteElementRepository.findById(noteElementRequestDTO.getId() ).orElseThrow(()-> new NoteElementNotFoundException("Note Element "+noteElementRequestDTO.getId()+" not found"));
 
@@ -60,6 +62,67 @@ public class NoteElementServiceImpl implements NoteElementService {
             //TODO: Check InscriptionPédagogique
             noteElement.setUpdatedOn(new Date());
             noteElementRepository.save(noteElement);
+
+            //Modifier NoteElement
+            InscriptionPedagogique inscriptionPedagogique = inscriptionPedagogiqueRepository.findByCleEtrangereNoteElement(noteElement.getId());
+
+            NoteModule noteModule = noteModuleRepository.findById(inscriptionPedagogique.getNoteModule().getId()).orElse(null);
+            if(noteModule!=null){
+                List<InscriptionPedagogique> inscrips = inscriptionPedagogiqueRepository.findByCleEtrangereModule(noteModule.getModule().getId());
+                for (InscriptionPedagogique i: inscrips) {
+                    if(i.getNoteElement().getId()!=noteElement.getId() && i.getEtudiant().getId()==inscriptionPedagogique.getEtudiant().getId()){
+                        NoteElement noteElement2 = i.getNoteElement();
+
+                        if(noteElement.getNoteSession1()!=null && noteElement2.getNoteSession1()!=null && noteElement.getNoteSession2()==null && noteElement2.getNoteSession2()==null){
+                            Double nModule = noteElement.getNoteSession1()*noteElement.getElement().getCoeficient()+noteElement2.getNoteSession1()*noteElement2.getElement().getCoeficient();
+                            if (nModule>=12 && noteElement.getNoteSession1()>=6 && noteElement2.getNoteSession1()>=6 ){
+                                noteModule.setNoteSession1(nModule);
+                                noteModule.setNoteSession2(nModule);
+                                noteModule.setStatut("VAL");
+                            }else{
+                                noteModule.setNoteSession1(nModule);
+                                noteModule.setStatut("RAT");
+                            }
+                        }else if(noteElement.getNoteSession1()!=null && noteElement2.getNoteSession1()!=null && noteElement.getNoteSession2()!=null && noteElement2.getNoteSession2()!=null){
+                            Double nModule=null,note=noteElement.getNoteSession2()*noteElement.getElement().getCoeficient()+noteElement2.getNoteSession2()*noteElement2.getElement().getCoeficient();;
+                            if(note>=12 && noteElement.getNoteSession2()>=6 && noteElement2.getNoteSession2()>=6){
+                                noteModule.setStatut("V Aprés RAT");
+                                if(note>=noteModule.getNoteSession1()){
+                                    if(note>12) nModule=12.0;
+                                    else nModule=note;
+                                }else if(noteModule.getNoteSession1()>note){
+                                    if(noteModule.getNoteSession1()>12) nModule=12.0;
+                                    else nModule=noteModule.getNoteSession1();
+                                }
+                                noteModule.setNoteSession2(nModule);
+                            }else{
+                                noteModule.setNoteSession2(note);
+                                noteModule.setStatut("NON VAL");
+                            }
+
+                        }else if(noteElement.getNoteSession1()!=null && noteElement2.getNoteSession1()!=null && (noteElement.getNoteSession2()==null || noteElement2.getNoteSession2()==null)){
+                           if(noteElement.getNoteSession2()==null){
+                               noteModule.setNoteSession2(noteElement.getNoteSession1()*noteElement.getElement().getCoeficient()+noteElement2.getNoteSession2()*noteElement2.getElement().getCoeficient());
+                               if(noteElement2.getNoteSession2()>=12){
+                                   noteModule.setStatut("V Aprés RAT");
+                               }else{
+                                   noteModule.setStatut("Non V");
+                               }
+                           }else{
+                               noteModule.setNoteSession2(noteElement.getNoteSession2()*noteElement.getElement().getCoeficient()+noteElement2.getNoteSession1()*noteElement2.getElement().getCoeficient());
+                               if(noteElement.getNoteSession2()>=12){
+                                   noteModule.setStatut("V Aprés RAT");
+                               }else{
+                                   noteModule.setStatut("Non V");
+                               }
+                           }
+                        }
+                    }
+                }
+
+            }
+
+
             return noteElementMapper.fromEntitytoResponseDTO(noteElement);
         }
         throw new NoteElementNotFoundException("Cannot be Null");
@@ -96,7 +159,7 @@ public class NoteElementServiceImpl implements NoteElementService {
             Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
             Element element = elementRepository.findById(idElement).orElse(null);
             if(module!=null  && etudiant!=null && element!=null){
-                List<InscriptionPedagogique> inscriptions= inscriptionPedagogiqueRepository.findByCleEtrangere(idModule);
+                List<InscriptionPedagogique> inscriptions= inscriptionPedagogiqueRepository.findByCleEtrangereModule(idModule);
                 if(inscriptions!=null){
                     for (InscriptionPedagogique i: inscriptions) {
                         if(i.getEtudiant().getId()==idEtu && i.getNoteElement().getElement().getId()==idElement){
