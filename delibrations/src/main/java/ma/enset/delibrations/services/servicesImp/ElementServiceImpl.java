@@ -55,7 +55,7 @@ public class ElementServiceImpl implements ElementService {
             Element element = elementRepository.findByCode(elementRequestDTO.getCode());
             if (element == null) throw new ElementNotFoundException(elementRequestDTO.getCode());
             if (elementRequestDTO.getTitre() != null) element.setTitre(elementRequestDTO.getTitre());
-            if (elementRequestDTO.getCoef() != null) element.setCoef(elementRequestDTO.getCoef());
+            if (elementRequestDTO.getCoef() != null) element.setCoeficient(elementRequestDTO.getCoef());
             if (elementRequestDTO.getProfesseurId() != null) {
                 Professeur professeur = professeurRepository.findById(elementRequestDTO.getProfesseurId()).orElseThrow(()->new ProfesseurNotFoundException(elementRequestDTO.getProfesseurId()));
                 element.setProfesseur(professeur);
@@ -115,6 +115,11 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Element getElement(Long id) throws ElementNotFoundException {
         return elementRepository.findById(id).orElseThrow(()->new ElementNotFoundException("Element with id "+id+" not found"));
+    }
+
+    @Override
+    public List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule, String libelSemestre, String libelS) {
+        return null;
     }
 
     @Override

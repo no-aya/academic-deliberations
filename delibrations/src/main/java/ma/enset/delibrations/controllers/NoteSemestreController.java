@@ -11,7 +11,6 @@ import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.NoteSemestreResponseDTO;
 import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.Module;
-import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.services.EtudiantService;
 import ma.enset.delibrations.services.NoteElementService;
 import ma.enset.delibrations.services.NoteModuleService;

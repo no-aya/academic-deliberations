@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.FiliereRequestDTO;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.FiliereService;
 import ma.enset.delibrations.services.ModuleService;
 import org.apache.poi.ss.usermodel.Row;

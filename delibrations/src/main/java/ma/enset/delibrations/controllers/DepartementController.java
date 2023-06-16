@@ -3,9 +3,22 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.*;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
-import ma.enset.delibrations.exceptions.*;
-import ma.enset.delibrations.services.DepartementService;
+import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
+import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
+import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
+import ma.enset.delibrations.entities.Element;
+import ma.enset.delibrations.entities.Filiere;
+import ma.enset.delibrations.entities.Module;
+import ma.enset.delibrations.entities.exceptions.*;
+import ma.enset.delibrations.services.*;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -68,7 +81,7 @@ public class DepartementController {
                     dataObject.setIntitule(row.getCell(3).getStringCellValue());
                     String codeDep = row.getCell(0).getStringCellValue();
                     if (!codeDep.isBlank()) depCodes.add(codeDep);
-                    DepartementResponseDTO departement = departementService.getDepartement(depCodes.get(depCodes.size() - 1));
+                    DepartementResponseDTO departement = departementService.getDepartement(Long.valueOf(depCodes.get(depCodes.size() - 1)));
                     dataObject.setDepartementId(departement.getId());
                     filiereService.createFiliere(dataObject);
                 }
@@ -206,7 +219,7 @@ public class DepartementController {
                                 Row row3 = sheet.createRow(rowNum++);
                                 row3.createCell(8).setCellValue(element.getCode());
                                 row3.createCell(9).setCellValue(element.getTitre());
-                                row3.createCell(10).setCellValue(element.getCoef());
+                                row3.createCell(10).setCellValue(element.getCoeficient());
                             }
                         }
                     }
@@ -236,7 +249,7 @@ public class DepartementController {
 
     @GetMapping("/departement/{code}")
     public DepartementResponseDTO getDepartement(@PathVariable String code) throws DepartementNotFoundException {
-        if(code!=null) return departementService.getDepartement(code);
+        if(code!=null) return departementService.getDepartement(Long.valueOf(code));
         return null;
     }
 

@@ -15,7 +15,7 @@ public interface FiliereService {
     FiliereResponseDTO getFiliere(String code) throws FiliereNotFoundException;
     List<FiliereResponseDTO> getFilieres();
     void deleteFiliere(String code) throws  FiliereNotFoundException;
-    List<FiliereResponseDTO> getFiliereWithDeptAndProf(Long idProf, Long idDept, String libelSemestre) throws ModuleNotFoundException;
+    List<FiliereResponseDTO> getFiliereWithDeptAndProf(Long idProf, Long idDept, String libelSemestre, String libelS) throws ModuleNotFoundException;
 
 
 }

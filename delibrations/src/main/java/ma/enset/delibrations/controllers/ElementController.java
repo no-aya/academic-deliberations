@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
-import ma.enset.delibrations.exceptions.ElementNotFoundException;
-import ma.enset.delibrations.exceptions.FiliereNotFoundException;
-import ma.enset.delibrations.exceptions.ModuleNotFoundException;
-import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.ElementService;
 import org.springframework.web.bind.annotation.*;
 

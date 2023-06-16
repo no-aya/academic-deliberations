@@ -12,6 +12,8 @@ import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.entities.NoteModule;
 import ma.enset.delibrations.entities.exceptions.ModuleNotFoundException;
 import ma.enset.delibrations.entities.exceptions.NoteModuleNotFoundException;
+import ma.enset.delibrations.repositories.EtudiantRepository;
+import ma.enset.delibrations.repositories.InscriptionPedagogiqueRepository;
 import ma.enset.delibrations.repositories.ModuleRepository;
 import ma.enset.delibrations.repositories.NoteModuleRepository;
 import ma.enset.delibrations.services.NoteModuleService;

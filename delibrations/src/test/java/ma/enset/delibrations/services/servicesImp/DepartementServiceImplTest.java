@@ -2,6 +2,10 @@ package ma.enset.delibrations.services.servicesImp;
 
 import ma.enset.delibrations.dtos.requests.DepartementRequestDTO;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
+import ma.enset.delibrations.entities.exceptions.CannotProceedException;
+import ma.enset.delibrations.entities.exceptions.DepartementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.FiliereNotFoundException;
+import ma.enset.delibrations.entities.exceptions.RegleCalculNotFoundException;
 import ma.enset.delibrations.exceptions.CannotProceedException;
 import ma.enset.delibrations.exceptions.DepartementNotFoundException;
 import ma.enset.delibrations.exceptions.FiliereNotFoundException;
@@ -38,7 +42,7 @@ class DepartementServiceImplTest {
     }
 
     @Test
-    void updateDepartement() throws RegleCalculNotFoundException, DepartementNotFoundException, FiliereNotFoundException, CannotProceedException {
+    void updateDepartement() throws RegleCalculNotFoundException, DepartementNotFoundException, FiliereNotFoundException, CannotProceedException, RegleCalculNotFoundException, DepartementNotFoundException, FiliereNotFoundException, CannotProceedException {
         DepartementRequestDTO expectedDepartement = DepartementRequestDTO.builder()
                 .code("code")
                 .intitule("intitule")
@@ -47,7 +51,7 @@ class DepartementServiceImplTest {
         DepartementResponseDTO savedDepartement = departementService.createDepartement(expectedDepartement);
         expectedDepartement.setIntitule("new intitule");
 
-        DepartementResponseDTO updatedDepartement = departementService.updateDepartement(expectedDepartement.getCode(), expectedDepartement);
+        DepartementResponseDTO updatedDepartement = departementService.updateDepartement(Long.valueOf(expectedDepartement.getCode()), expectedDepartement);
 
         assertNotNull(updatedDepartement);
         assertEquals(expectedDepartement.getCode(), updatedDepartement.getCode());
@@ -63,7 +67,7 @@ class DepartementServiceImplTest {
                 .build();
 
         DepartementResponseDTO savedDepartement = departementService.createDepartement(expectedDepartement);
-        DepartementResponseDTO foundDepartement = departementService.getDepartement(savedDepartement.getCode());
+        DepartementResponseDTO foundDepartement = departementService.getDepartement(Long.valueOf(savedDepartement.getCode()));
 
         assertNotNull(foundDepartement);
         assertEquals(expectedDepartement.getCode(), foundDepartement.getCode());
@@ -81,7 +85,7 @@ class DepartementServiceImplTest {
 
         DepartementResponseDTO savedDepartement = departementService.createDepartement(expectedDepartement);
         departementService.deleteDepartement(savedDepartement.getCode());
-        assertThrows(DepartementNotFoundException.class, () -> departementService.getDepartement(savedDepartement.getCode()));
+        assertThrows(DepartementNotFoundException.class, () -> departementService.getDepartement(Long.valueOf(savedDepartement.getCode())));
 
 
     }

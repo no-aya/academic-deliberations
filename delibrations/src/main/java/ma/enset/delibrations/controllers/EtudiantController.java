@@ -7,10 +7,7 @@ import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.entities.Filiere;
 import ma.enset.delibrations.entities.enums.Sexe;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.EtudiantNotFoundException;
-import ma.enset.delibrations.exceptions.FiliereNotFoundException;
-
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.entities.exceptions.CannotProceedException;
 import ma.enset.delibrations.entities.exceptions.EtudiantNotFoundException;
 

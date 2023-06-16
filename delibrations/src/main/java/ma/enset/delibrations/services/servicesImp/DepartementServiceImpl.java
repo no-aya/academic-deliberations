@@ -105,7 +105,7 @@ public class DepartementServiceImpl implements DepartementService {
 
 
     @Override
-    public List<DepartementResponseDTO> getDepartementsByProf(Long idProf, String libelS) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
+    public List<DepartementResponseDTO> getDepartementsByProf(Long idProf, String libelS, String s) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
         if(idProf==null || libelS==null) return null;
         Professeur professeur = professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
         Semestre semestre = semestreRepository.findByLibelle(libelS);

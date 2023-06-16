@@ -6,6 +6,8 @@ import ma.enset.delibrations.dtos.requests.EtudiantRequestDTO;
 import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
 import ma.enset.delibrations.entities.Etudiant;
+import ma.enset.delibrations.entities.InscriptionPedagogique;
+import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.entities.exceptions.CannotProceedException;
 import ma.enset.delibrations.entities.exceptions.EtudiantNotFoundException;
 import ma.enset.delibrations.repositories.EtudiantRepository;

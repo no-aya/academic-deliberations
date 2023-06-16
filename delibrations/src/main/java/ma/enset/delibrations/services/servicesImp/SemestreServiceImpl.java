@@ -10,10 +10,7 @@ import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.entities.NoteSemestre;
 import ma.enset.delibrations.entities.Semestre;
 
-import ma.enset.delibrations.exceptions.AnneeUnivNotFoundException;
-import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
-import ma.enset.delibrations.exceptions.SemestreNotFoundException;
-
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.repositories.AnneeUnivRepository;
 import ma.enset.delibrations.repositories.SemestreRepository;
 import ma.enset.delibrations.services.SemestreService;

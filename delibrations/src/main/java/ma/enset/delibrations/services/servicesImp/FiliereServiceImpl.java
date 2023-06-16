@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.FiliereMapper;
 import ma.enset.delibrations.dtos.requests.FiliereRequestDTO;
-import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Filiere;
@@ -169,7 +168,7 @@ public class FiliereServiceImpl implements FiliereService {
     }
 
     @Override
-    public List<FiliereResponseDTO> getFiliereWithDeptAndProf(Long idProf, Long idDept, String libelSemestre) throws ModuleNotFoundException {
+    public List<FiliereResponseDTO> getFiliereWithDeptAndProf(Long idProf, Long idDept, String libelSemestre, String libelS) throws ModuleNotFoundException {
         if(idProf!=null && idDept!=null){
             Departement departement= departementRepository.findByIdAndSoftDeleteIsFalse(idDept);
             Professeur professeur= professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
