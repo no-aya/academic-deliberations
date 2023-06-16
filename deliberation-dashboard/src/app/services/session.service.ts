@@ -23,4 +23,9 @@ export class SessionService {
     return this.http.post(environment.backendHost+"/updateSessions/"+s.id,s);
 
   }
+
+  closeSession(s: Session) {
+    return this.http.post(environment.backendHost+"/close/"+s.id,s);
+
+  }
 }
