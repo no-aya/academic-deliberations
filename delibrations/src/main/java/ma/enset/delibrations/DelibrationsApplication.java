@@ -28,17 +28,118 @@ public class DelibrationsApplication {
     //private FileStorageService fileStorageService;
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
-                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository
-                                    semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository
-                                    departementRepository, FiliereRepository filiereRepository,
-                            AnneeUnivRepository anneeUnivRepository,
+                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
+                            AnneeUnivRepository anneeUnivRepository, NoteModuleRepository noteModuleRepository,
                             InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
                             EtudiantRepository etudiantRepository,
                             AppUserRepository appUserRepository,
                             SessionRepository sessionRepository) {
         return args -> {
+            fileStorageService.deleteAll();
+            fileStorageService.init();
+            AtomicInteger i = new AtomicInteger();
+            //Testing Element
+            Stream.of("Element1","Element2","Element3","Element4","Element5","Element6","Element7","Element8","Element9","Element10").forEach(module->{
+                Element element = new Element();
+                element.setCode("CODE"+(i.getAndIncrement()));
+                element.setTitre(module);
+                element.setCoeficient(0.5F);
+                elementRepository.save(element);
+            });
 
 
+
+
+            prof.getElementModules().add(element);
+            prof.getElementModules().add(element2);
+            element.setProfesseur(prof);
+            element2.setProfesseur(prof);
+            professeurRepository.save(prof);
+            elementRepository.save(element);
+            elementRepository.save(element2);
+
+            System.out.println("Professeur: "+prof.getPrenom() + " " + prof.getNom());
+            System.out.println("Elements : ");
+            prof.getElementModules().forEach(e->{
+                System.out.println(e.getCode() + " " + e.getTitre());
+            });
+            //Testing Module
+            Stream.of("Module1","Module2","Module3","Module4","Module5","Module6","Module7","Module8","Module9","Module10").forEach(module->{
+                Module module1 = new Module();
+                module1.setCode(module+"ID");
+                module1.setIntitule(module);
+                moduleRepository.save(module1);
+            });
+            //Note Module
+            for (int j =0;j<10;j++){
+                NoteModule noteModule = new NoteModule();
+                noteModuleRepository.save(noteModule);
+            }
+            //Testing Semestre
+            Stream.of("Semestre1","Semestre2","Semestre3","Semestre4","Semestre5","Semestre6","Semestre7","Semestre8","Semestre9","Semestre10").forEach(semestre->{
+                Semestre sem = new Semestre();
+                sem.setCode("CODE"+(i.getAndIncrement()));
+                sem.setLibelle(semestre);
+                semestreRepository.save(sem);
+            });
+            //Testing NoteSemestre
+            Stream.of("NoteSemestre1","NoteSemestre2","NoteSemestre3","NoteSemestre4","NoteSemestre5","NoteSemestre6","NoteSemestre7","NoteSemestre8","NoteSemestre9","NoteSemestre10").forEach(noteSemestre->{
+                NoteSemestre note = new NoteSemestre();
+                note.setSemestre(semestreRepository.findByCode("CODE10"));
+                note.setNoteSession2(10.0F);
+                note.setNoteSession1(10.0F);
+                noteSemestreRepository.save(note);
+            });
+
+            Element element1 = elementRepository.findByCode("CODE1");
+            //Testing NoteElement
+            Stream.of(15.2,15.3,12.4, 14.5, 16.5, 17.5, 18.5, 19.5, 20.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0).forEach(noteElement->{
+                NoteElement note = new NoteElement();
+                note.setNoteSession1(noteElement);
+                note.setNoteSession2(noteElement);
+                note.setElement(element1);
+                note.setCreatedAt(new Date());
+                noteElementRepository.save(note);
+                element1.getNoteElement().add(note);
+                elementRepository.save(element1);
+
+
+            });
+
+            //Testing Etudiant
+            Stream.of("Etudiant1","Etudiant2","Etudiant3","Etudiant4","Etudiant5","Etudiant6","Etudiant7","Etudiant8","Etudiant9","Etudiant10").forEach(etudiant->{
+                Etudiant etud = new Etudiant();
+                etud.setNom(etudiant);
+                etud.setPrenom(etudiant);
+                etud.setCne("EE929292"+c.getAndIncrement());
+                etud.setEmail(etudiant+"@gmail.com");
+                etud.setTelephone("0606060606");
+                etud.setAdresse("Adresse "+etudiant);
+                etud.setCreatedAt(new Date());
+                etudiantRepository.save(etud);
+            });
+
+            //testing Departement
+            Stream.of("Departement1","Departement2","Departement3","Departement4","Departement5","Departement6","Departement7").forEach(departement->{
+                Departement depart = new Departement();
+                depart.setIntitule(departement);
+                depart.setCode(departement);
+                depart.setCreatedAt(new Date());
+                depart.setFilieres(filiereRepository.findAll());
+                departementRepository.save(depart);
+            });
+
+
+            Departement departement1 = departementRepository.findByCode("Departement1");
+            //testing Filiere
+            Stream.of("Filiere1","Filiere2","Filiere3").forEach(filiere->{
+                Filiere fil = new Filiere();
+                fil.setIntitule(filiere);
+                fil.setCode(filiere);
+                fil.setCreatedAt(new Date());
+                fil.setDepartement(departement1);
+                filiereRepository.save(fil);
+            });
 
 
             //Testing anneUniv
@@ -53,7 +154,7 @@ public class DelibrationsApplication {
 
 
             //Testing InscriptionPedagogique
-            Stream.of("InscriptionPedagogique1","InscriptionPedagogique2","InscriptionPedagogique3","InscriptionPedagogique4","InscriptionPedagogique5","InscriptionPedagogique6","InscriptionPedagogique7","InscriptionPedagogique8","InscriptionPedagogique9","InscriptionPedagogique10").forEach(inscriptionPedagogique->{
+            Stream.of("InscriptionPedagogique1","InscriptionPedagogique2").forEach(inscriptionPedagogique->{
                 InscriptionPedagogique ins = new InscriptionPedagogique();
 
                 ins.setCreatedAt(new Date());

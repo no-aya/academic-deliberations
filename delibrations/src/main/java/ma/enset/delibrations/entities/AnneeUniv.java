@@ -15,7 +15,9 @@ import java.util.List;
 public class AnneeUniv {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String codeAnnee;
+
     private Date dateDebut;
     private Date dateFin;
 

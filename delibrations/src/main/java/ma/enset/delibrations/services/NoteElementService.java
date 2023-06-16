@@ -1,6 +1,7 @@
 package ma.enset.delibrations.services;
 
 import ma.enset.delibrations.dtos.requests.NoteElementRequestDTO;
+import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.NoteElementResponseDTO;
 import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
 import ma.enset.delibrations.entities.exceptions.NoteElementNotFoundException;

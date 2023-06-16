@@ -13,4 +13,5 @@ public class ModuleResponseDTO {
     private String code;
     private String intitule;
     private Long semestre;
+
 }

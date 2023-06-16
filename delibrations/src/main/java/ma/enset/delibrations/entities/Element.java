@@ -15,7 +15,7 @@ public class Element {
     private Long id;
     private String code;
     private String titre;
-    private Float coef;
+    private Float coeficient;
 
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

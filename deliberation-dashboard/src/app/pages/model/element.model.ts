@@ -1,4 +1,4 @@
-export interface ElementModel {
+export interface Element {
   id : number;
   code : string;
   titre : string;

@@ -8,11 +8,11 @@ import java.util.Date;
 
 @Data
 public class NoteModuleResponseDTO {
-
     private Long id;
-    private Float noteSession1;
-    private Float noteSession2;
+    private Double noteSession1;
+    private Double noteSession2;
     private Long idModule;
+    private String statut; //enum
 
     private Date createdAt;
     private Date updatedOn;

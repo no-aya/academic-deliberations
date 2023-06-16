@@ -6,6 +6,7 @@ package ma.enset.delibrations.services;
 
 
 import ma.enset.delibrations.dtos.requests.ModuleRequestDTO;
+import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
 import ma.enset.delibrations.entities.exceptions.CannotProceedException;
 import ma.enset.delibrations.entities.exceptions.ModuleNotFoundException;

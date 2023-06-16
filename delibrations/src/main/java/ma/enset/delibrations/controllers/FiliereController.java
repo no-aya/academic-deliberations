@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.FiliereRequestDTO;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
-
-import ma.enset.delibrations.entities.exceptions.*;
+import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.services.FiliereService;
 import ma.enset.delibrations.services.ModuleService;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,8 +18,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/filiere")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("/api/filieres")
+@CrossOrigin("*")
 public class FiliereController {
     private FiliereService filiereService;
     private ModuleService moduleService;
@@ -113,9 +112,8 @@ public class FiliereController {
     }
 
     @GetMapping
-    public List<FiliereResponseDTO> getFiliere(@RequestParam Long idProf, @RequestParam Long idDept,@RequestParam String libelS) throws FiliereNotFoundException, ModuleNotFoundException {
-        if (idProf!=null && idDept!=null  && libelS!=null ) return filiereService.getFiliereWithDeptAndProf(idProf, idDept,libelS);
+    public List<FiliereResponseDTO> getFiliere(@RequestParam Long idProf, @RequestParam Long idDept, @RequestParam String codeAnnee,@RequestParam String libelS) throws FiliereNotFoundException, ModuleNotFoundException {
+        if (idProf!=null && idDept!=null && codeAnnee!=null && libelS!=null ) return filiereService.getFiliereWithDeptAndProf(idProf, idDept,codeAnnee,libelS);
         return null;
     }
-
 }

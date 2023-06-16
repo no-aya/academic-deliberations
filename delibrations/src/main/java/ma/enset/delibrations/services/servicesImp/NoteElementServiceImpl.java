@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.NoteElementMapper;
 import ma.enset.delibrations.dtos.requests.NoteElementRequestDTO;
+import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.NoteElementResponseDTO;
 
 import ma.enset.delibrations.entities.*;
@@ -55,11 +56,12 @@ public class NoteElementServiceImpl implements NoteElementService {
 
     @Override
     public NoteElementResponseDTO updateNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws NoteElementNotFoundException, ElementNotFoundException {
+
         if (noteElementRequestDTO.getId() != null) {
             NoteElement noteElement = noteElementRepository.findById(noteElementRequestDTO.getId() ).orElseThrow(()-> new NoteElementNotFoundException("Note Element "+noteElementRequestDTO.getId()+" not found"));
 
-            if (noteElementRequestDTO.getNoteSession1() != 0.0) noteElement.setNoteSession1(noteElementRequestDTO.getNoteSession1());
-            if (noteElementRequestDTO.getNoteSession2() != 0.0) noteElement.setNoteSession2(noteElementRequestDTO.getNoteSession2());
+            if (noteElementRequestDTO.getNoteSession1() != null) noteElement.setNoteSession1(noteElementRequestDTO.getNoteSession1());
+            if (noteElementRequestDTO.getNoteSession2() != null) noteElement.setNoteSession2(noteElementRequestDTO.getNoteSession2());
             if (noteElementRequestDTO.getIdElement() != null) {
                 Element element = elementRepository.findById(noteElementRequestDTO.getIdElement()).orElseThrow(()-> new ElementNotFoundException(noteElementRequestDTO.getIdElement()+" not found"));
                 noteElement.setElement(element);
@@ -68,6 +70,67 @@ public class NoteElementServiceImpl implements NoteElementService {
             //TODO: Check InscriptionPédagogique
             noteElement.setUpdatedOn(new Date());
             noteElementRepository.save(noteElement);
+
+            //Modifier NoteElement
+            InscriptionPedagogique inscriptionPedagogique = inscriptionPedagogiqueRepository.findByCleEtrangereNoteElement(noteElement.getId());
+
+            NoteModule noteModule = noteModuleRepository.findById(inscriptionPedagogique.getNoteModule().getId()).orElse(null);
+            if(noteModule!=null){
+                List<InscriptionPedagogique> inscrips = inscriptionPedagogiqueRepository.findByCleEtrangereModule(noteModule.getModule().getId());
+                for (InscriptionPedagogique i: inscrips) {
+                    if(i.getNoteElement().getId()!=noteElement.getId() && i.getEtudiant().getId()==inscriptionPedagogique.getEtudiant().getId()){
+                        NoteElement noteElement2 = i.getNoteElement();
+
+                        if(noteElement.getNoteSession1()!=null && noteElement2.getNoteSession1()!=null && noteElement.getNoteSession2()==null && noteElement2.getNoteSession2()==null){
+                            Double nModule = noteElement.getNoteSession1()*noteElement.getElement().getCoeficient()+noteElement2.getNoteSession1()*noteElement2.getElement().getCoeficient();
+                            if (nModule>=12 && noteElement.getNoteSession1()>=6 && noteElement2.getNoteSession1()>=6 ){
+                                noteModule.setNoteSession1(nModule);
+                                noteModule.setNoteSession2(nModule);
+                                noteModule.setStatut("VAL");
+                            }else{
+                                noteModule.setNoteSession1(nModule);
+                                noteModule.setStatut("RAT");
+                            }
+                        }else if(noteElement.getNoteSession1()!=null && noteElement2.getNoteSession1()!=null && noteElement.getNoteSession2()!=null && noteElement2.getNoteSession2()!=null){
+                            Double nModule=null,note=noteElement.getNoteSession2()*noteElement.getElement().getCoeficient()+noteElement2.getNoteSession2()*noteElement2.getElement().getCoeficient();;
+                            if(note>=12 && noteElement.getNoteSession2()>=6 && noteElement2.getNoteSession2()>=6){
+                                noteModule.setStatut("V Aprés RAT");
+                                if(note>=noteModule.getNoteSession1()){
+                                    if(note>12) nModule=12.0;
+                                    else nModule=note;
+                                }else if(noteModule.getNoteSession1()>note){
+                                    if(noteModule.getNoteSession1()>12) nModule=12.0;
+                                    else nModule=noteModule.getNoteSession1();
+                                }
+                                noteModule.setNoteSession2(nModule);
+                            }else{
+                                noteModule.setNoteSession2(note);
+                                noteModule.setStatut("NON VAL");
+                            }
+
+                        }else if(noteElement.getNoteSession1()!=null && noteElement2.getNoteSession1()!=null && (noteElement.getNoteSession2()==null || noteElement2.getNoteSession2()==null)){
+                           if(noteElement.getNoteSession2()==null){
+                               noteModule.setNoteSession2(noteElement.getNoteSession1()*noteElement.getElement().getCoeficient()+noteElement2.getNoteSession2()*noteElement2.getElement().getCoeficient());
+                               if(noteElement2.getNoteSession2()>=12){
+                                   noteModule.setStatut("V Aprés RAT");
+                               }else{
+                                   noteModule.setStatut("Non V");
+                               }
+                           }else{
+                               noteModule.setNoteSession2(noteElement.getNoteSession2()*noteElement.getElement().getCoeficient()+noteElement2.getNoteSession1()*noteElement2.getElement().getCoeficient());
+                               if(noteElement.getNoteSession2()>=12){
+                                   noteModule.setStatut("V Aprés RAT");
+                               }else{
+                                   noteModule.setStatut("Non V");
+                               }
+                           }
+                        }
+                    }
+                }
+
+            }
+
+
             return noteElementMapper.fromEntitytoResponseDTO(noteElement);
         }
         throw new NoteElementNotFoundException("Cannot be Null");

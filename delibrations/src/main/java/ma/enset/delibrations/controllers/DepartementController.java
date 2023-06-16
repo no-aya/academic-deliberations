@@ -3,21 +3,7 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.*;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
-
-import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
-import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
-import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
-import ma.enset.delibrations.entities.Element;
-import ma.enset.delibrations.entities.Filiere;
-import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.exceptions.*;
-import ma.enset.delibrations.services.*;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.DepartementService;
 
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +17,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/departement")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("/api/departements")
+@CrossOrigin("*")
 public class DepartementController {
 
     private DepartementService departementService;
@@ -248,9 +234,9 @@ public class DepartementController {
         return departementService.getDepartements();
     }
 
-    @GetMapping("/{code}")
-    public DepartementResponseDTO getDepartement(@PathVariable Long id) throws DepartementNotFoundException {
-        if(id!=null) return departementService.getDepartement(id);
+    @GetMapping("/departement/{code}")
+    public DepartementResponseDTO getDepartement(@PathVariable String code) throws DepartementNotFoundException {
+        if(code!=null) return departementService.getDepartement(code);
         return null;
     }
 
@@ -276,11 +262,12 @@ public class DepartementController {
         }else return false;
     }
 
+
     @GetMapping
-    public List<DepartementResponseDTO> getDepartementsByProf(@RequestParam Long idProf,@RequestParam String libelS) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
-        if(idProf
-                !=null && libelS!=null) {
-            return  departementService.getDepartementsByProf(idProf, libelS);
+    public List<DepartementResponseDTO> getDepartementsByProf(@RequestParam Long id,@RequestParam String codeAnnee,@RequestParam String libelS) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
+        if(id!=null && codeAnnee!=null && libelS!=null) {
+            return  departementService.getDepartementsByProf(id, codeAnnee, libelS);
         }else return null;
     }
+ 
 }

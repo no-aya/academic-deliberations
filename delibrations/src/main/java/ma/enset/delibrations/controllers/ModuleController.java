@@ -3,6 +3,7 @@ package ma.enset.delibrations.controllers;
 
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.ModuleRequestDTO;
+import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
 import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.ModuleService;

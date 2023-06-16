@@ -33,6 +33,7 @@ public class ElementServiceImpl implements ElementService {
     private SemestreRepository semestreRepository;
     private AnneeUnivRepository anneeUnivRepository;
 
+
     private String generateCode() {
         //TODO: Generate code based on the "Module", "Filiere" and "Semestre" attributes
         return "CODE"+System.currentTimeMillis();

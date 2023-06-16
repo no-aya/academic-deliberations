@@ -2,6 +2,7 @@ package ma.enset.delibrations.services;
 
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
+import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
 import ma.enset.delibrations.entities.exceptions.ProfesseurNotFoundException;

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ElementRepository extends JpaRepository<Element, Long> {
     Element findByCode(String code);
+
     @Query("SELECT e FROM Element e JOIN FETCH e.professeur c WHERE c.id = :cleEtrangere ")
     List<Element> findByCleEtrangere(Long cleEtrangere);
 }

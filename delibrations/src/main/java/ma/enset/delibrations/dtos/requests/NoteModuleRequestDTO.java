@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class NoteModuleRequestDTO {
     private Long id;
-    private Float noteSession1;
-    private Float noteSession2;
+    private Double noteSession1;
+    private Double noteSession2;
     private Long idModule;
 }
 

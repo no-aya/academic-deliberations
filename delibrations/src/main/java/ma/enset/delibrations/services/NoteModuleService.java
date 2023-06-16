@@ -17,4 +17,5 @@ public interface NoteModuleService {
     NoteModule getNoteModuleById(Long id) throws NoteModuleNotFoundException;
     List<NoteModuleResponseDTO> getNotesModules();
     void deleteNoteModule(Long id) throws NoteModuleNotFoundException;
+    NoteModuleResponseDTO getNoteModuleByModule(Long idModule, Long idEtu);
 }

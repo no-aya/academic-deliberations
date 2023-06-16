@@ -2,24 +2,35 @@
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
-      <div class="row">
-        <ng-container *ngIf="departments as listdepartements">
-          <!--For each departement, show a card with the number of elements-->
-          <div class="col-xl-3 col-lg-6" *ngFor="let dep of departments">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <a href="#!">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">{{dep[0]}}</h5>
-                      <span class="h2 font-weight-bold mb-0">{{dep[1]}}</span>
-                    </div>
-                  </div>
-                </div>
-                </a>
-              </div>
+      <div class="row "  style="margin-left: 0.5rem">
+        <form [formGroup]="deptFormGroup" (ngSubmit)="searchDept()" >
+          <div class="form-row"  >
+            <div class="form-group  col-5 ">
+              <label >Annee</label>
+              <select class="form-control" formControlName="anneeUniv" >
+                <option  *ngFor="let a of anneesUniv | async" value={{a.codeAnnee}}>{{a.codeAnnee}}</option>
+              </select>
+
+            </div>
+            <div class="form-group col-5 ">
+              <label >Semestre</label>
+              <select class="form-control" formControlName="semestre" >
+                <option value="Semestre1">Semestre1</option>
+                <option value="Semestre2">Semestre2</option>
+                <option value="Semestre3">Semestre3</option>
+                <option value="Semestre4">Semestre4</option>
+                <option value="Semestre5">Semestre5</option>
+              </select>
+            </div>
+            <div class="form-group col-2">
+              <label>Search</label>
+              <button type="submit" class="btn btn-primary mb-2">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
           </div>
-        </ng-container>
+        </form>
+
       </div>
     </div>
   </div>
@@ -29,42 +40,94 @@
   <div class="row">
     <div class="col">
       <div class="card shadow border-0">
-<ng-container *ngIf="elements as listelements">
-            <table class="custom-table">
-              <thead>
-              <tr>
-                <th>Element de module</th>
-                <th>Nombre d'étudiants</th>
-                <th>Moyenne de la classe</th>
-                <th>Validés</th>
-                <th>Rattrapage</th>
-                <th>Non validés</th>
-                <th>Inconnus</th>
-              </tr>
-              </thead>
-              <ng-container *ngFor="let element of elements">
-                <tbody>
-                <tr>
-                  <td colspan="20" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle"></i> {{element[0]}}</button></td>
-                </tr>
-                <ng-container *ngFor="let elements of element[1]">
-                <tr class="toggler toggler1">
-                  <td><a [routerLink]="['/tables']">{{elements[0]}}</a></td>
-                  <td>{{elements[1]}}</td>
-                  <td>{{elements[2]}}</td>
-                  <td>{{elements[3]}}</td>
-                  <td>{{elements[4]}}</td>
-                  <td>{{elements[5]}}</td>
-                  <td>{{elements[6]}}</td>
+        <div class="map-canvas" >
 
-                </tr>
-                </ng-container>
-                </tbody>
+         <div class="container-fluid mt-4" >
+           <div class="row" >
+             <div class="col" >
+               <div class="card mt-2" *ngFor="let dep of depArray " >
+                 <div  class="card-header cardDept" >
+                   <div class="row">
+                     <div class="col-11 " >{{dep.intitule}}</div>
+                     <div class="col-1"><i class="ni ni-bold-down"> </i></div>
+                   </div>
 
+                 </div>
+                 <div class="card-body">
+                   <ul >
+                     <li style="margin-top: 1rem"   *ngFor="let f of dep.filiereChildren">
+                       <i class="ni ni-bold-right" >{{f.intitule}}</i>
+                         <div class="accordion " style="margin: 0rem">
+                           <div class="card bodyModule" *ngFor="let m of f.moduleChildren" >
+                             <div class="card-header cardModule">
+                                   <a  (click)="afficherEtu(m)" [attr.aria-expanded]="m.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + m.id">
+                                     <i class="ni " style="padding-left: 1rem"  [ngClass]="m.expanded ? 'ni-bold-up' : 'ni-bold-down'">{{m.intitule}} </i>
+                                   </a>
+                             </div>
+                             <div [id]="'collapse-' + m.id" class="collapse" [ngClass]="{'show': m.expanded}">
+                               <div class="card-body bodyModule">
+                                 <div class="table-responsive">
+                                 <table class="table align-items-center table-flush text-center border-1">
+                                   <thead class="thead-light">
+                                   <tr>
+                                     <th colspan="2" scope="col">Etudiant</th>
+                                     <th style="background-color: #ccdcfb" colspan="4" scope="col">{{m.intitule}}</th>
+                                     <th rowspan="3" scope="col">Note Module</th>
+                                     <th rowspan="3"  scope="col">  Statut</th>
+                                   </tr>
+                                   <tr>
+                                     <th rowspan="2" scope="col">Nom et Prenom</th>
+                                     <th  rowspan="2"  scope="col">Code Appogé</th>
+                                     <th style="background-color: #ccdcfb"  colspan="2" scope="col">{{m.elementChildren[0].titre}} </th>
+                                     <th style="background-color: #ccdcfb"  colspan="2" scope="col">{{m.elementChildren[1].titre}}</th>
+                                   </tr>
+                                   <tr>
+                                     <th scope="col"> Normale</th>
+                                     <th  scope="col"> Rattrapage</th>
+                                     <th scope="col"> Normale </th>
+                                     <th  scope="col">  Rattrapage</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   <tr *ngFor="let e of m.etudiants; let i= index">
+                                     <th>{{e.nom}} {{e.prenom}}</th>
+                                     <th>{{e.apogee}}</th>
 
-              </ng-container>
-            </table>
-  </ng-container>
+                                     <th *ngFor="let column of e.editMode; let i = index" (dblclick)="toggleEditMode(e, i)">
+                                       <ng-container *ngIf="column">
+                                         <input  class="full-width-input" type="text" [ngModel]="getColumnValue(e, i)" (ngModelChange)="setColumnValue( $event>20 || $event<0?getColumnValue(e, i): $event, e, i)  ">
+                                       </ng-container>
+                                       <ng-container *ngIf="!column">
+                                         {{getColumnValue(e, i)}}
+                                       </ng-container>
+                                     </th>
+
+                                      <th>{{(e.notesElement1[0]+e.notesElement2[0]) /2}}</th>
+                                     <th>
+  <span class="badge badge-dot mr-4" >
+     <i [ngClass]="{'bg-success': ((e.notesElement1[0] + e.notesElement2[0]) / 2) >= 12, 'bg-danger': ((e.notesElement1[0] + e.notesElement2[0]) / 2) <= 12}"></i>
+
+    <span *ngIf="((e.notesElement1[0] + e.notesElement2[0]) / 2) >= 12">Val</span>
+    <span *ngIf="((e.notesElement1[0] + e.notesElement2[0]) / 2) < 12">RAT</span>
+    </span>
+
+                                     </th>
+                                   </tr>
+                                   </tbody>
+                                 </table>
+                               </div></div>
+                             </div>
+                           </div>
+                         </div>
+                     </li>
+                   </ul>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+
+        </div>
       </div>
     </div>
   </div>
@@ -78,3 +141,177 @@
       alert("hi")
     });
 </script>
+
+
+
+<!--  <th>{{ e.notesElement1[0] !== -1 ? e.notesElement1[0] : "&#45;&#45;" }}</th>
+                                     <th>{{e.notesElement1[1]!== -1 ? e.notesElement1[1] : "&#45;&#45;"}}</th>
+                                     <th>{{e.notesElement2[0]!== -1 ? e.notesElement2[0] : "&#45;&#45;"}}</th>
+                                     <th>{{e.notesElement2[1]!== -1 ? e.notesElement2[1] : "&#45;&#45;"}}</th>-->
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      &lt;!&ndash; Card stats &ndash;&gt;
+      <div class="row "  style="margin-left: 0.5rem">
+        <form [formGroup]="deptFormGroup" (ngSubmit)="searchDept()" >
+          <div class="form-row"  >
+            <div class="form-group  col-5 ">
+              <label >Annee</label>
+              <select class="form-control" formControlName="anneeUniv" >
+                <option  *ngFor="let a of anneesUniv | async" value={{a.codeAnnee}}>{{a.codeAnnee}}</option>
+              </select>
+
+            </div>
+            <div class="form-group col-5 ">
+              <label >Semestre</label>
+              <select class="form-control" formControlName="semestre" >
+                <option value="Semestre1">Semestre1</option>
+                <option value="Semestre2">Semestre2</option>
+                <option value="Semestre3">Semestre3</option>
+                <option value="Semestre4">Semestre4</option>
+                <option value="Semestre5">Semestre5</option>
+              </select>
+            </div>
+            <div class="form-group col-2">
+              <label>Search</label>
+              <button type="submit" class="btn btn-primary mb-2">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      </div>
+    </div>
+</div>
+&lt;!&ndash; Page content &ndash;&gt;
+<div class="container-fluid mt&#45;&#45;7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow border-0">
+        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" >
+
+          <div class="accordion" class="my-3">
+            <div class="card" *ngFor="let dep of departments | async">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <a  (click)="searchFiliere(dep)" [attr.aria-expanded]="dep.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + dep.id">
+                    <i class="fas" [ngClass]="dep.expanded ? 'fa-minus' : 'fa-plus'"></i> {{ dep.intitule }}
+                  </a>
+                </h5>
+             </div>
+              <div [id]="'collapse-' + dep.id" class="collapse" [ngClass]="{'show': dep.expanded}">
+                <div class="card-body">
+                  <ul class="list-group">
+                  &lt;!&ndash; AAA Second Accordion&ndash;&gt;
+                    <div class="accordion accordion2" style="margin: 0rem">
+                      <div class="card" *ngFor="let f of filieres | async; let index = index" >
+                        <div class="card-header">
+                          <h5 class="mb-0">
+                            <ul >
+                              <a  (click)="searchModule(dep,f)" [attr.aria-expanded]="f.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + f.id">
+                                <i class="fas list-group-item" [ngClass]="f.expanded ? 'fa-minus' : 'fa-plus'" > {{f.intitule}}</i>
+                              </a>
+                            </ul>
+
+                          </h5>
+                        </div>
+                        <div [id]="'collapse-' + f.id" class="collapse" [ngClass]="{'show': f.expanded}">
+                          <div class="card-body">
+                            <ul class="list-group">
+                              &lt;!&ndash; BBB Third Accordion&ndash;&gt;
+                              <div class="accordion accordion2" style="margin: 0rem">
+                                <div class="card" *ngFor="let m of modules | async">
+                                  <div class="card-header">
+                                    <h5 class="mb-0">
+                                      <ul >
+                                        <a  (click)="searchStudent(dep,f,m)" [attr.aria-expanded]="m.expanded ? 'true' : 'false'" [attr.aria-controls]="'collapse-' + m.id">
+                                          <i class="fas list-group-item" [ngClass]="m.expanded ? 'fa-minus' : 'fa-plus'" > {{m.intitule}}</i>
+                                        </a>
+                                      </ul>
+
+                                    </h5>
+                                  </div>
+                                  <div [id]="'collapse-' + m.id" class="collapse" [ngClass]="{'show': m.expanded}">
+                                    <div class="card-body ">
+                                      &lt;!&ndash;<div class="table-responsive">&ndash;&gt;
+                                      <table class="table align-items-center table-flush text-center border-1">
+                                        <thead class="thead-light">
+                                        <tr>
+                                          <th colspan="2" scope="col">Etudiant</th>
+                                          <th style="background-color: #ccdcfb" colspan="4" scope="col">{{m.intitule}}</th>
+                                          <th rowspan="3" scope="col">Note Module</th>
+                                        </tr>
+                                        <tr>
+                                          <th rowspan="2" scope="col">Nom et Prenom</th>
+                                          <th  rowspan="2"  scope="col">Code Appogé</th>
+                                          <th style="background-color: #ccdcfb"  colspan="2" scope="col">{{m.elementChildren[0].toString()}}</th>
+                                          <th style="background-color: #ccdcfb"  colspan="2" scope="col">{{m.elementChildren[1].toString()}}</th>
+                                        </tr>
+                                        <tr>
+                                          <th scope="col"> Normale</th>
+                                          <th  scope="col"> Rattrapage</th>
+                                          <th scope="col"> Normale </th>
+                                          <th  scope="col">  Rattrapage</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                           <tr *ngFor="let e of etudiants|async">
+                                             <th>{{e.nom}} {{e.prenom}}</th>
+                                             <th>{{e.apogee}}</th>
+                                             <th>14</th>
+                                             <th>-</th>
+                                             <th>16</th>
+                                             <th>-</th>
+                                             <th>15</th>
+                                           </tr>
+
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    </div>
+                                  </div>
+                                &lt;!&ndash;</div>&ndash;&gt;
+                              </div>
+
+                              &lt;!&ndash;BBB Fin Third Accordion&ndash;&gt;
+                              &lt;!&ndash;<li class="list-group-item" *ngFor="let m of f.moduleChildren">
+                                   {{m}}
+                               </li>&ndash;&gt;
+                            </ul>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                   &lt;!&ndash;AAA Fin Second Accordion&ndash;&gt;
+                   &lt;!&ndash; <li class="list-group-item" *ngFor="let f of dep.filiereChildren">
+                        {{f}}
+                    </li>&ndash;&gt;
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+-->

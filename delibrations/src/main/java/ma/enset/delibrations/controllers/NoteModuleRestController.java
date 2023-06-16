@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/note-module")
+@CrossOrigin("*")
 public class NoteModuleRestController {
 
     private NoteModuleService noteModuleService;
@@ -37,7 +38,6 @@ public class NoteModuleRestController {
 
     @PutMapping("/{id}")
     public NoteModuleResponseDTO updateNoteModule(@PathVariable  Long id,@RequestBody NoteModuleRequestDTO noteModuleRequestDTO) throws NoteModuleNotFoundException, ModuleNotFoundException {
-            noteModuleRequestDTO.setId(id);
             return noteModuleService.updateNoteModule(noteModuleRequestDTO);
     }
 
@@ -47,4 +47,11 @@ public class NoteModuleRestController {
             noteModuleService.deleteNoteModule(id);
             return true;
     }
+
+    @GetMapping("/find")
+    public  NoteModuleResponseDTO getNoteModuleByModule(@RequestParam Long idModule, @RequestParam Long idEtu) throws NoteModuleNotFoundException {
+        if(idModule==null || idEtu==null) return null;
+        return  noteModuleService.getNoteModuleByModule(idModule,idEtu);
+    }
+
 }

@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.mappers.EtudiantMapper;
 import ma.enset.delibrations.dtos.requests.EtudiantRequestDTO;
 import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
+import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
 import ma.enset.delibrations.entities.Etudiant;
 import ma.enset.delibrations.entities.exceptions.CannotProceedException;
 import ma.enset.delibrations.entities.exceptions.EtudiantNotFoundException;
 import ma.enset.delibrations.repositories.EtudiantRepository;
+import ma.enset.delibrations.repositories.FiliereRepository;
+import ma.enset.delibrations.repositories.InscriptionPedagogiqueRepository;
+import ma.enset.delibrations.repositories.ModuleRepository;
 import ma.enset.delibrations.services.EtudiantService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +26,9 @@ public class EtudiantServiceImp implements EtudiantService {
 
     private EtudiantRepository etudiantRepository;
     private EtudiantMapper etudiantMapper;
+    private InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository;
+    private ModuleRepository moduleRepository;
+    private FiliereRepository filiereRepository;
 
     //Inscription pedagogique
 
@@ -96,5 +103,25 @@ public class EtudiantServiceImp implements EtudiantService {
             etudiant.setSoftDelete(true);
             etudiantRepository.save(etudiant);
 
+    }
+
+    @Override
+    public List<EtudiantResponseDTO> getEtudiantsByInscriptionPedagogique(Long idModule) {
+        if (idModule!=null){
+            Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
+            if(module!=null ){
+                List<InscriptionPedagogique> inscriptions= inscriptionPedagogiqueRepository.findByCleEtrangereModule(idModule);
+                if(inscriptions!=null){
+                    List<EtudiantResponseDTO> respenses = new ArrayList<>();
+                    for (InscriptionPedagogique i: inscriptions) {
+                        Etudiant etu = etudiantRepository.findByIdAndSoftDeleteIsFalse(i.getEtudiant().getId());
+                        if(etu!=null){
+                            respenses.add(etudiantMapper.fromEtudiant(etu));}
+                    }
+                   return respenses;
+                    }
+                }
+            }
+        return null;
     }
 }

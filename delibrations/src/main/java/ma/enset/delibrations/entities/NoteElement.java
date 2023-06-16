@@ -17,8 +17,8 @@ import java.util.List;
 public class NoteElement {
     @Id @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
-    private double noteSession1;
-    private double noteSession2;
+    private Double noteSession1;
+    private Double noteSession2;
 
     //Relation
     @ManyToOne
@@ -37,6 +37,5 @@ public class NoteElement {
     @OneToMany(mappedBy = "noteElement")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     List<InscriptionPedagogique> inscriptionPedagogiques;
-
 
 }

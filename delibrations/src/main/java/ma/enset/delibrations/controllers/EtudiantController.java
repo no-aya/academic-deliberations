@@ -183,4 +183,9 @@ public class EtudiantController {
 
     }
 
+    @GetMapping("/inscriptionPedagogique/{idModule}")
+    public List<EtudiantResponseDTO>  getAllEtudiantsByInscrption(@PathVariable Long idModule){
+        if(idModule==null ) return null;
+        return etudiantService.getEtudiantsByInscriptionPedagogique(idModule);
+    }
 }

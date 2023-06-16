@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AnneeUnivRepository extends JpaRepository<AnneeUniv, Long> {
 
+    AnneeUniv findByCodeAnnee(String codeAnnee);
+
 }
