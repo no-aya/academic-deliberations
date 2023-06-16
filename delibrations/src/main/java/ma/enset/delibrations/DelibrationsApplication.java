@@ -38,8 +38,6 @@ public class DelibrationsApplication {
                             SessionRepository sessionRepository) {
         return args -> {
 
-            fileStorageService.deleteAll();
-            fileStorageService.init();
 
 
 
