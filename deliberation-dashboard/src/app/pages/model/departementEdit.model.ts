@@ -4,5 +4,9 @@ export interface DepartementEditModel {
   intitule : string;
   createdAt : Date;
   dateMAJ : Date;
+  nbrElement : number;
+  expanded?: boolean;
+  filiereChildren?: string[];
+
 }
 

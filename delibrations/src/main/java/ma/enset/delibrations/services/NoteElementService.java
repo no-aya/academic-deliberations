@@ -2,8 +2,8 @@ package ma.enset.delibrations.services;
 
 import ma.enset.delibrations.dtos.requests.NoteElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.NoteElementResponseDTO;
-import ma.enset.delibrations.exceptions.ElementNotFoundException;
-import ma.enset.delibrations.exceptions.NoteElementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.NoteElementNotFoundException;
 
 import java.util.List;
 

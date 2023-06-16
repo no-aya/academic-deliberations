@@ -6,7 +6,7 @@ import ma.enset.delibrations.dtos.mappers.SessionMapper;
 import ma.enset.delibrations.dtos.requests.SessionRequestDTO;
 import ma.enset.delibrations.dtos.responses.SessionResponseDTO;
 import ma.enset.delibrations.entities.Session;
-import ma.enset.delibrations.exceptions.SessionNotFoundException;
+import ma.enset.delibrations.entities.exceptions.SessionNotFoundException;
 import ma.enset.delibrations.repositories.SessionRepository;
 import ma.enset.delibrations.services.SessionService;
 import org.springframework.stereotype.Service;

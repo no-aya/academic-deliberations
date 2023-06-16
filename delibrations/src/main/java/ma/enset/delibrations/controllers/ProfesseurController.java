@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.requests.ProfesseurRequestDTO;
 import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.ElementNotFoundException;
-import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
+import ma.enset.delibrations.entities.exceptions.CannotProceedException;
+import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ProfesseurNotFoundException;
 import ma.enset.delibrations.services.ProfesseurService;
 import org.springframework.web.bind.annotation.*;
 

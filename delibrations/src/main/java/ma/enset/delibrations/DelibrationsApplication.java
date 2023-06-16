@@ -1,6 +1,7 @@
 package ma.enset.delibrations;
 
 import ma.enset.delibrations.entities.*;
+import ma.enset.delibrations.entities.Module;
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.security.AppUser;
 import ma.enset.delibrations.security.repository.AppUserRepository;
@@ -80,20 +81,8 @@ public class DelibrationsApplication {
                 prof.getElementModules().forEach(e -> {
                     System.out.println(e.getCode() + " " + e.getTitre());
                 });
-                //Testing Module
-                Stream.of("Module1", "Module2", "Module3", "Module4", "Module5", "Module6", "Module7", "Module8", "Module9", "Module10").forEach(module -> {
-                    Module module1 = new Module();
-                    module1.setCode(module + "ID");
-                    module1.setIntitule(module);
-                    moduleRepository.save(module1);
-                });
-                //Testing Semestre
-                Stream.of("Semestre1", "Semestre2", "Semestre3", "Semestre4", "Semestre5", "Semestre6", "Semestre7", "Semestre8", "Semestre9", "Semestre10").forEach(semestre -> {
-                    Semestre sem = new Semestre();
-                    sem.setCode("CODE" + (i.getAndIncrement()));
-                    sem.setLibelle(semestre);
-                    semestreRepository.save(sem);
-                });
+
+
                 //Testing NoteSemestre
                 Stream.of("NoteSemestre1", "NoteSemestre2", "NoteSemestre3", "NoteSemestre4", "NoteSemestre5", "NoteSemestre6", "NoteSemestre7", "NoteSemestre8", "NoteSemestre9", "NoteSemestre10").forEach(noteSemestre -> {
                     NoteSemestre note = new NoteSemestre();
@@ -140,6 +129,23 @@ public class DelibrationsApplication {
                 depart.setFilieres(filiereRepository.findAll());
                 departementRepository.save(depart);
             });
+            //Testing Module
+            Stream.of("Module1", "Module2", "Module3", "Module4", "Module5", "Module6", "Module7", "Module8", "Module9", "Module10").forEach(module -> {
+                Module module1 = new Module();
+                module1.setCode(module + "ID");
+                module1.setIntitule(module);
+                moduleRepository.save(module1);
+            });
+//Testing Semestre
+            Stream.of("Semestre1", "Semestre2", "Semestre3", "Semestre4", "Semestre5", "Semestre6", "Semestre7", "Semestre8", "Semestre9", "Semestre10").forEach(semestre -> {
+                Semestre sem = new Semestre();
+                sem.setCode(semestre);
+                sem.setLibelle(semestre);
+                semestreRepository.save(sem);
+            });
+
+
+
 
             Departement departement1 = departementRepository.findByCode("Departement1");
             //testing Filiere

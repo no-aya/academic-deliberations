@@ -23,4 +23,5 @@ public class AnneeUniv {
     @OneToMany(mappedBy = "anneeUniv", fetch = jakarta.persistence.FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Semestre> semestres;
+
 }

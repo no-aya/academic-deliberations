@@ -6,7 +6,8 @@ import ma.enset.delibrations.dtos.requests.InscriptionPedagogiqueRequestDTO;
 import ma.enset.delibrations.dtos.responses.InscriptionpedagoqiqueResponseDTO;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.*;
+
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.services.InscriptionpedagogiqueService;
 import org.springframework.stereotype.Service;

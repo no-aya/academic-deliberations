@@ -9,10 +9,9 @@ import ma.enset.delibrations.dtos.requests.SemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.AnneeUnivResponseDTO;
 import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.entities.Semestre;
-import ma.enset.delibrations.exceptions.AnneeUnivNotFoundException;
-import ma.enset.delibrations.exceptions.EtudiantNotFoundException;
-import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
-import ma.enset.delibrations.exceptions.SemestreNotFoundException;
+import ma.enset.delibrations.entities.exceptions.AnneeUnivNotFoundException;
+import ma.enset.delibrations.entities.exceptions.NoteSemestreNotFoundException;
+import ma.enset.delibrations.entities.exceptions.SemestreNotFoundException;
 import ma.enset.delibrations.repositories.AnneeUnivRepository;
 import ma.enset.delibrations.services.AnneeUnivService;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class AnneeUnivServiceImpl implements AnneeUnivService {
     }
 
     @Override
-    public AnneeUnivResponseDTO updateAnneeUniv(Long id, AnneeUnivRequestDTO anneeUnivRequestDTO) throws AnneeUnivNotFoundException, SemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, NoteSemestreNotFoundException {
+    public AnneeUnivResponseDTO updateAnneeUniv(Long id, AnneeUnivRequestDTO anneeUnivRequestDTO) throws AnneeUnivNotFoundException, SemestreNotFoundException, ma.enset.delibrations.entities.exceptions.CannotProceedException, NoteSemestreNotFoundException {
         if (id != null && anneeUnivRequestDTO != null){
             AnneeUniv anneeUniv = anneeUnivRepository.findById(id).orElseThrow(()->new AnneeUnivNotFoundException(id));
             if (anneeUniv == null) throw new AnneeUnivNotFoundException(id);

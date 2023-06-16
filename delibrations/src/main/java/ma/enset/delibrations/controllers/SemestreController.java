@@ -4,7 +4,9 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.SemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.AnneeUnivNotFoundException;
+import ma.enset.delibrations.entities.exceptions.NoteSemestreNotFoundException;
+import ma.enset.delibrations.entities.exceptions.SemestreNotFoundException;
 import ma.enset.delibrations.services.SemestreService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/semestre")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SemestreController {
     private SemestreService semestreService;
 
@@ -33,7 +36,7 @@ public class SemestreController {
         return null;
     }
     @PutMapping("/{id}")
-    public SemestreResponseDTO updateSemestre(@PathVariable String id, @RequestBody SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException {
+    public SemestreResponseDTO updateSemestre(@PathVariable String id, @RequestBody SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.entities.exceptions.CannotProceedException, AnneeUnivNotFoundException {
         if(semestreRequestDTO!=null && id!=null)
             return semestreService.updateSemestre(id,semestreRequestDTO);
         return null;

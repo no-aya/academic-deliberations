@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
-import ma.enset.delibrations.exceptions.ElementNotFoundException;
-import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.FiliereNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ModuleNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ProfesseurNotFoundException;
 import ma.enset.delibrations.services.ElementService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/api/element")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 public class ElementController {
     private ElementService elementService;
 
@@ -51,5 +55,10 @@ public class ElementController {
             return true;
         }
         return false;
+    }
+    @GetMapping
+    public List<ElementResponseDTO> getFiliere(@RequestParam Long idProf, @RequestParam Long idModule,@RequestParam String libelS) throws FiliereNotFoundException, ModuleNotFoundException {
+        if (idProf!=null && idModule!=null  && libelS!=null) return elementService.getElementWithModuleAndProf(idProf, idModule, libelS);
+        return null;
     }
 }
