@@ -29,6 +29,7 @@ import java.util.List;
 @Transactional
 @AllArgsConstructor
 @Slf4j
+
 public class FiliereServiceImpl implements FiliereService {
     private FiliereRepository filiereRepository;
     private FiliereMapper filiereMapper;
@@ -103,8 +104,10 @@ public class FiliereServiceImpl implements FiliereService {
 
     @Override
     public FiliereResponseDTO getFiliere(String code) throws FiliereNotFoundException {
-        Filiere filiere = filiereRepository.findByCode(code);
-        if (filiere == null) throw new FiliereNotFoundException("Filiere with code "+code+" not found");
+        //Find by code and soft delete is false !!!
+        //Filiere filiere = filiereRepository.findByCode(code);
+        Filiere filiere = filiereRepository.findByCodeAndSoftDeleteIsFalse(code);
+        if (filiere == null) throw new FiliereNotFoundException(code);
         FiliereResponseDTO filiereResponseDTO= filiereMapper.fromEntityToResponseDTO(filiere);
         Departement departement = filiere.getDepartement();
         if (departement!=null) filiereResponseDTO.setDepartementId(departement.getId());
@@ -115,7 +118,9 @@ public class FiliereServiceImpl implements FiliereService {
 
     @Override
     public List<FiliereResponseDTO> getFilieres() {
-        List<Filiere> filieres = filiereRepository.findAll();
+        //find all and soft delete is false !!!
+        //List<Filiere> filieres = filiereRepository.findAll();
+        List<Filiere> filieres = filiereRepository.findBySoftDeleteIsFalse();
         List<FiliereResponseDTO> filiereResponseDTOS = new ArrayList<>();
         for (Filiere filiere : filieres) {
             FiliereResponseDTO filiereResponseDTO = filiereMapper.fromEntityToResponseDTO(filiere);
