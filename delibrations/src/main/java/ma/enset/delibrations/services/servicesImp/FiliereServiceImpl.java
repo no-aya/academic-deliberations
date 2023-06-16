@@ -59,7 +59,7 @@ public class FiliereServiceImpl implements FiliereService {
             if (filiere != null)
                 throw new RuntimeException("Filiere with code " + filiereRequestDTO.getCode() + " already exists");
         }
-        filiereRequestDTO.setCode(generateCode());
+
 
         Filiere savedFiliere = filiereRepository.save(filiereMapper.fromRequestDTOtoEntity(filiereRequestDTO));
 

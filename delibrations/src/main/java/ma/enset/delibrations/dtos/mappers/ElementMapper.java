@@ -3,6 +3,8 @@ package ma.enset.delibrations.dtos.mappers;
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
 import ma.enset.delibrations.entities.Element;
+import ma.enset.delibrations.entities.Module;
+import ma.enset.delibrations.entities.Semestre;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,9 @@ public class ElementMapper {
     public Element fromRequestDTOtoEntity(ElementRequestDTO elementRequestDTO) {
         Element element = new Element();
         BeanUtils.copyProperties(elementRequestDTO, element);
+        Module module = new Module();
+        module.setId(elementRequestDTO.getModuleId());
+        element.setModule(module);
         return element;
     }
     //ResponseDTO

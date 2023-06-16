@@ -7,7 +7,7 @@ import lombok.Data;
 public class ElementRequestDTO {
     private String code;
     private String titre;
-    private Float ponderation;
+    private Float coef;
     private Long professeurId;
     private Long moduleId;
 

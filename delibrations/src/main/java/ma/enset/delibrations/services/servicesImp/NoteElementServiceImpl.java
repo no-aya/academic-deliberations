@@ -5,12 +5,20 @@ import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.NoteElementMapper;
 import ma.enset.delibrations.dtos.requests.NoteElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.NoteElementResponseDTO;
+
+import ma.enset.delibrations.entities.*;
+import ma.enset.delibrations.entities.Module;
+import ma.enset.delibrations.exceptions.ElementNotFoundException;
+import ma.enset.delibrations.exceptions.NoteElementNotFoundException;
+import ma.enset.delibrations.repositories.*;
+
 import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.NoteElement;
 import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
 import ma.enset.delibrations.entities.exceptions.NoteElementNotFoundException;
 import ma.enset.delibrations.repositories.ElementRepository;
 import ma.enset.delibrations.repositories.NoteElementRepository;
+
 import ma.enset.delibrations.services.NoteElementService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +36,9 @@ public class NoteElementServiceImpl implements NoteElementService {
     NoteElementRepository noteElementRepository;
     NoteElementMapper noteElementMapper;
     ElementRepository elementRepository;
+    ModuleRepository moduleRepository;
+    EtudiantRepository etudiantRepository;
+    InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository;
 
     @Override
     public NoteElementResponseDTO createNoteElement(NoteElementRequestDTO noteElementRequestDTO) throws ElementNotFoundException {
@@ -84,5 +95,27 @@ public class NoteElementServiceImpl implements NoteElementService {
             noteElementResponseDTOS.add(noteElementResponseDTO);
         }
         return noteElementResponseDTOS;
+    }
+
+    @Override
+    public NoteElementResponseDTO getNoteModuleByInscriptionPedagogique(Long idEtu, Long idModule, Long idElement) {
+        if (idModule!=null && idEtu!=null && idElement!=null){
+            Etudiant etudiant= etudiantRepository.findByIdAndSoftDeleteIsFalse(idEtu);
+            Module module = moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
+            Element element = elementRepository.findById(idElement).orElse(null);
+            if(module!=null  && etudiant!=null && element!=null){
+                List<InscriptionPedagogique> inscriptions= inscriptionPedagogiqueRepository.findByCleEtrangere(idModule);
+                if(inscriptions!=null){
+                    for (InscriptionPedagogique i: inscriptions) {
+                        if(i.getEtudiant().getId()==idEtu && i.getNoteElement().getElement().getId()==idElement){
+                            NoteElement noteElement=noteElementRepository.findById(i.getNoteElement().getId()).orElse(null);
+                            return noteElementMapper.fromEntitytoResponseDTO(noteElement);
+                        }
+                    }
+                }
+            }
+
+        }
+        return null;
     }
 }

@@ -4,10 +4,7 @@ import ma.enset.delibrations.dtos.requests.ProfesseurRequestDTO;
 import ma.enset.delibrations.dtos.requests.SemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
 import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
-import ma.enset.delibrations.entities.Element;
-import ma.enset.delibrations.entities.NoteSemestre;
-import ma.enset.delibrations.entities.Professeur;
-import ma.enset.delibrations.entities.Semestre;
+import ma.enset.delibrations.entities.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +39,9 @@ public class SemestreMapper {
             }
         }
         semestre.setNoteSemestres(noteSemestres);
+        Filiere filiere = new Filiere();
+        filiere.setId(semestreRequestDTO.getFiliereID());
+        semestre.setFiliere(filiere);
         return  semestre;
     }
 

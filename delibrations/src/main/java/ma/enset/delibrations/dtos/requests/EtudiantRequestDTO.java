@@ -25,5 +25,6 @@ public class EtudiantRequestDTO {
     private String adresse;
     private Date dateNaissance;
     private Sexe sexe;
+    private Long filiereID;
 
 }
