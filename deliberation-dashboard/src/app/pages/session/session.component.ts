@@ -17,7 +17,7 @@ export class SessionComponent implements OnInit {
   newSessionFormGroup! : FormGroup;
 
 
-  isClosed: boolean;
+  closed: boolean;
   constructor(private sessionService : SessionService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class SessionComponent implements OnInit {
     console.log(s.id);
     let conf = confirm("Are you sure?");
     if(!conf) return;
-    s.isClosed=!s.isClosed;
+    s.closed=!s.closed;
     this.sessionService.updateSession(s).subscribe({
       next : (resp) => {
         this.sessions=this.sessions.pipe(
