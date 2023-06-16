@@ -5,14 +5,12 @@ import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.mappers.ModuleMapper;
 import ma.enset.delibrations.dtos.mappers.NoteModuleMapper;
 import ma.enset.delibrations.dtos.requests.ModuleRequestDTO;
-import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
-import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
-import ma.enset.delibrations.exceptions.ModuleNotFoundException;
-import ma.enset.delibrations.exceptions.NoteModuleNotFoundException;
-import ma.enset.delibrations.exceptions.SemestreNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ModuleNotFoundException;
+import ma.enset.delibrations.entities.exceptions.NoteModuleNotFoundException;
+import ma.enset.delibrations.entities.exceptions.SemestreNotFoundException;
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.services.ModuleService;
 import org.springframework.stereotype.Service;
@@ -36,7 +34,6 @@ public class ModuleServiceImpl implements ModuleService {
     private FiliereRepository filiereRepository;
     private ProfesseurRepository professeurRepository;
     private ElementRepository elementRepository;
-    private  AnneeUnivRepository anneeUnivRepository;
 
     private String generateCode() {
         //TODO: Generate code based on the "Module", "Filiere" and "Semestre" attributes
@@ -145,19 +142,18 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public List<ModuleResponseDTO> getModuleWithFiliereAndProf(Long idProf, Long idFiliere,String codeAnnee, String libelSemestre) throws ModuleNotFoundException {
+    public List<ModuleResponseDTO> getModuleWithFiliereAndProf(Long idProf, Long idFiliere, String libelSemestre) throws ModuleNotFoundException {
         if(idProf!=null && idFiliere!=null){
             Filiere filiere= filiereRepository.findByIdAndSoftDeleteIsFalse(idFiliere);
             Professeur prof = professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
             Semestre semestre = semestreRepository.findByLibelle(libelSemestre);
-            AnneeUniv anneeUniv = anneeUnivRepository.findByCodeAnnee(codeAnnee);
-            if (filiere!=null && prof!=null && semestre!=null && anneeUniv!=null){
+            if (filiere!=null && prof!=null && semestre!=null){
                 List<Element> elements = elementRepository.findByCleEtrangere(idProf);
                 if(elements!=null){
                     List<Module> modules = new ArrayList<>();
                     for (Element e: elements) {
                         Module module = moduleRepository.findById(e.getModule().getId()).orElseThrow( ()-> new ModuleNotFoundException(e.getModule().getId()));
-                        if (module!=null && module.getFiliere().getId()==idFiliere  && module.getSemestre().getId()==semestre.getId() && module.getSemestre().getAnneeUniv().getId()==anneeUniv.getId()){
+                        if (module!=null && module.getFiliere().getId()==idFiliere  && module.getSemestre().getId()==semestre.getId() ){
                             modules.add(module);
                         }
                     }
@@ -172,6 +168,4 @@ public class ModuleServiceImpl implements ModuleService {
         }
         return null;
     }
-
-
 }

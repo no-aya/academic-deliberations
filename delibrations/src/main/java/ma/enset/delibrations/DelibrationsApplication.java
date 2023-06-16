@@ -2,10 +2,10 @@ package ma.enset.delibrations;
 
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
+import ma.enset.delibrations.entities.enums.Sexe;
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.security.AppUser;
 import ma.enset.delibrations.security.repository.AppUserRepository;
-import ma.enset.delibrations.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,15 +23,17 @@ public class DelibrationsApplication {
         SpringApplication.run(DelibrationsApplication.class, args);
     }
 
-    @Autowired
-    private FileStorageService fileStorageService;
+
+    //@Autowired
+    //private FileStorageService fileStorageService;
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
                             ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
                             AnneeUnivRepository anneeUnivRepository, NoteModuleRepository noteModuleRepository,
                             InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
                             EtudiantRepository etudiantRepository,
-                            AppUserRepository appUserRepository) {
+                            AppUserRepository appUserRepository,
+                            SessionRepository sessionRepository) {
         return args -> {
             fileStorageService.deleteAll();
             fileStorageService.init();
@@ -45,25 +47,8 @@ public class DelibrationsApplication {
                 elementRepository.save(element);
             });
 
-            AtomicInteger c = new AtomicInteger();
-            //Testing Professeur
-            Stream.of("Professeur1","Professeur2","Professeur3","Professeur4","Professeur5","Professeur6","Professeur7","Professeur8","Professeur9","Professeur10").forEach(professeur->{
-                Professeur prof = new Professeur();
-                prof.setNom(professeur);
-                prof.setPrenom(professeur);
-                prof.setCin("EE929292"+c.getAndIncrement());
-                prof.setEmail(professeur+"@gmail.com");
-                prof.setTelephone("0606060606");
-                prof.setAdresse("Adresse "+professeur);
-                prof.setCreatedAt(new Date());
-                prof.setElementModules(elementRepository.findAll());
-                professeurRepository.save(prof);
 
-            });
 
-            Element element = elementRepository.findByCode("CODE1");
-            Element element2 = elementRepository.findByCode("CODE2");
-            Professeur prof = professeurRepository.findByNom("Professeur1");
 
             prof.getElementModules().add(element);
             prof.getElementModules().add(element2);
@@ -171,26 +156,32 @@ public class DelibrationsApplication {
             //Testing InscriptionPedagogique
             Stream.of("InscriptionPedagogique1","InscriptionPedagogique2").forEach(inscriptionPedagogique->{
                 InscriptionPedagogique ins = new InscriptionPedagogique();
-                ins.setModule(moduleRepository.findByCode("Module1ID"));
+
                 ins.setCreatedAt(new Date());
-                ins.setEtudiant(etudiantRepository.findByApogeeAndSoftDeleteIsFalse("EE9292920"));
+
                 inscriptionPedagogiqueRepository.save(ins);
             });
 
             //Testin AppUser
-            Stream.of("user1","user2","user3","user4","user5","user6","user7","user8","user9","user10").forEach(user->{
+            Stream.of("Mohammed","Azzeddine","Soumia","Rabia","Aziz").forEach(user->{
                 AppUser appUser = new AppUser();
                 appUser.setUsername(user);
                 appUser.setEmail(user+"@gmail.com");
-                appUser.setLastname("lastname"+user);
+                appUser.setLastname(user+"Majdi");
                 appUser.setPassword("1234");
                 appUser.setSuspend(false);
                 appUserRepository.save(appUser);
             });
 
+            //Testing sessions
+            Stream.of("Session1","Session2").forEach(session->{
+                Session session1 = new Session();
+                session1.setLibelle(session);
+                session1.setDateDebut(new Date());
+                session1.setDateFin(new Date());
+                sessionRepository.save(session1);
+            });
 
         };
     }
-
-
 }

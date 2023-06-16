@@ -3,7 +3,7 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.InscriptionPedagogiqueRequestDTO;
 import ma.enset.delibrations.dtos.responses.InscriptionpedagoqiqueResponseDTO;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.InscriptionpedagogiqueService;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,0 +1,143 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid mt--7">
+  <div class="row">
+
+    <div class="col-6">
+    <div class="card shadow">
+      <div class="card-header border-0"><h3 class="mb-0">Ajouter un professeur</h3></div>
+       <div class="card-body">
+
+         <form [formGroup]="newProfesseurFormGroup" (ngSubmit)="handleSaveProfesseur()">
+           <div class="mb-3">
+             <label class="form-label">Name:</label>
+             <input type="text" formControlName="nom" class="form-control">
+             <span class="text-danger"
+                   *ngIf="newProfesseurFormGroup.controls['nom'].touched
+                && newProfesseurFormGroup.controls['nom'].errors
+                && newProfesseurFormGroup.controls['nom'].errors!['nom']">
+            Nom n'est pas valide
+            </span>
+           </div>
+
+           <div class="mb-3">
+             <label class="form-label">Prénom:</label>
+             <input type="text" formControlName="prenom" class="form-control">
+             <span class="text-danger"
+                   *ngIf="newProfesseurFormGroup.controls['prenom'].touched
+                && newProfesseurFormGroup.controls['prenom'].errors
+                && newProfesseurFormGroup.controls['prenom'].errors!['prenom']">
+            Prénom n'est pas valide
+            </span>
+           </div>
+
+           <div class="mb-3">
+             <label class="form-label">CIN:</label>
+             <input type="text" formControlName="cin" class="form-control">
+             <span class="text-danger"
+                   *ngIf="newProfesseurFormGroup.controls['cin'].touched
+                && newProfesseurFormGroup.controls['cin'].errors
+                && newProfesseurFormGroup.controls['cin'].errors!['cin']">
+            CIN n'est pas valide
+            </span>
+           </div>
+
+           <div class="mb-3">
+             <label class="form-label">Email :</label>
+             <input type="text" formControlName="email" class="form-control">
+             <span class="text-danger"
+                   *ngIf="newProfesseurFormGroup.controls['email'].touched
+                && newProfesseurFormGroup.controls['email'].errors
+                && newProfesseurFormGroup.controls['email'].errors!['email']">
+            Email n'est pas valide
+            </span>
+           </div>
+
+
+
+           <button  class="btn btn-info">  Ajouter  </button>
+           <button  class="btn btn-danger">  Importer d'un fichier Xls  </button>
+         </form>
+
+
+
+
+        </div>
+        </div>
+      </div>
+
+    <!-- Etudiant -->
+
+      <div class="col-6">
+        <div class="card shadow">
+          <div class="card-header border-0"><h3 class="mb-0">Ajouter un etudiant</h3></div>
+          <div class="card-body">
+
+
+            <form [formGroup]="newEtudiantFormGroup" (ngSubmit)="handleSaveEtudiant()">
+              <div class="mb-3">
+                <label class="form-label">Name:</label>
+                <input type="text" formControlName="nom" class="form-control">
+                <span class="text-danger"
+                      *ngIf="newEtudiantFormGroup.controls['nom'].touched
+                && newEtudiantFormGroup.controls['nom'].errors
+                && newEtudiantFormGroup.controls['nom'].errors!['nom']">
+            Nom n'est pas valide
+            </span>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Prénom:</label>
+                <input type="text" formControlName="prenom" class="form-control">
+                <span class="text-danger"
+                      *ngIf="newEtudiantFormGroup.controls['prenom'].touched
+                && newEtudiantFormGroup.controls['prenom'].errors
+                && newEtudiantFormGroup.controls['prenom'].errors!['prenom']">
+            Prénom n'est pas valide
+            </span>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Code apogé:</label>
+                <input type="text" formControlName="apogee" class="form-control">
+                <span class="text-danger"
+                      *ngIf="newEtudiantFormGroup.controls['apogee'].touched
+                && newEtudiantFormGroup.controls['apogee'].errors
+                && newEtudiantFormGroup.controls['apogee'].errors!['apogee']">
+            Code n'est pas valide
+            </span>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Email :</label>
+                <input type="text" formControlName="email" class="form-control">
+                <span class="text-danger"
+                      *ngIf="newEtudiantFormGroup.controls['email'].touched
+                && newEtudiantFormGroup.controls['email'].errors
+                && newEtudiantFormGroup.controls['email'].errors!['email']">
+            Email n'est pas valide
+            </span>
+              </div>
+
+
+
+              <button  class="btn btn-info">  Ajouter  </button>
+              <button  class="btn btn-danger">  Importer d'un fichier Xls  </button>
+            </form>
+
+
+
+          </div>
+        </div>
+    </div>
+
+  </div>
+  </div>
+

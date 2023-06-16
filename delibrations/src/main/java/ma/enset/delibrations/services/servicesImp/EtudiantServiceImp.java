@@ -6,24 +6,19 @@ import ma.enset.delibrations.dtos.requests.EtudiantRequestDTO;
 import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.ProfesseurResponseDTO;
 import ma.enset.delibrations.entities.Etudiant;
-import ma.enset.delibrations.entities.Filiere;
-import ma.enset.delibrations.entities.InscriptionPedagogique;
-import ma.enset.delibrations.entities.Module;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.EtudiantNotFoundException;
+import ma.enset.delibrations.entities.exceptions.CannotProceedException;
+import ma.enset.delibrations.entities.exceptions.EtudiantNotFoundException;
 import ma.enset.delibrations.repositories.EtudiantRepository;
 import ma.enset.delibrations.repositories.FiliereRepository;
 import ma.enset.delibrations.repositories.InscriptionPedagogiqueRepository;
 import ma.enset.delibrations.repositories.ModuleRepository;
 import ma.enset.delibrations.services.EtudiantService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional @AllArgsConstructor

@@ -15,19 +15,28 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ComptesComponent} from "../../pages/comptes/comptes.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {DepartementsEditComponent} from "../../pages/departements-edit/departements-edit.component";
+import {SessionComponent} from "../../pages/session/session.component";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
+import {MatFormFieldModule} from "@angular/material/form-field";
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
-    FormsModule,
-    HttpClientModule,
-    NgbModule,
-    ClipboardModule,
-    ReactiveFormsModule,
-    MatSlideToggleModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(AdminLayoutRoutes),
+        FormsModule,
+        HttpClientModule,
+        NgbModule,
+        ClipboardModule,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatNativeDateModule
+    ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
@@ -35,7 +44,8 @@ import {DepartementsEditComponent} from "../../pages/departements-edit/departeme
     IconsComponent,
     DepartementsComponent,
     ComptesComponent,
-    DepartementsEditComponent
+    DepartementsEditComponent,
+    SessionComponent
   ]
 })
 

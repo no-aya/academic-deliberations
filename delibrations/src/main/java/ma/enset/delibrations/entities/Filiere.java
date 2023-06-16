@@ -20,13 +20,10 @@ public class Filiere {
         private String intitule;
         @ManyToOne
         private Departement departement;
-        @OneToMany
+        @OneToMany(mappedBy = "filiere")
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private List<Module> modules;
-        /*
-        TODO :  add Accreditation Date property
-                add chef filiere (professor) after setting roles
-        */
+
         @Temporal(TemporalType.DATE)
         private Date createdAt;
         @Temporal(TemporalType.DATE)
@@ -38,8 +35,14 @@ public class Filiere {
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private RegleCalcul regleCalcul;
 
+        //@OneToMany(mappedBy = "filiere")
+        //private Departement departement;
+
+        //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        //private List<Etudiant> etudiants;
+
         @OneToMany(mappedBy = "filiere")
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-        private List<Etudiant> etudiants;
+        private List<Semestre> semestres;
 
 }

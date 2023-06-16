@@ -9,8 +9,10 @@ import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Filiere;
 import ma.enset.delibrations.entities.Module;
-import ma.enset.delibrations.exceptions.*;
-import ma.enset.delibrations.exceptions.FiliereNotFoundException;
+import ma.enset.delibrations.entities.exceptions.DepartementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ModuleNotFoundException;
+import ma.enset.delibrations.entities.exceptions.RegleCalculNotFoundException;
+import ma.enset.delibrations.entities.exceptions.FiliereNotFoundException;
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.services.FiliereService;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 @Transactional
 @AllArgsConstructor
 @Slf4j
+
 public class FiliereServiceImpl implements FiliereService {
     private FiliereRepository filiereRepository;
     private FiliereMapper filiereMapper;
@@ -40,39 +43,46 @@ public class FiliereServiceImpl implements FiliereService {
     private RegleCalculRepository regleCalculRepository;
     private ProfesseurRepository professeurRepository;
     private ElementRepository elementRepository;
-    private  ModuleRepository moduleRepository;
+    private ModuleRepository moduleRepository;
     private SemestreRepository semestreRepository;
-    private  AnneeUnivRepository anneeUnivRepository;
+
     private String generateCode() {
         //TODO: Generate Filiere code based on the format TI00006
-        return "CODE"+System.currentTimeMillis();
+        return "CODE" + System.currentTimeMillis();
     }
-    
-    
+
+
     @Override
     public FiliereResponseDTO createFiliere(FiliereRequestDTO filiereRequestDTO) throws RegleCalculNotFoundException {
         if (filiereRequestDTO.getCode() == null) filiereRequestDTO.setCode(generateCode());
         else {
             Filiere filiere = filiereRepository.findByCode(filiereRequestDTO.getCode());
-            if (filiere != null) throw new RuntimeException("Filiere with code "+filiereRequestDTO.getCode()+" already exists");
+            if (filiere != null)
+                throw new RuntimeException("Filiere with code " + filiereRequestDTO.getCode() + " already exists");
         }
-        filiereRequestDTO.setCode(generateCode());
+
 
         Filiere savedFiliere = filiereRepository.save(filiereMapper.fromRequestDTOtoEntity(filiereRequestDTO));
 
-        if (filiereRequestDTO.getRegleCalculId()!=null){
+        if (filiereRequestDTO.getRegleCalculId() != null) {
             RegleCalcul regleCalcul = regleCalculRepository.findByIdAndSoftDeleteIsFalse(filiereRequestDTO.getRegleCalculId());
-            if(regleCalcul!=null) savedFiliere.setRegleCalcul(regleCalcul);
+            if (regleCalcul != null) savedFiliere.setRegleCalcul(regleCalcul);
             else throw new RegleCalculNotFoundException(filiereRequestDTO.getRegleCalculId());
         }
-
+        if(filiereRequestDTO.getDepartementId()!=null){
+            Departement departement = departementRepository.findById(filiereRequestDTO.getDepartementId()).orElse(null);
+            savedFiliere.setDepartement(departement);
+        }
         filiereRepository.save(savedFiliere);
 
         FiliereResponseDTO filiereResponseDTO = filiereMapper.fromEntityToResponseDTO(savedFiliere);
-        if (savedFiliere.getRegleCalcul()!=null)
-        filiereResponseDTO.setRegleCalculId(savedFiliere.getRegleCalcul().getId());
+        //filiereResponseDTO.setDepartementId(savedFiliere.getDepartement().getId());
+        filiereResponseDTO.setDepartementIntitule(savedFiliere.getDepartement().getIntitule());
+
+        if (savedFiliere.getRegleCalcul() != null)
+            filiereResponseDTO.setRegleCalculId(savedFiliere.getRegleCalcul().getId());
         return filiereResponseDTO;
-        
+
     }
 
     @Override
@@ -83,55 +93,66 @@ public class FiliereServiceImpl implements FiliereService {
             if (filiere == null) throw new FiliereNotFoundException(filiereRequestDTO.getCode());
             if (filiereRequestDTO.getIntitule() != null) filiere.setIntitule(filiereRequestDTO.getIntitule());
             if (filiereRequestDTO.getDepartementId() != null) {
-                Departement departement = departementRepository.findById(filiereRequestDTO.getDepartementId()).orElseThrow(()->new DepartementNotFoundException(filiereRequestDTO.getDepartementId()));
+                Departement departement = departementRepository.findById(filiereRequestDTO.getDepartementId()).orElseThrow(() -> new DepartementNotFoundException(filiereRequestDTO.getDepartementId()));
                 filiere.setDepartement(departement);
             }
             if (filiereRequestDTO.getRegleCalculId() != null) {
                 RegleCalcul regleCalcul = regleCalculRepository.findByIdAndSoftDeleteIsFalse(filiereRequestDTO.getRegleCalculId());
-                if(regleCalcul!=null)filiere.setRegleCalcul(regleCalcul);
+                if (regleCalcul != null) filiere.setRegleCalcul(regleCalcul);
                 else throw new RegleCalculNotFoundException(filiereRequestDTO.getRegleCalculId());
             }
             filiereRepository.save(filiere);
-            FiliereResponseDTO filiereResponseDTO=filiereMapper.fromEntityToResponseDTO(filiere);
-            if (filiere.getDepartement() != null){
+            FiliereResponseDTO filiereResponseDTO = filiereMapper.fromEntityToResponseDTO(filiere);
+            if (filiere.getDepartement() != null) {
                 filiereResponseDTO.setDepartementId(filiere.getDepartement().getId());
+                filiereResponseDTO.setDepartementIntitule(filiere.getDepartement().getIntitule());
             }
-            if(filiere.getRegleCalcul()!=null)
-            filiereResponseDTO.setRegleCalculId(filiere.getRegleCalcul().getId());
+            if (filiere.getRegleCalcul() != null)
+                filiereResponseDTO.setRegleCalculId(filiere.getRegleCalcul().getId());
             return filiereResponseDTO;
         }
     }
 
+
     @Override
     public Filiere getFiliere(Long id) throws FiliereNotFoundException {
-        return filiereRepository.findById(id).orElseThrow(()->new FiliereNotFoundException("Filiere with id "+id+" not found"));
+        return filiereRepository.findById(id).orElseThrow(() -> new FiliereNotFoundException("Filiere with id " + id + " not found"));
 
     }
 
     @Override
     public FiliereResponseDTO getFiliere(String code) throws FiliereNotFoundException {
         Filiere filiere = filiereRepository.findByCode(code);
-        if (filiere == null) throw new FiliereNotFoundException("Filiere with code "+code+" not found");
-        FiliereResponseDTO filiereResponseDTO= filiereMapper.fromEntityToResponseDTO(filiere);
+        if (filiere == null) throw new FiliereNotFoundException("Filiere with code " + code + " not found");
+        FiliereResponseDTO filiereResponseDTO = filiereMapper.fromEntityToResponseDTO(filiere);
         Departement departement = filiere.getDepartement();
-        if (departement!=null) filiereResponseDTO.setDepartementId(departement.getId());
+        if (departement != null) {
+            filiereResponseDTO.setDepartementId(departement.getId());
+            filiereResponseDTO.setDepartementIntitule(departement.getIntitule());
+        }
         RegleCalcul regleCalcul = filiere.getRegleCalcul();
-        if(regleCalcul!=null) filiereResponseDTO.setRegleCalculId(regleCalcul.getId());
+        if (regleCalcul != null) filiereResponseDTO.setRegleCalculId(regleCalcul.getId());
         return filiereResponseDTO;
     }
 
+
     @Override
     public List<FiliereResponseDTO> getFilieres() {
-        List<Filiere> filieres = filiereRepository.findAll();
+        //find all and soft delete is false !!!
+        //List<Filiere> filieres = filiereRepository.findAll();
+        List<Filiere> filieres = filiereRepository.findBySoftDeleteIsFalse();
         List<FiliereResponseDTO> filiereResponseDTOS = new ArrayList<>();
         for (Filiere filiere : filieres) {
             FiliereResponseDTO filiereResponseDTO = filiereMapper.fromEntityToResponseDTO(filiere);
-            if (filiere.getDepartement() != null){
+            if (filiere.getDepartement() != null) {
+                //Departement departement = departementRepository.findById(filiere.getDepartement().getId()).orElse(null);
                 filiereResponseDTO.setDepartementId(filiere.getDepartement().getId());
+                filiereResponseDTO.setDepartementIntitule(filiere.getDepartement().getIntitule());
             }
-            if (filiere.getRegleCalcul() != null){
+            if (filiere.getRegleCalcul() != null) {
                 filiereResponseDTO.setRegleCalculId(filiere.getRegleCalcul().getId());
             }
+
             filiereResponseDTOS.add(filiereResponseDTO);
         }
         return filiereResponseDTOS;
@@ -140,7 +161,7 @@ public class FiliereServiceImpl implements FiliereService {
     @Override
     public void deleteFiliere(String code) throws FiliereNotFoundException {
         Filiere filiere = filiereRepository.findByCode(code);
-        if (filiere == null) throw new FiliereNotFoundException("Filiere with code "+code+" not found");
+        if (filiere == null) throw new FiliereNotFoundException("Filiere with code " + code + " not found");
         //filiereRepository.delete(filiere);
 
         filiere.setSoftDelete(true);
@@ -148,19 +169,18 @@ public class FiliereServiceImpl implements FiliereService {
     }
 
     @Override
-    public List<FiliereResponseDTO> getFiliereWithDeptAndProf(Long idProf, Long idDept,String codeAnnee, String libelSemestre) throws ModuleNotFoundException {
+    public List<FiliereResponseDTO> getFiliereWithDeptAndProf(Long idProf, Long idDept, String libelSemestre) throws ModuleNotFoundException {
         if(idProf!=null && idDept!=null){
             Departement departement= departementRepository.findByIdAndSoftDeleteIsFalse(idDept);
             Professeur professeur= professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
             Semestre semestre = semestreRepository.findByLibelle(libelSemestre);
-            AnneeUniv anneeUniv = anneeUnivRepository.findByCodeAnnee(codeAnnee);
-            if(professeur!=null  && departement!=null && semestre!=null && anneeUniv!=null){
+            if(professeur!=null  && departement!=null && semestre!=null ){
                 List<Element> elements = elementRepository.findByCleEtrangere(idProf);
                 if(elements!=null){
                     List<Filiere> filieres = new ArrayList<>();
                     for (Element e: elements) {
                         Module module = moduleRepository.findById(e.getModule().getId()).orElseThrow( ()-> new ModuleNotFoundException(e.getModule().getId()));
-                        if(module!=null && module.getSemestre().getId()==semestre.getId() && module.getSemestre().getAnneeUniv().getId()==anneeUniv.getId()) {
+                        if(module!=null && module.getSemestre().getId()==semestre.getId() ) {
                             Filiere filiere= filiereRepository.findById(module.getFiliere().getId()).orElse(null);
                             if(filiere!=null && filiere.getDepartement().getId()== idDept ){
                                 filieres.add(filiere);

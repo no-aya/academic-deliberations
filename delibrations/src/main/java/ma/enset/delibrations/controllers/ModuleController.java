@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.ModuleRequestDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.ModuleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +13,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/modules")
-@CrossOrigin("*")
+@RequestMapping("/api/module")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ModuleController {
     private ModuleService moduleService;
 
@@ -48,8 +48,8 @@ public class ModuleController {
     }
 
     @GetMapping
-    public List<ModuleResponseDTO> getModule(@RequestParam Long idProf, @RequestParam Long idFiliere , @RequestParam String codeAnnee,@RequestParam String libelS) throws FiliereNotFoundException, ModuleNotFoundException {
-        if (idProf!=null && idFiliere!=null && codeAnnee!=null && libelS!=null) return moduleService.getModuleWithFiliereAndProf(idProf, idFiliere,codeAnnee,libelS);
+    public List<ModuleResponseDTO> getModule(@RequestParam Long idProf, @RequestParam Long idFiliere ,@RequestParam String libelS) throws FiliereNotFoundException, ModuleNotFoundException {
+        if (idProf!=null && idFiliere!=null  && libelS!=null) return moduleService.getModuleWithFiliereAndProf(idProf, idFiliere,libelS);
         return null;
     }
 }

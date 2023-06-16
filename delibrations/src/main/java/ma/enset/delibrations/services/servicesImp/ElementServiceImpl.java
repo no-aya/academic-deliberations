@@ -5,11 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.mappers.ElementMapper;
 import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
-import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
 import ma.enset.delibrations.entities.*;
 import ma.enset.delibrations.entities.Module;
-import ma.enset.delibrations.exceptions.ElementNotFoundException;
-import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ProfesseurNotFoundException;
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.services.ElementService;
 import org.springframework.stereotype.Service;
@@ -56,7 +55,7 @@ public class ElementServiceImpl implements ElementService {
             Element element = elementRepository.findByCode(elementRequestDTO.getCode());
             if (element == null) throw new ElementNotFoundException(elementRequestDTO.getCode());
             if (elementRequestDTO.getTitre() != null) element.setTitre(elementRequestDTO.getTitre());
-            if (elementRequestDTO.getPonderation() != null) element.setCoeficient(elementRequestDTO.getPonderation());
+            if (elementRequestDTO.getCoef() != null) element.setCoef(elementRequestDTO.getCoef());
             if (elementRequestDTO.getProfesseurId() != null) {
                 Professeur professeur = professeurRepository.findById(elementRequestDTO.getProfesseurId()).orElseThrow(()->new ProfesseurNotFoundException(elementRequestDTO.getProfesseurId()));
                 element.setProfesseur(professeur);
@@ -119,31 +118,30 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule, String codeAnnee, String libelS) {
-       if(idProf!=null && idProf!=null && codeAnnee!=null && libelS!=null ){
-           Professeur prof = professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
-           Module module= moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
-           Semestre semestre = semestreRepository.findByLibelle(libelS);
-           AnneeUniv anneeUniv = anneeUnivRepository.findByCodeAnnee(codeAnnee);
-           if(prof!=null && module!=null && semestre!=null && anneeUniv!=null){
-               List<Element> elements = elementRepository.findByCleEtrangere(idProf);
-               if (elements!=null){
-                   List<Element> elementResponse=new ArrayList<>();
-                   for (Element e: elements) {
-                       if(e.getModule().getId()==idModule && e.getModule().getSemestre().getId()==semestre.getId() && e.getModule().getSemestre().getAnneeUniv().getId()==anneeUniv.getId() ) elementResponse.add(e);
-                   }
+    public List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule, String libelS) {
+        if(idProf!=null && idProf!=null && libelS!=null ){
+            Professeur prof = professeurRepository.findByIdAndSoftDeleteIsFalse(idProf);
+            Module module= moduleRepository.findByIdAndSoftDeleteIsFalse(idModule);
+            Semestre semestre = semestreRepository.findByLibelle(libelS);
+            if(prof!=null && module!=null && semestre!=null){
+                List<Element> elements = elementRepository.findByCleEtrangere(idProf);
+                if (elements!=null){
+                    List<Element> elementResponse=new ArrayList<>();
+                    for (Element e: elements) {
+                        if(e.getModule().getId()==idModule && e.getModule().getSemestre().getId()==semestre.getId()  ) elementResponse.add(e);
+                    }
 
-                   List<ElementResponseDTO> responses = elementResponse.stream()
-                           .map(e -> elementMapper.fromEntitytoResponseDTO(e))
-                           .collect(Collectors.toList());
+                    List<ElementResponseDTO> responses = elementResponse.stream()
+                            .map(e -> elementMapper.fromEntitytoResponseDTO(e))
+                            .collect(Collectors.toList());
 
-                   Set<ElementResponseDTO> uniqueResponses = new HashSet<>(responses);
-                   return new ArrayList<>(uniqueResponses);
+                    Set<ElementResponseDTO> uniqueResponses = new HashSet<>(responses);
+                    return new ArrayList<>(uniqueResponses);
 
-               }
-           }
+                }
+            }
 
-       }
+        }
         return null;
     }
 }

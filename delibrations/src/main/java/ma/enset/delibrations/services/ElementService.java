@@ -4,9 +4,8 @@ import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.entities.Element;
-import ma.enset.delibrations.exceptions.ElementNotFoundException;
-import ma.enset.delibrations.exceptions.ModuleNotFoundException;
-import ma.enset.delibrations.exceptions.ProfesseurNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ProfesseurNotFoundException;
 
 import java.util.List;
 
@@ -19,7 +18,5 @@ public interface ElementService {
     ElementResponseDTO getElementByCode(String code);
     ElementResponseDTO getElement(String code) throws ElementNotFoundException;
     Element getElement(Long code) throws ElementNotFoundException;
-
-    List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule,String codeAnnee, String libelSemestre)  ;
-
+    List<ElementResponseDTO> getElementWithModuleAndProf(Long idProf, Long idModule,String libelSemestre)  ;
 }

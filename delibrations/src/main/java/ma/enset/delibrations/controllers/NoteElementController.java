@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.NoteElementRequestDTO;
 import ma.enset.delibrations.dtos.responses.EtudiantResponseDTO;
 import ma.enset.delibrations.dtos.responses.NoteElementResponseDTO;
-import ma.enset.delibrations.exceptions.ElementNotFoundException;
-import ma.enset.delibrations.exceptions.NoteElementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ElementNotFoundException;
+import ma.enset.delibrations.entities.exceptions.NoteElementNotFoundException;
 import ma.enset.delibrations.services.NoteElementService;
 import org.springframework.web.bind.annotation.*;
 

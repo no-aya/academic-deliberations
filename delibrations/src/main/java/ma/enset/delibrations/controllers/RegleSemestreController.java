@@ -3,10 +3,10 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.RegleSemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.RegleSemestreResponseDTO;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.RegleAnneeNotFoundException;
-import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
-import ma.enset.delibrations.exceptions.RegleSemestreNotFoundException;
+import ma.enset.delibrations.entities.exceptions.CannotProceedException;
+import ma.enset.delibrations.entities.exceptions.RegleAnneeNotFoundException;
+import ma.enset.delibrations.entities.exceptions.RegleCalculNotFoundException;
+import ma.enset.delibrations.entities.exceptions.RegleSemestreNotFoundException;
 import ma.enset.delibrations.services.RegleSemestreService;
 import org.springframework.web.bind.annotation.*;
 

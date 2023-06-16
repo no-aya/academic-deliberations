@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface FiliereRepository extends JpaRepository<Filiere, Long> {
     Filiere findByCode(String codeFiliere);
+    Filiere findByCodeAndSoftDeleteIsFalse(String codeFiliere);
     Filiere findFiliereById(Long id);
     Filiere findById(long id);
     Filiere findByIdAndSoftDeleteIsFalse(Long id);

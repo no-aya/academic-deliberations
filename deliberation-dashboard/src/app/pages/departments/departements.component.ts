@@ -23,7 +23,7 @@ import {coerceStringArray} from "@angular/cdk/coercion";
 @Component({
   selector: 'app-departements',
   templateUrl: './departements.component.html',
-  styleUrls: ['./departements.component.scss'],
+  styleUrls: ['./departements.component.css'],
 })
 
 export class DepartementsComponent implements OnInit {

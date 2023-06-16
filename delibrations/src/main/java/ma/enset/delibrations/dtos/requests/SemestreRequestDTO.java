@@ -1,6 +1,7 @@
 package ma.enset.delibrations.dtos.requests;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.enset.delibrations.entities.AnneeUniv;
@@ -8,14 +9,16 @@ import ma.enset.delibrations.entities.AnneeUniv;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class SemestreRequestDTO {
     private String code;
     private String libelle;
     private Long[] noteSemestres;
+    private Long filiereID;
 
     private Long anneeUnivId;
 
-    private boolean sessionStatus = false;
+    /*private Long sessionId;*/
 
     /*Request syntax:
     {
