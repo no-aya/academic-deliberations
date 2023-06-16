@@ -6,7 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatIconModule} from "@angular/material/icon";
-import { FileUploadComponent } from './file-upload/file-upload.component';
+//import { FileUploadComponent } from '../file-upload/file-upload.component';
 
 @NgModule({
     imports: [

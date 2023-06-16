@@ -58,7 +58,7 @@ import { ProfEtudComponent } from './pages/prof-etud/prof-etud.component';
     EditModuleComponent,
     AddModuleComponent,
     EditFiliereComponent,
-    AddFiliereComponent
+    AddFiliereComponent,
 
     ProfEtudComponent
 

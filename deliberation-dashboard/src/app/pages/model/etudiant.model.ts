@@ -1,4 +1,4 @@
-export interface EtudiantModel {
+export interface Etudiant {
     id: number;
     nom: string;
     prenom: string;
@@ -6,4 +6,8 @@ export interface EtudiantModel {
     cne: string;
     apogee: string;
     adresse: string;
+}
+
+export interface EtudiantModel {
+
 }
