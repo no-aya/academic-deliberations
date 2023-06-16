@@ -180,11 +180,11 @@ public class DelibrationsApplication {
             });
 
             //Testin AppUser
-            Stream.of("user1","user2","user3","user4","user5","user6","user7","user8","user9","user10").forEach(user->{
+            Stream.of("Mohammed","Azzeddine","Soumia","Rabia","Aziz").forEach(user->{
                 AppUser appUser = new AppUser();
                 appUser.setUsername(user);
                 appUser.setEmail(user+"@gmail.com");
-                appUser.setLastname("lastname"+user);
+                appUser.setLastname(user+"Majdi");
                 appUser.setPassword("1234");
                 appUser.setSuspend(false);
                 appUserRepository.save(appUser);

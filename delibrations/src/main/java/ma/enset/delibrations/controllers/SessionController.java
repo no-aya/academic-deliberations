@@ -2,6 +2,7 @@ package ma.enset.delibrations.controllers;
 
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ma.enset.delibrations.dtos.requests.SessionRequestDTO;
 import ma.enset.delibrations.dtos.responses.SessionResponseDTO;
 import ma.enset.delibrations.entities.Session;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 @CrossOrigin("*")
 public class SessionController {
 
@@ -33,7 +35,7 @@ public class SessionController {
         return sessionService.createSession(sessionRequestDTO);
     }
 
-    @PutMapping("/sessions/{id}")
+    @PostMapping("/updateSessions/{id}")
     public Session updateSession(@PathVariable Long id, @RequestBody Session session) throws SessionNotFoundException {
         session.setId(id);
         return sessionService.updateSession(session);
@@ -44,6 +46,11 @@ public class SessionController {
         if (id != null) sessionService.deleteSession(id);
     }
 
+    @PutMapping("/close/{id}")
+    public void closeSession(@PathVariable Long id, @RequestBody Session session){
+        session.setId(id);
+        sessionService.closeSession(id);
+    }
 
 
 

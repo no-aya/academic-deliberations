@@ -8,6 +8,7 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import {ComptesComponent} from "../../pages/comptes/comptes.component";
 import {DepartementsEditComponent} from "../../pages/departements-edit/departements-edit.component";
 import {SessionComponent} from "../../pages/session/session.component";
+
 import {
   DepartementsAdminComponent
 } from "../../pages/departements-edit/departements-admin/departements-admin.component";
@@ -20,6 +21,9 @@ import {EditModuleComponent} from "../../pages/departements-edit/edit-module/edi
 import {AddFiliereComponent} from "../../pages/departements-edit/add-filiere/add-filiere.component";
 import {EditFiliereComponent} from "../../pages/departements-edit/edit-filiere/edit-filiere.component";
 
+import {ProfEtudComponent} from "../../pages/prof-etud/prof-etud.component";
+
+
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
@@ -28,6 +32,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'departements',   component: DepartementsComponent },
     {path: 'comptes', component:ComptesComponent},
     {path:'departements-edit', component: DepartementsEditComponent},
+
     {path:'departements-admin', component: DepartementsAdminComponent},
     {path:'add-edit-departement', component: AddEditDepartComponent},
     {path:'edit-departement/:id', component: EditDepartementComponent},
@@ -37,5 +42,6 @@ export const AdminLayoutRoutes: Routes = [
     {path:'edit-module', component: EditModuleComponent},
   {path:'add-filiere', component: AddFiliereComponent},
   {path:'edit-filiere/:code', component: EditFiliereComponent},
-    {path:'session', component: SessionComponent}
-];
+    {path:'session', component: SessionComponent},
+    {path:'prof-etud', component: ProfEtudComponent}
+ ]

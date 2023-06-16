@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/api/professeur")
+@CrossOrigin("*")
 public class ProfesseurController {
     private ProfesseurService professeurService;
 

@@ -4,6 +4,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SessionService} from "../../services/session.service";
 
+
 @Component({
   selector: 'app-session',
   templateUrl: './session.component.html',
@@ -16,14 +17,14 @@ export class SessionComponent implements OnInit {
   newSessionFormGroup! : FormGroup;
 
 
-  isClosed: boolean;
+  closed: boolean;
   constructor(private sessionService : SessionService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
     this.newSessionFormGroup=this.fb.group({
-      Libelle : this.fb.control(null, [Validators.required, Validators.minLength(4)]),
-      DateDebut : this.fb.control(null,[Validators.required]),
-      DateFin : this.fb.control(null,[Validators.required]),
+      libelle : this.fb.control(null, [Validators.required, Validators.minLength(4)]),
+      dateDebut : this.fb.control(null,[Validators.required]),
+      dateFin : this.fb.control(null,[Validators.required]),
     });
 
     this.sessions=this.sessionService.getSessions().pipe(
@@ -42,7 +43,7 @@ export class SessionComponent implements OnInit {
     console.log(s.id);
     let conf = confirm("Are you sure?");
     if(!conf) return;
-    s.isClosed=!s.isClosed;
+    s.closed=!s.closed;
     this.sessionService.updateSession(s).subscribe({
       next : (resp) => {
         this.sessions=this.sessions.pipe(
@@ -65,6 +66,8 @@ export class SessionComponent implements OnInit {
     this.sessionService.saveSession(session).subscribe({
       next : data=>{
         alert("Session has been successfully saved!");
+        //this.router.navigateByUrl("/sessions");
+
       },
       error : err => {
         console.log(err);

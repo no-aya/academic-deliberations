@@ -24,7 +24,8 @@ export const ROUTESAUTH: RouteInfo[] = [
 export const ROUTESADMIN: RouteInfo[] = [
   { path: '/departements-edit', title:'Gérer les départements', icon:'ni ni-settings', class:''},
   { path:'/comptes', title:'Gérer les comptes', icon:'ni ni-badge', class:'' },
-  { path:'/session', title:'Gérer les sessions', icon:'ni ni-ui-04', class:''}
+  { path:'/session', title:'Gérer les sessions', icon:'ni ni-ui-04', class:''},
+  { path:'/prof-etud', title:'Gérer les professeurs et etudiants', icon:'ni ni-bullet-list-67', class:''},
 ];
 
 @Component({

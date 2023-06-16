@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 @Transactional
 @AllArgsConstructor
 @Slf4j
+
 public class FiliereServiceImpl implements FiliereService {
     private FiliereRepository filiereRepository;
     private FiliereMapper filiereMapper;
@@ -136,7 +137,9 @@ public class FiliereServiceImpl implements FiliereService {
 
     @Override
     public List<FiliereResponseDTO> getFilieres() {
-        List<Filiere> filieres = filiereRepository.findAll();
+        //find all and soft delete is false !!!
+        //List<Filiere> filieres = filiereRepository.findAll();
+        List<Filiere> filieres = filiereRepository.findBySoftDeleteIsFalse();
         List<FiliereResponseDTO> filiereResponseDTOS = new ArrayList<>();
         for (Filiere filiere : filieres) {
             FiliereResponseDTO filiereResponseDTO = filiereMapper.fromEntityToResponseDTO(filiere);

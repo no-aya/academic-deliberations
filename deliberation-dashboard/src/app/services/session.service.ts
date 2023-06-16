@@ -20,7 +20,12 @@ export class SessionService {
   }
 
   updateSession(s: Session) {
-    return this.http.put(environment.backendHost+"/sessions",s);
+    return this.http.post(environment.backendHost+"/updateSessions/"+s.id,s);
+
+  }
+
+  closeSession(s: Session) {
+    return this.http.post(environment.backendHost+"/close/"+s.id,s);
 
   }
 }

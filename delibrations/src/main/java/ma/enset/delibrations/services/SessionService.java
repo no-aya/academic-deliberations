@@ -10,7 +10,7 @@ import java.util.List;
 public interface SessionService {
 
     SessionResponseDTO createSession(SessionRequestDTO sessionRequestDTO);
-    void closeSession(SessionRequestDTO sessionRequestDTO);
+    void closeSession(Long id);
     SessionResponseDTO getSession(Long id);
     List<SessionResponseDTO> getSessions();
 

@@ -9,9 +9,11 @@ import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
 import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.entities.NoteSemestre;
 import ma.enset.delibrations.entities.Semestre;
-import ma.enset.delibrations.entities.exceptions.AnneeUnivNotFoundException;
-import ma.enset.delibrations.entities.exceptions.NoteSemestreNotFoundException;
-import ma.enset.delibrations.entities.exceptions.SemestreNotFoundException;
+
+import ma.enset.delibrations.exceptions.AnneeUnivNotFoundException;
+import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
+import ma.enset.delibrations.exceptions.SemestreNotFoundException;
+
 import ma.enset.delibrations.repositories.AnneeUnivRepository;
 import ma.enset.delibrations.repositories.SemestreRepository;
 import ma.enset.delibrations.services.SemestreService;
@@ -115,7 +117,7 @@ public class SemestreServiceImpl implements SemestreService {
                 return semestreResponseDTO;
             }
         }
-        return null;
+        throw new SemestreNotFoundException(id);
     }
 
     @Override

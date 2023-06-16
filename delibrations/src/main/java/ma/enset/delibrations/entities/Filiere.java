@@ -20,7 +20,7 @@ public class Filiere {
         private String intitule;
         @ManyToOne
         private Departement departement;
-        @OneToMany
+        @OneToMany(mappedBy = "filiere")
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private List<Module> modules;
         /*

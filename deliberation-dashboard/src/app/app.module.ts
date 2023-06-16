@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+
 import { DepartementsAdminComponent } from './pages/departements-edit/departements-admin/departements-admin.component';
 import { FilieresAdminComponent } from './pages/departements-edit/filieres-admin/filieres-admin.component';
 import { ModulesAdminComponent } from './pages/departements-edit/modules-admin/modules-admin.component';
@@ -25,6 +26,8 @@ import { EditModuleComponent } from './pages/departements-edit/edit-module/edit-
 import { AddModuleComponent } from './pages/departements-edit/add-module/add-module.component';
 import { EditFiliereComponent } from './pages/departements-edit/edit-filiere/edit-filiere.component';
 import { AddFiliereComponent } from './pages/departements-edit/add-filiere/add-filiere.component';
+import { ProfEtudComponent } from './pages/prof-etud/prof-etud.component';
+
 
 
 @NgModule({
@@ -46,6 +49,7 @@ import { AddFiliereComponent } from './pages/departements-edit/add-filiere/add-f
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+
     DepartementsAdminComponent,
     FilieresAdminComponent,
     ModulesAdminComponent,
@@ -55,6 +59,8 @@ import { AddFiliereComponent } from './pages/departements-edit/add-filiere/add-f
     AddModuleComponent,
     EditFiliereComponent,
     AddFiliereComponent
+
+    ProfEtudComponent
 
   ],
   providers: [],

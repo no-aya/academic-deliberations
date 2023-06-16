@@ -39,3 +39,7 @@ testem.log
 .DS_Store
 Thumbs.db
 package-lock.json
+
+# Ignore environment.ts file
+src/environments/environment.ts
+```
