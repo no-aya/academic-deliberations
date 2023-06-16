@@ -1,6 +1,7 @@
 package ma.enset.delibrations.dtos.responses;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.enset.delibrations.entities.enums.Sexe;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class EtudiantResponseDTO {
     private Long id;
     private String cin;

@@ -9,9 +9,11 @@ import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
 import ma.enset.delibrations.entities.AnneeUniv;
 import ma.enset.delibrations.entities.NoteSemestre;
 import ma.enset.delibrations.entities.Semestre;
+
 import ma.enset.delibrations.exceptions.AnneeUnivNotFoundException;
 import ma.enset.delibrations.exceptions.NoteSemestreNotFoundException;
 import ma.enset.delibrations.exceptions.SemestreNotFoundException;
+
 import ma.enset.delibrations.repositories.AnneeUnivRepository;
 import ma.enset.delibrations.repositories.SemestreRepository;
 import ma.enset.delibrations.services.SemestreService;
@@ -53,6 +55,9 @@ public class SemestreServiceImpl implements SemestreService {
                 semestre.setCode(generateCode());
                 semestre.setNoteSemestres(noteSemestres);
             }
+            // Create session
+            /*Session session = new Session();
+            semestreRequestDTO.setSessionId(session.getId());*/
             semestreRepository.save(semestre);
             return semestreMapper.fromEntityToResponseDTO(semestre);
         }
@@ -60,12 +65,12 @@ public class SemestreServiceImpl implements SemestreService {
     }
 
     @Override
-    public SemestreResponseDTO updateSemestre(String id, SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.exceptions.CannotProceedException, AnneeUnivNotFoundException {
+    public SemestreResponseDTO updateSemestre(String id, SemestreRequestDTO semestreRequestDTO) throws SemestreNotFoundException, NoteSemestreNotFoundException, ma.enset.delibrations.entities.exceptions.CannotProceedException, AnneeUnivNotFoundException {
 
         if(id!=null && semestreRequestDTO!=null) {
             Semestre semestre = semestreRepository.findByCode(id);
             if(semestre==null) throw  new SemestreNotFoundException(id);
-            semestre.setSessionStatus(semestreRequestDTO.isSessionStatus());
+            //semestre.setSessionStatus(semestreRequestDTO.isSessionStatus());
             if(semestreRequestDTO.getCode()!=null) semestre.setCode(semestreRequestDTO.getCode());
             if (semestreRequestDTO.getLibelle()!=null) semestre.setLibelle(semestreRequestDTO.getLibelle());
 
@@ -112,7 +117,7 @@ public class SemestreServiceImpl implements SemestreService {
                 return semestreResponseDTO;
             }
         }
-        return null;
+        throw new SemestreNotFoundException(id);
     }
 
     @Override

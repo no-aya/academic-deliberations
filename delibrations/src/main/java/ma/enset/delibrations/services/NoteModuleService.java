@@ -3,8 +3,8 @@ package ma.enset.delibrations.services;
 import ma.enset.delibrations.dtos.requests.NoteModuleRequestDTO;
 import ma.enset.delibrations.dtos.responses.NoteModuleResponseDTO;
 import ma.enset.delibrations.entities.NoteModule;
-import ma.enset.delibrations.exceptions.ModuleNotFoundException;
-import ma.enset.delibrations.exceptions.NoteModuleNotFoundException;
+import ma.enset.delibrations.entities.exceptions.ModuleNotFoundException;
+import ma.enset.delibrations.entities.exceptions.NoteModuleNotFoundException;
 
 import java.util.List;
 

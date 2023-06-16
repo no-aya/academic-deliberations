@@ -6,7 +6,6 @@ import ma.enset.delibrations.entities.enums.Sexe;
 import ma.enset.delibrations.repositories.*;
 import ma.enset.delibrations.security.AppUser;
 import ma.enset.delibrations.security.repository.AppUserRepository;
-import ma.enset.delibrations.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,22 +23,23 @@ public class DelibrationsApplication {
         SpringApplication.run(DelibrationsApplication.class, args);
     }
 
-    @Autowired
-    private FileStorageService fileStorageService;
+
+    //@Autowired
+    //private FileStorageService fileStorageService;
     @Bean
     CommandLineRunner start(ProfesseurRepository professeurRepository, ModuleRepository moduleRepository,
-                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository departementRepository, FiliereRepository filiereRepository,
+                            ElementRepository elementRepository, NoteSemestreRepository noteSemestreRepository, SemestreRepository
+                                    semestreRepository, NoteElementRepository noteElementRepository, DepartementRepository
+                                    departementRepository, FiliereRepository filiereRepository,
                             AnneeUnivRepository anneeUnivRepository,
                             InscriptionPedagogiqueRepository inscriptionPedagogiqueRepository,
                             EtudiantRepository etudiantRepository,
-                            AppUserRepository appUserRepository) {
+                            AppUserRepository appUserRepository,
+                            SessionRepository sessionRepository) {
         return args -> {
+
             fileStorageService.deleteAll();
             fileStorageService.init();
-
-
-
-
 
 
 
@@ -64,19 +64,25 @@ public class DelibrationsApplication {
             });
 
             //Testin AppUser
-            Stream.of("user1","user2","user3","user4","user5","user6","user7","user8","user9","user10").forEach(user->{
+            Stream.of("Mohammed","Azzeddine","Soumia","Rabia","Aziz").forEach(user->{
                 AppUser appUser = new AppUser();
                 appUser.setUsername(user);
                 appUser.setEmail(user+"@gmail.com");
-                appUser.setLastname("lastname"+user);
+                appUser.setLastname(user+"Majdi");
                 appUser.setPassword("1234");
                 appUser.setSuspend(false);
                 appUserRepository.save(appUser);
             });
 
+            //Testing sessions
+            Stream.of("Session1","Session2").forEach(session->{
+                Session session1 = new Session();
+                session1.setLibelle(session);
+                session1.setDateDebut(new Date());
+                session1.setDateFin(new Date());
+                sessionRepository.save(session1);
+            });
 
         };
     }
-
-
 }

@@ -3,6 +3,7 @@ package ma.enset.delibrations.controllers;
 import lombok.AllArgsConstructor;
 import ma.enset.delibrations.dtos.requests.*;
 import ma.enset.delibrations.dtos.responses.DepartementResponseDTO;
+
 import ma.enset.delibrations.dtos.responses.FiliereResponseDTO;
 import ma.enset.delibrations.dtos.responses.ModuleResponseDTO;
 import ma.enset.delibrations.dtos.responses.SemestreResponseDTO;
@@ -15,6 +16,10 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import ma.enset.delibrations.entities.exceptions.*;
+import ma.enset.delibrations.services.DepartementService;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +32,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/departement")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DepartementController {
 
     private DepartementService departementService;
@@ -243,8 +249,8 @@ public class DepartementController {
     }
 
     @GetMapping("/{code}")
-    public DepartementResponseDTO getDepartement(@PathVariable String code) throws DepartementNotFoundException {
-        if(code!=null) return departementService.getDepartement(code);
+    public DepartementResponseDTO getDepartement(@PathVariable Long id) throws DepartementNotFoundException {
+        if(id!=null) return departementService.getDepartement(id);
         return null;
     }
 
@@ -255,9 +261,9 @@ public class DepartementController {
     }
 
     @PutMapping("/{code}")
-    public DepartementResponseDTO updateDepartement(@PathVariable String code, @RequestBody DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
-        if(departementRequestDTO!=null && code!=null)
-            return departementService.updateDepartement(code, departementRequestDTO);
+    public DepartementResponseDTO updateDepartement(@PathVariable Long id, @RequestBody DepartementRequestDTO departementRequestDTO) throws DepartementNotFoundException, FiliereNotFoundException, RegleCalculNotFoundException {
+        if(departementRequestDTO!=null && id!=null)
+            return departementService.updateDepartement(id, departementRequestDTO);
         return null;
     }
 
@@ -268,5 +274,13 @@ public class DepartementController {
             return true;
 
         }else return false;
+    }
+
+    @GetMapping
+    public List<DepartementResponseDTO> getDepartementsByProf(@RequestParam Long idProf,@RequestParam String libelS) throws ProfesseurNotFoundException, ModuleNotFoundException, FiliereNotFoundException, DepartementNotFoundException {
+        if(idProf
+                !=null && libelS!=null) {
+            return  departementService.getDepartementsByProf(idProf, libelS);
+        }else return null;
     }
 }

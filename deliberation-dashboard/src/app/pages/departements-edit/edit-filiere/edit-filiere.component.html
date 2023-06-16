@@ -1,0 +1,41 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+
+<div class="card-header">Modifier Filiere</div>
+<div class="card-body">
+  <form [formGroup]="filiereFormGroup">
+    <div class="mb-3">
+      <label class="form-label">Code:</label>
+      <input type="text" formControlName="code" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Intitulé:</label>
+      <input type="text" formControlName="intitule" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Date de Création:</label>
+      <input type="date" formControlName="createdAt" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label >Departement</label>
+      <select class="form-control" formControlName="departement" >
+        <option *ngFor="let d of departements | async" [value]="d.id">{{ d.intitule }}</option>
+
+      </select>
+    </div>
+
+    <button class="button" (click)="handleSaveFiliere()" >Modifier</button>
+
+  </form>
+</div>
+
+
+
+

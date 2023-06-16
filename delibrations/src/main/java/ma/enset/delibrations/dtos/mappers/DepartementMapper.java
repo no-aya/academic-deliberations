@@ -18,7 +18,8 @@ public class DepartementMapper {
     public DepartementResponseDTO fromEntityToResponseDTO(Departement departement){
         DepartementResponseDTO departementResponseDTO = new DepartementResponseDTO();
         BeanUtils.copyProperties(departement, departementResponseDTO);
-        if(departement.getFilieres()!=null) {
+
+      if(departement.getFilieres()!=null) {
             departementResponseDTO.setFilieres(
                     departement.getFilieres()
                             .stream()
@@ -26,6 +27,7 @@ public class DepartementMapper {
                             ).toArray(Long[]::new)
             );
         }
+
         return  departementResponseDTO;
     }
 

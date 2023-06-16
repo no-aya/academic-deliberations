@@ -15,6 +15,8 @@ import ma.enset.delibrations.exceptions.*;
 import ma.enset.delibrations.services.EtudiantService;
 import ma.enset.delibrations.services.NoteElementService;
 import ma.enset.delibrations.services.NoteModuleService;
+
+import ma.enset.delibrations.entities.exceptions.*;
 import ma.enset.delibrations.services.NoteSemestreService;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

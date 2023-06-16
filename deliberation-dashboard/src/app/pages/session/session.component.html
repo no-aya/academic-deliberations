@@ -1,0 +1,110 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+
+  <ng-container *ngIf="sessions | async as listSessions ; else failure">
+    <div class="card shadow">
+      <div class="card-header border-0"><h3 class="mb-0">Ajouter une session</h3></div>
+      <div class="card-body">
+        <!-- Form add session -->
+        <form [formGroup]="newSessionFormGroup" (ngSubmit)="handleSaveSession()">
+          <div class="mb-3">
+            <label class="form-label">Name:</label>
+            <input type="text" formControlName="libelle" class="form-control">
+            <span class="text-danger"
+                  *ngIf="newSessionFormGroup.controls['libelle'].touched
+                && newSessionFormGroup.controls['libelle'].errors
+                && newSessionFormGroup.controls['libelle'].errors!['libelle']">
+            Name is not valid
+            </span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date début:</label>
+            <input type="date" formControlName="dateDebut" class="form-control">
+            <span class="text-danger"
+                  *ngIf="newSessionFormGroup.controls['dateDebut'].touched
+                && newSessionFormGroup.controls['dateDebut'].errors
+                && newSessionFormGroup.controls['dateDebut'].errors!['dateDebut']">
+            Date is not valid
+          </span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date fin:</label>
+            <input type="date" formControlName="dateFin" class="form-control">
+            <span class="text-danger"
+                  *ngIf="newSessionFormGroup.controls['dateFin'].touched
+                && newSessionFormGroup.controls['dateFin'].errors
+                && newSessionFormGroup.controls['dateFin'].errors!['dateFin']">
+            Date is not valid
+          </span>
+          </div>
+          <button  class="btn btn-sm btn-danger">Save</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card shadow">
+      <div class="card-header border-0"><h3 class="mb-0">Sessions</h3></div>
+      <div class="card-body">
+
+        <!--Table des sessions-->
+        <div class="table-responsive ">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th>Id</th>
+              <th>Libelle</th>
+              <th>Date début</th>
+              <th>Date fin</th>
+              <th>Status</th>
+              <th></th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let s of sessions | async">
+              <td>{{s.id}}</td>
+              <td>{{s.libelle}}</td>
+              <!-- To Do : date format yy-mm-dd -->
+              <td>{{s.dateDebut}}</td>
+              <td>{{s.dateFin}}</td>
+              <td>
+                <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id={{s.id}}
+                       (click)="handleCloseSession(s)"
+                       [checked]="s.closed">
+                <label class="custom-control-label" for={{s.id}}></label>
+                </div>
+
+              </td>
+
+              <td>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-danger">Modifier  <i class="ni ni-bold-up"></i></button>
+              </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <ng-template #failure>
+    <div class="alert alert-danger">
+      <strong>Erreur!</strong> Une erreur est survenue lors du chargement des sessions.
+      <br>{{errorMessage}}
+    </div>
+  </ng-template>
+
+</div>

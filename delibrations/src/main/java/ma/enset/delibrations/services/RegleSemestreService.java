@@ -3,9 +3,9 @@ package ma.enset.delibrations.services;
 
 import ma.enset.delibrations.dtos.requests.RegleSemestreRequestDTO;
 import ma.enset.delibrations.dtos.responses.RegleSemestreResponseDTO;
-import ma.enset.delibrations.exceptions.CannotProceedException;
-import ma.enset.delibrations.exceptions.RegleCalculNotFoundException;
-import ma.enset.delibrations.exceptions.RegleSemestreNotFoundException;
+import ma.enset.delibrations.entities.exceptions.CannotProceedException;
+import ma.enset.delibrations.entities.exceptions.RegleCalculNotFoundException;
+import ma.enset.delibrations.entities.exceptions.RegleSemestreNotFoundException;
 
 import java.util.List;
 

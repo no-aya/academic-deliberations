@@ -1,12 +1,9 @@
 package ma.enset.delibrations.services;
 
-import ma.enset.delibrations.dtos.requests.ElementRequestDTO;
 import ma.enset.delibrations.dtos.requests.NoteSemestreRequestDTO;
-import ma.enset.delibrations.dtos.responses.ElementResponseDTO;
 import ma.enset.delibrations.dtos.responses.NoteSemestreResponseDTO;
-import ma.enset.delibrations.entities.Element;
 import ma.enset.delibrations.entities.NoteSemestre;
-import ma.enset.delibrations.exceptions.*;
+import ma.enset.delibrations.entities.exceptions.*;
 
 import java.util.List;
 
