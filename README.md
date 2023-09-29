@@ -15,7 +15,10 @@ Version : 1.0
 ## Demonstration
 
 
-https://github.com/no-aya/academic-deliberations/assets/106016869/0d6b420b-e862-4e13-9a2c-211892ca9677
+
+https://github.com/no-aya/academic-deliberations/assets/106016869/173b3141-e0b1-4292-a0c7-12f702a47ca7
+
+
 
 
 ## Introduction
